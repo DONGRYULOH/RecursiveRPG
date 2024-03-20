@@ -10,7 +10,7 @@ public class UI_Inven_Item : UI_Base
     enum GameObjects
     {
         ItemIcon,
-        ItemNameText
+        ItemName
     }
         
     public string _name
@@ -27,7 +27,7 @@ public class UI_Inven_Item : UI_Base
     {
         Bind<GameObject>(typeof(GameObjects));
 
-        GameObject go = Get<GameObject>((int)GameObjects.ItemNameText);
+        GameObject go = Get<GameObject>((int)GameObjects.ItemName);
         go.GetComponent<Text>().text = _name;
 
         GameObject itemIcon = Get<GameObject>((int)GameObjects.ItemIcon);

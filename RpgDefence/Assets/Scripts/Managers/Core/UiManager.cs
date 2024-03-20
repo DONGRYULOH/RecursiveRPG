@@ -7,7 +7,7 @@ using UnityEngine;
 */
 public class UiManager 
 {
-    int _order = 10;
+    int _order = 1;
 
     Stack<UI_Popup> _popStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
@@ -87,8 +87,12 @@ public class UiManager
             return;
 
         UI_Popup popup = _popStack.Pop();
-        Managers.Resource.Destroy(popup.gameObject);
         _order--;
+
+        if (_order == 1)            
+            Managers.Resource.Destroy(popup.gameObject.transform.parent.gameObject);        
+        else        
+            Managers.Resource.Destroy(popup.gameObject);
     }
 
     public void CloseAllPopupUI()

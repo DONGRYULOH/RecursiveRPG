@@ -17,18 +17,28 @@ public class InputManager
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        // 키보드로 입력을 받는 경우
-        // if(Input.anyKey && keyAction != null) keyAction.Invoke();
-
         // 마우스로 입력을 받는 경우
         if(mouseAction != null)
         {
-            // 마우스 버튼이 눌려져 있는지 아닌지 여부를 반환하는데 인자값으로 0이 들어가면 왼쪽 버튼에 한해서 체크
+            // 마우스 버튼을 클릭했을때 한 번만 발생
+            if (Input.GetMouseButtonDown(0))
+            {
+                // 다음챕터로 이동 or 상점으로 이동하는 문을 클릭한 경우
+                if (!CursorController.chapterOrStoreClick && (CursorController._cursorType == CursorController.CursorType.NextChapter || CursorController._cursorType == CursorController.CursorType.Store))
+                {
+                    // UI 선택창 호출
+                    CursorController.chapterOrStoreClick = true;
+                    Managers.UI.ShowPopupUI<UI_Choice>();
+                    return;
+                }
+            }
+
+            // 마우스 버튼이 클릭되는 동안 계속 발생(0은 왼쪽 마우스 발생에 한해서 체크)
             if (Input.GetMouseButton(0))
             {
                 // 최초에 클릭을 하는 경우는 마우스 클릭을 때기까지의 시간을 체크
                 if(!pressedCk)
-                {
+                {                                        
                     mouseAction.Invoke(Defines.MouseEvent.PointerDown);
                     _pressedTime = Time.time;
                 }

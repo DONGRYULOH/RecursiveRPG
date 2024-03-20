@@ -80,7 +80,6 @@ public class Managers : MonoBehaviour
         Sound.Clear();
         Scene.Clear();
         UI.Clear();
-
         Pool.Clear();
     }
 }

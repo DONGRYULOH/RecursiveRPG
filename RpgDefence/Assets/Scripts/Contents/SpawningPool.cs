@@ -49,7 +49,7 @@ public class SpawningPool : MonoBehaviour
         _reserveCount++;
         yield return new WaitForSeconds(Random.Range(0, _spawnTime));
 
-        GameObject go = Managers.Game.Spawn(Defines.WorldObject.Monster, "Warrior");
+        GameObject go = Managers.Game.Spawn(Defines.WorldObject.Monster, "Monster/Warrior");
         NavMeshAgent nma = go.GetOrAddComponent<NavMeshAgent>(); // 길찾기 컴포넌트를 이용해서 스폰할 수 있는 영역인지 판단
 
         Vector3 randomPos;

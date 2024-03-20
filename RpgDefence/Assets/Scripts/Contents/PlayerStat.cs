@@ -9,6 +9,14 @@ public class PlayerStat : Stat
     [SerializeField]
     protected int _gold;
 
+    // 플레이어가 들고있는 아이템
+    Dictionary<string, Item> item = new Dictionary<string, Item>();
+    public Dictionary<string, Item> Item
+    {
+        get { return item; }
+        set { item = value; }
+    }
+
     public int Exp { 
         get { return _exp; }
         // 몬스터가 죽었을때 경험치를 주는 것 뿐만 아니라 퀘스트를 완료하거나 어떠한 이벤트를 수행했을때도 경험치를 주기 때문에 경험치가 변경되는 것을 공통으로 만듬

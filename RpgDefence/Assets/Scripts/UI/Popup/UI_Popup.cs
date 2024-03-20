@@ -10,8 +10,7 @@ public class UI_Popup : UI_Base
     }
 
     public virtual void ClosePopupUI()
-    {
-        // 여기서 말하는 this가 뭐지??
+    {        
         Managers.UI.ClosePopupUI(this);
     }
 

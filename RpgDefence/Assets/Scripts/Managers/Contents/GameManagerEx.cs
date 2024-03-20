@@ -5,10 +5,13 @@ using UnityEngine;
 
 
 // 공통적으로 사용되는 매니저가 아니라 해당 컨텐츠에서만 사용되는 특수한 매니저
-// ex) 플레이어가 몬스터를 때렸을때 어떠한 처리해줄건지
+// ex) 플레이어가 몬스터를 때렸을때 어떠한 처리해줄건지, 챕터 이동
 
 public class GameManagerEx
 {
+    int currentChpater; // 현재 플레이어가 있는 챕터
+    public int CurrentChpater { get{ return currentChpater; } set{ currentChpater = value;} }
+
     GameObject player; // 플레이어가 한명밖에 없으므로 
 
     // TODO : 나중에 서버랑 연동할때는 카테고리별로 나누어서 그 오브젝트의 ID(고유키)를 저장함
@@ -19,6 +22,27 @@ public class GameManagerEx
     public Action<int> OnSpawnEvent;
 
     public GameObject GetPlayer() { return player; }
+
+    public void MoveNextChpater()
+    {        
+        switch (++currentChpater)
+        {
+            case 1:
+                Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
+                break;
+            case 2:
+                Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
+                break;
+            case 3:
+                Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
+                break;
+        }
+    }
+
+    public void MoveStore()
+    {
+        Managers.Scene.LoadScene(Defines.Scene.Store);
+    }
 
     public GameObject Spawn(Defines.WorldObject type, string path, Transform parent = null)
     {

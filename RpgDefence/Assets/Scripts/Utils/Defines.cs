@@ -27,6 +27,8 @@ public class Defines
         Monster1 = 6,
         Ground = 7,
         Block = 8,
+        NextChapter = 9,
+        Store = 10
     }
 
     public enum Scene
@@ -34,7 +36,8 @@ public class Defines
         Unknown,
         Login,
         Lobby,
-        Game
+        Game,
+        Store
     }
 
     public enum Sound
@@ -61,5 +64,19 @@ public class Defines
     public enum CameraMode
     {
         QuaterView,
+    }
+
+    public enum Chapter
+    {
+        ChapterOne,
+        ChapterTwo,
+        ChapterThree
+    }
+
+    public enum ItemCategory
+    {
+        Equipment,
+        Consume,
+        etc
     }
 }
