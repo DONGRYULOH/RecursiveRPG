@@ -57,7 +57,7 @@ public class UI_Choice : UI_Popup
 
     public void BtnOnClickedYes(PointerEventData data)
     {
-        // 다음 챕터로 이동 or 상점으로 이동(팝업으로 인벤토리 띄우기)
+        // 다음 챕터로 이동 or TODO : 상점으로 이동(팝업으로 인벤토리 띄우기)
         if(CursorController._cursorType == CursorController.CursorType.NextChapter)
         {
             Managers.Game.MoveNextChpater();

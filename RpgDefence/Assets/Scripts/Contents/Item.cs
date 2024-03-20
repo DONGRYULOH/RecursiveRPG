@@ -5,7 +5,7 @@ using UnityEngine;
 /*
     소비, 장비, 기타 ...등 모든 아이템을 포함하는 상위 개념
  */
-public abstract class Item : MonoBehaviour
+public abstract class Item
 {
     protected Defines.ItemCategory ItemCatecory;
 

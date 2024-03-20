@@ -8,6 +8,8 @@ public class EquipmentItem : Item
     int power;
     int defence;
 
+    Defines.EquipmentCategory equipmentCategory;
+
     public string ItemName { get { return itemName; } }
     public int Power { get { return power; } }
     public int Defence { get { return defence; } }
@@ -19,10 +21,11 @@ public class EquipmentItem : Item
 
     public EquipmentItem() { }
 
-    public EquipmentItem(string itemName, int power, int defence)
+    public EquipmentItem(string itemName, int power, int defence, Defines.EquipmentCategory equipmentCategory)
     {
         this.itemName = itemName;
         this.power = power;
         this.defence = defence;
+        this.equipmentCategory = equipmentCategory;
     }
 }

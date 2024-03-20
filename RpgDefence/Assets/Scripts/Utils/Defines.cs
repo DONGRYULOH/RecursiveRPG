@@ -77,6 +77,14 @@ public class Defines
     {
         Equipment,
         Consume,
-        etc
+        Etc
+    }
+
+    // 장비별(무기, 방어구, 액세서리 .. 등) 카테고리
+    public enum EquipmentCategory
+    {
+        Weapon,
+        Armor,
+        Accessory
     }
 }
