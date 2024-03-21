@@ -66,10 +66,7 @@ public class UiManager
     // 닫을 팝업을 직접 인자로 받아서 사용하는 방식 
     // 중간에 있는 팝업을 강제로 삭제하려는 경우 이러한 방식을 쓰면 무조건 맨 위에 있는 팝업부터 삭제되므로 중간 삭제를 방지할 수 있음
     public void ClosePopupUI(UI_Popup popup)
-    {
-        if (_popStack.Count == 0)
-            return;
-
+    {        
         // 스택에 젤 위에있는 원소를 인자로 들어온 팝업과 비교
         // 스택은 젤 위에있는 원소부터 pop하기 때문에 인자로 들어온 팝업이 맨 위에 있는것이 아니라면 pop을 수행하지 않음
         if(_popStack.Peek() != popup)
@@ -78,7 +75,7 @@ public class UiManager
             return;
         }
 
-        CloseAllPopupUI();
+        ClosePopupUI();
     }
 
     public void ClosePopupUI()

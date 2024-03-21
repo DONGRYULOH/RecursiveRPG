@@ -31,11 +31,11 @@ public class GameScene : BaseScene
         Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
 
         // 임시 : 게임시작시 플레이어에게 기본 아이템을 일부 넣어주기
-        EquipmentItem equipmentItem = new EquipmentItem("LongSword", 100, 0, Defines.EquipmentCategory.Weapon);
-        ConsumeItem consumeItem = new ConsumeItem("HpPortion", 10, 0);
+        EquipmentItem equipmentItem = new EquipmentItem(1, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon);
+        ConsumeItem consumeItem = new ConsumeItem(3, "HpPortion", 10, 0);
         PlayerStat stat = player.GetComponent<PlayerStat>();
-        stat.Item.Add("LongSword", equipmentItem);
-        stat.Item.Add("HpPortion", consumeItem);
+        stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
+        stat.Item.Add(consumeItem.ItemNumber, consumeItem);
     }
 
     public void MakeMonsterPooling()

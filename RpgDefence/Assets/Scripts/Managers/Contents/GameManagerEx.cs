@@ -9,17 +9,17 @@ using UnityEngine;
 
 public class GameManagerEx
 {
-    int currentChpater; // 현재 플레이어가 있는 챕터
+    int currentChpater; // 현재 플레이어가 있는 챕터(맵)
     public int CurrentChpater { get{ return currentChpater; } set{ currentChpater = value;} }
 
-    GameObject player; // 플레이어가 한명밖에 없으므로 
-
-    // TODO : 나중에 서버랑 연동할때는 카테고리별로 나누어서 그 오브젝트의 ID(고유키)를 저장함
-    // Dictionary<int, GameObject> _player = new Dictionary<int, GameObject>();
-    // Dictionary<int, GameObject> _monsters = new Dictionary<int, GameObject>();
+    GameObject player;
+    
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
     public Action<int> OnSpawnEvent;
+
+    Defines.ItemClickCategory itemClickCategory = Defines.ItemClickCategory.Unknown;
+    public Defines.ItemClickCategory ItemClickCategory { get { return itemClickCategory; } set { itemClickCategory = value; } }
 
     public GameObject GetPlayer() { return player; }
 

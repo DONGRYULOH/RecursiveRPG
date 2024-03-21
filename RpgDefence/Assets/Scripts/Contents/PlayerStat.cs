@@ -10,11 +10,30 @@ public class PlayerStat : Stat
     protected int _gold;
 
     // 플레이어가 들고있는 아이템
-    Dictionary<string, Item> item = new Dictionary<string, Item>();
-    public Dictionary<string, Item> Item
+    Dictionary<int, Item> item = new Dictionary<int, Item>();
+
+    // 플레이어가 착용하고 있는 장비상태
+    Dictionary<Defines.EquipmentCategory, EquipmentItem> equipmentState = new Dictionary<Defines.EquipmentCategory, EquipmentItem>();
+
+    // 플레이어가 착용하려고 하거나 해제하려고 하는 장비종류(무기, 방어구 ..등)
+    Defines.EquipmentCategory currentEquipmentCategory;
+
+    public Defines.EquipmentCategory CurrentEquipmentCategory
+    {
+        get { return currentEquipmentCategory; }
+        set { currentEquipmentCategory = value; }
+    }
+
+    public Dictionary<int, Item> Item
     {
         get { return item; }
         set { item = value; }
+    }
+
+    public Dictionary<Defines.EquipmentCategory, EquipmentItem> EquipmentState
+    {
+        get { return equipmentState; }
+        set { equipmentState = value; }
     }
 
     public int Exp { 
@@ -60,6 +79,8 @@ public class PlayerStat : Stat
         _exp = 10;
         _gold = 0;
         SetStat(_level);
+
+        EquipmentInit();
     }
 
     // 레벨업 할때마다 해당 플레이어의 스텟을 변경
@@ -79,5 +100,23 @@ public class PlayerStat : Stat
         }
 
         Debug.Log("player 경험치 감소");
+    }
+
+    // 해당 플레이어가 들고있는 장비상태를 초기화
+    public void EquipmentInit()
+    {
+        // 플레이어 장비상태창 개수에 맞춰서 세팅        
+        System.Array equipmentCategory = System.Enum.GetValues(typeof(Defines.EquipmentCategory));
+        for (int i = 0; i < equipmentCategory.Length; i++)
+        {
+            equipmentState.Add((Defines.EquipmentCategory)equipmentCategory.GetValue(i), null);
+        }
+
+        // 임시 : 무기장비를 넣어서 화면에서 무기장비가 들어가 있는지 확인하기
+        if (equipmentState.ContainsKey(Defines.EquipmentCategory.Armor))
+        {
+            EquipmentItem equipmentItem = new EquipmentItem(2, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon);
+            equipmentState[Defines.EquipmentCategory.Weapon] = equipmentItem;
+        }
     }
 }

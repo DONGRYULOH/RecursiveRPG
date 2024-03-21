@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ConsumeItem : Item
 {
-    string itemName;
+    int itemNumber; // PK    
     int hpIncrement;
     int mpIncrement;
 
-    public string ItemName { get { return itemName; } }
+    public int ItemNumber { get { return itemNumber; } }    
     public int HpIncrement { get { return hpIncrement; } }
     public int MpIncrement { get { return mpIncrement; } }
 
@@ -19,7 +19,8 @@ public class ConsumeItem : Item
 
     public ConsumeItem() { }
 
-    public ConsumeItem(string itemName, int hpIncrement, int mpIncrement) {
+    public ConsumeItem(int itemNumber, string itemName, int hpIncrement, int mpIncrement) {
+        this.itemNumber = itemNumber;
         this.itemName = itemName;
         this.hpIncrement = hpIncrement;
         this.mpIncrement = mpIncrement;

@@ -85,6 +85,16 @@ public class Defines
     {
         Weapon,
         Armor,
-        Accessory
+        Accessory,
+        Shoes
+    }
+
+    // 플레이어가 장비 착용, 해제 or 소모성 아이템 사용하는 경우
+    public enum ItemClickCategory
+    {
+        Unknown,
+        EquipmentUse,
+        EquipmentRelease,
+        ConsumeUse
     }
 }

@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class EquipmentItem : Item
 {
-    string itemName;
+    int itemNumber; // PK    
     int power;
     int defence;
 
     Defines.EquipmentCategory equipmentCategory;
 
-    public string ItemName { get { return itemName; } }
+    public int ItemNumber { get { return itemNumber; } }    
     public int Power { get { return power; } }
     public int Defence { get { return defence; } }
+    public Defines.EquipmentCategory EquipmentCategory { get { return equipmentCategory; } }
 
     protected override void SetCategory()
     {
@@ -21,8 +22,9 @@ public class EquipmentItem : Item
 
     public EquipmentItem() { }
 
-    public EquipmentItem(string itemName, int power, int defence, Defines.EquipmentCategory equipmentCategory)
+    public EquipmentItem(int itemNumber, string itemName, int power, int defence, Defines.EquipmentCategory equipmentCategory)
     {
+        this.itemNumber = itemNumber;
         this.itemName = itemName;
         this.power = power;
         this.defence = defence;
