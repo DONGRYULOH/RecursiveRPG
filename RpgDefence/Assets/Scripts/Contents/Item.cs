@@ -7,11 +7,13 @@ using UnityEngine;
  */
 public abstract class Item
 {
-    protected Defines.ItemCategory ItemCatecory;
+    protected int itemNumber;
+    protected Defines.ItemCategory ItemCatecory;    
     protected string itemName;
 
-    protected abstract void SetCategory();
-
-    public Defines.ItemCategory GetCatecory { get { return ItemCatecory; } }
+    public int ItemNumber { get { return itemNumber; } }
+    public Defines.ItemCategory GetCatecory { get { return ItemCatecory; } }    
     public string ItemName { get { return itemName; } }
+
+    protected abstract void SetCategory();    
 }

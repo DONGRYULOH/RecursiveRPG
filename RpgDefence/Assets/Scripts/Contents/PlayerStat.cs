@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStat : Stat
-{
-    [SerializeField]
-    protected int _exp;
-    [SerializeField]
-    protected int _gold;
+{    
+    private int _exp;    
+    private int _gold;
+    private int mp;
 
     // 플레이어가 들고있는 아이템
     Dictionary<int, Item> item = new Dictionary<int, Item>();
@@ -83,6 +82,33 @@ public class PlayerStat : Stat
         EquipmentInit();
     }
 
+    public void PlayerStatRelease(Item item)
+    {
+        if (item is EquipmentItem equipmentItem)
+        {
+            Attack -= equipmentItem.Power;
+            Defense -= equipmentItem.Defence;
+        }
+    }
+
+    public void PlayerStatUpgrade(Item item)
+    {
+        if (item is EquipmentItem equipmentItem)
+        {
+            Attack += equipmentItem.Power;
+            Defense += equipmentItem.Defence;
+        }
+    }
+
+    public void UseConsumeItem(Item item)
+    {
+        if(item is ConsumeItem ConsumeItem)
+        {
+            _hp += ConsumeItem.HpIncrement;
+            mp += ConsumeItem.MpIncrement;
+        }
+    }
+
     // 레벨업 할때마다 해당 플레이어의 스텟을 변경
     public void SetStat(int level)
     {
@@ -108,7 +134,7 @@ public class PlayerStat : Stat
         // 플레이어 장비상태창 개수에 맞춰서 세팅        
         System.Array equipmentCategory = System.Enum.GetValues(typeof(Defines.EquipmentCategory));
         for (int i = 0; i < equipmentCategory.Length; i++)
-        {
+        {   
             equipmentState.Add((Defines.EquipmentCategory)equipmentCategory.GetValue(i), null);
         }
 

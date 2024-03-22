@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentItem : Item
-{
-    int itemNumber; // PK    
+{    
     int power;
     int defence;
 
     Defines.EquipmentCategory equipmentCategory;
-
-    public int ItemNumber { get { return itemNumber; } }    
+    
     public int Power { get { return power; } }
     public int Defence { get { return defence; } }
     public Defines.EquipmentCategory EquipmentCategory { get { return equipmentCategory; } }
@@ -18,9 +16,7 @@ public class EquipmentItem : Item
     protected override void SetCategory()
     {
         ItemCatecory = Defines.ItemCategory.Equipment;
-    }    
-
-    public EquipmentItem() { }
+    }
 
     public EquipmentItem(int itemNumber, string itemName, int power, int defence, Defines.EquipmentCategory equipmentCategory)
     {
@@ -29,5 +25,6 @@ public class EquipmentItem : Item
         this.power = power;
         this.defence = defence;
         this.equipmentCategory = equipmentCategory;
+        SetCategory();
     }
 }

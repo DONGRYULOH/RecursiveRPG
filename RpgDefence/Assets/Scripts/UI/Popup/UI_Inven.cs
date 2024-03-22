@@ -42,9 +42,20 @@ public class UI_Inven : UI_Popup
 
         foreach (var playerItem in stat.Item)
         {
-            // parent : --> [ÈùÆ® Ç¥½Ã]                       
-            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(parent: InvenGrid.transform, playerItem.Value.ItemName).gameObject;
+            Debug.Log(playerItem.Value.GetCatecory);
+
+            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(InvenGrid.transform, playerItem.Value.ItemName).gameObject;
+            if(playerItem.Value.GetCatecory == Defines.ItemCategory.Equipment)
+            {
+                if (playerItem.Value is EquipmentItem equipment)
+                {                
+                    item.GetComponent<UI_Inven_Item>().EquipmentCategory = equipment.EquipmentCategory;
+                }                
+            }
+            
+            item.GetComponent<UI_Inven_Item>().ItemCategory = playerItem.Value.GetCatecory;
             item.GetComponent<UI_Inven_Item>().SetInfo(playerItem.Value.ItemName);
+            item.GetComponent<UI_Inven_Item>().ItmeInfo = playerItem.Value;
         }
     }
 

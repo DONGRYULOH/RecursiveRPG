@@ -44,9 +44,11 @@ public class UI_Item_UseOrNot : UI_Popup
         Defines.ItemClickCategory itemClickCategory = Managers.Game.ItemClickCategory;
 
         if (itemClickCategory == Defines.ItemClickCategory.EquipmentRelease)
-            Get<Text>((int)Texts.UseOrNotText).text = "해당 장비를 해제하시겠습니까?";   
+            Get<Text>((int)Texts.UseOrNotText).text = "장비를 해제하시겠습니까?";   
         else if (itemClickCategory == Defines.ItemClickCategory.EquipmentUse)
-            Get<Text>((int)Texts.UseOrNotText).text = "해당 장비를 착용하시겠습니까?";
+            Get<Text>((int)Texts.UseOrNotText).text = "장비를 착용하시겠습니까?";
+        else if (itemClickCategory == Defines.ItemClickCategory.ConsumeUse)
+            Get<Text>((int)Texts.UseOrNotText).text = "사용하시겠습니까?";
     }
 
     public void BtnClickYesMapping()
@@ -74,18 +76,55 @@ public class UI_Item_UseOrNot : UI_Popup
             if(playerStat.EquipmentState.TryGetValue(playerStat.CurrentEquipmentCategory, out equipmentItem))
             {
                 if(equipmentItem != null)
-                {
+                {                    
                     playerStat.Item.Add(equipmentItem.ItemNumber, equipmentItem); // 아이템 인벤토리에 넣고 
-                    playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = null; // 장비 인벤토리에선 삭제
+                    playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = null; // 장비 인벤토리에선 삭제                                        
+                    playerStat.PlayerStatRelease(equipmentItem); // 해제된 장비 능력만큼 플레이어 스탯 변경
                 }
-            }
-            Managers.UI.CloseAllPopupUI();
-            Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
+            }            
         }            
         else if (itemClickCategory == Defines.ItemClickCategory.EquipmentUse)
         {
+            PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
 
+            // 장비중에서 어떤 장비인지 판단(무기, 방어구 ..등)
+            EquipmentItem equipmentItem;
+            if (playerStat.EquipmentState.TryGetValue(playerStat.CurrentEquipmentCategory, out equipmentItem))
+            {
+                // 플레이어의 아이템 인벤토리 정보를 가져와서 그 중에서 클릭한 아이템을 가져옴                
+                if (equipmentItem != null)
+                {
+                    // ** 만약에 플레이어가 장착한 장비가 있으면 변경하기(똑같은 장비카테고리에 한해서만 변경 ex) 롱소드(무기) <-> 숏소드(무기)
+                    playerStat.Item.Add(equipmentItem.ItemNumber, equipmentItem); // 장비 인벤토리 아이템 -> 아이템 인벤토리
+                    playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = null; // 장비 인벤토리 아이템 삭제   
+                    if (Managers.Game.UseChoiceItem is EquipmentItem equip)
+                    {
+                        playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = equip; // 아이템 인벤토리 아이템 -> 장비 인벤토리
+                        playerStat.Item.Remove(Managers.Game.UseChoiceItem.ItemNumber); // 아이템 인벤토리에 삭제
+                        playerStat.PlayerStatRelease(equipmentItem); // 해제된 장비 능력만큼 플레이어 스탯 변경
+                        playerStat.PlayerStatUpgrade(equip); // 장착된 장비 능력만큼 플레이어 스탯 변경
+                    }                        
+                }
+                else if (Managers.Game.UseChoiceItem as EquipmentItem != null)
+                {
+                    equipmentItem = Managers.Game.UseChoiceItem as EquipmentItem;
+                    playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = equipmentItem; // 장비 인벤토리에 넣고    
+                    playerStat.Item.Remove(equipmentItem.ItemNumber); // 아이템 인벤토리에 삭제
+                    playerStat.PlayerStatUpgrade(equipmentItem); // 장착된 장비 능력만큼 플레이어 스탯 변경
+                } 
+            }
+        
         }
+        else if (itemClickCategory == Defines.ItemClickCategory.ConsumeUse)
+        {
+            // 플레이어 스탯에서 소비 아이템 사용효과 적용하기
+            PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
+            playerStat.UseConsumeItem(Managers.Game.UseChoiceItem);
+            // 아이템 인벤토리에서 해당 소비 아이템 제거
+            playerStat.Item.Remove(Managers.Game.UseChoiceItem.ItemNumber);            
+        }
+        Managers.UI.CloseAllPopupUI();
+        Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
     }
 
     public void BtnOnClickedNo(PointerEventData data)

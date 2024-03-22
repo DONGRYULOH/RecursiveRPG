@@ -13,7 +13,8 @@ public class GameManagerEx
     public int CurrentChpater { get{ return currentChpater; } set{ currentChpater = value;} }
 
     GameObject player;
-    
+    public GameObject GetPlayer() { return player; }
+
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
     public Action<int> OnSpawnEvent;
@@ -21,7 +22,8 @@ public class GameManagerEx
     Defines.ItemClickCategory itemClickCategory = Defines.ItemClickCategory.Unknown;
     public Defines.ItemClickCategory ItemClickCategory { get { return itemClickCategory; } set { itemClickCategory = value; } }
 
-    public GameObject GetPlayer() { return player; }
+    Item useChoiceItem = null; // 사용을 위해 선택한 아이템    
+    public Item UseChoiceItem { get { return useChoiceItem; } set { useChoiceItem = value; } }
 
     public void MoveNextChpater()
     {        

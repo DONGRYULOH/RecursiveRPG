@@ -61,9 +61,5 @@ public abstract class UI_Base : MonoBehaviour
                 evt.OnDragHandler += action;
                 break;
         }
-
-
-        // 익명 메소드 형태로 이벤트 핸들러를 만들어서 OnDragHandler 이벤트가 발생시 호출할 이벤트 핸들러로 등록시킴
-        // evt.OnDragHandler += ((PointerEventData data) => { evt.gameObject.transform.position = data.position; });
     }
 }
