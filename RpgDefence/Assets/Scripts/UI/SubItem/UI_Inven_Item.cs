@@ -76,7 +76,9 @@ public class UI_Inven_Item : UI_Base
             Managers.Game.ItemClickCategory = Defines.ItemClickCategory.ConsumeUse;           
         }
         Managers.Game.UseChoiceItem = itmeInfo;
-        Managers.UI.ShowPopupUI<UI_Item_UseOrNot>();        
+        
+        if(GameObject.FindWithTag("UI_Item_UseOrNot") == null)
+            Managers.UI.ShowPopupUI<UI_Item_UseOrNot>();        
     }
 
 }

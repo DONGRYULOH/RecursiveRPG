@@ -57,20 +57,20 @@ public class UI_Choice : UI_Popup
 
     public void BtnOnClickedYes(PointerEventData data)
     {
-        // 다음 챕터로 이동 or TODO : 상점으로 이동(팝업으로 인벤토리 띄우기)
+        // 다음 챕터로 이동 
         if(CursorController._cursorType == CursorController.CursorType.NextChapter)
         {
             Managers.Game.MoveNextChpater();
         }
         else
         {
-         //   Managers.Game.MoveStore();
+            Managers.UI.ClosePopupUI(); // 상점으로 이동하시겠습니까? 팝업 닫음
+            Managers.Game.MoveStore(); // 상점으로 이동(팝업)
         }
     }
 
     public void BtnOnClickedNo(PointerEventData data)
-    {
-        // 띄운 팝업을 없앤다
+    {        
         Managers.UI.ClosePopupUI(gameObject.GetComponent<UI_Choice>());
         CursorController.chapterOrStoreClick = false;
     }

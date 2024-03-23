@@ -141,7 +141,7 @@ public class PlayerStat : Stat
         // 임시 : 무기장비를 넣어서 화면에서 무기장비가 들어가 있는지 확인하기
         if (equipmentState.ContainsKey(Defines.EquipmentCategory.Armor))
         {
-            EquipmentItem equipmentItem = new EquipmentItem(2, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon);
+            EquipmentItem equipmentItem = new EquipmentItem(103, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
             equipmentState[Defines.EquipmentCategory.Weapon] = equipmentItem;
         }
     }

@@ -46,6 +46,18 @@ public class UiManager
 
     // ------------- Popup UI --------------------------
 
+
+    // 해당 팝업이 스택에 있는지 체크    
+    public bool CheckPopupUI(UI_Popup popup)
+    {        
+        // 해당 팝업이 있는지 체크
+        if (_popStack.Contains(popup))
+        {            
+            return true;
+        }
+        return false;
+    }
+
     // name : 프리팹 이름
     public T ShowPopupUI<T>(string name = null) where T : UI_Popup
     {
@@ -76,6 +88,18 @@ public class UiManager
         }
 
         ClosePopupUI();
+    }
+
+    public void CloseSelectedPopupUI(UI_Popup popup, GameObject rootGameObject)
+    {        
+        if (_popStack.Peek() != popup)
+        {
+            Debug.Log("Close popup Failed");
+            return;
+        }
+        _popStack.Pop();
+        _order--;
+        Managers.Resource.Destroy(rootGameObject);
     }
 
     public void ClosePopupUI()

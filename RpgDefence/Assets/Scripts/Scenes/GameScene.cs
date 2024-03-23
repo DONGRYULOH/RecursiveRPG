@@ -17,6 +17,13 @@ public class GameScene : BaseScene
         // TODO : 타이머가 종료되고 다음챕터로 이동이 가능한 경우만 장비창 띄우기
         GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
         go.GetOrAddComponent<UI_MyInvenBtn>();
+
+        // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
+        // number 1~100 까지 상점아이템으로 전용으로 사용
+        EquipmentItem equipmentItem = new EquipmentItem(1, "대검", 100, 0, Defines.EquipmentCategory.Weapon, 200);
+        ConsumeItem consumeItem = new ConsumeItem(2, "파란포션", 10, 0, 50);
+        Managers.Game.StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
+        Managers.Game.StoreItem.Add(consumeItem.ItemNumber, consumeItem);
     }
 
     // 데이터(플레이어, 몬스터 스탯..등등 매핑) 파일
@@ -31,8 +38,8 @@ public class GameScene : BaseScene
         Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
 
         // 임시 : 게임시작시 플레이어에게 기본 아이템을 일부 넣어주기
-        EquipmentItem equipmentItem = new EquipmentItem(1, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon);
-        ConsumeItem consumeItem = new ConsumeItem(3, "HpPortion", 10, 0);
+        EquipmentItem equipmentItem = new EquipmentItem(101, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
+        ConsumeItem consumeItem = new ConsumeItem(102, "HpPortion", 10, 0, 20);
         PlayerStat stat = player.GetComponent<PlayerStat>();
         stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
         stat.Item.Add(consumeItem.ItemNumber, consumeItem);

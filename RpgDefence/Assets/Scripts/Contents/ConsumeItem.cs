@@ -6,9 +6,9 @@ public class ConsumeItem : Item
 {    
     int hpIncrement;
     int mpIncrement;
-    
+        
     public int HpIncrement { get { return hpIncrement; } }
-    public int MpIncrement { get { return mpIncrement; } }
+    public int MpIncrement { get { return mpIncrement; } }    
 
     protected override void SetCategory()
     {
@@ -17,11 +17,12 @@ public class ConsumeItem : Item
 
     public ConsumeItem() { }
 
-    public ConsumeItem(int itemNumber, string itemName, int hpIncrement, int mpIncrement) {
+    public ConsumeItem(int itemNumber, string itemName, int hpIncrement, int mpIncrement,int price) {
         this.itemNumber = itemNumber;
         this.itemName = itemName;
         this.hpIncrement = hpIncrement;
         this.mpIncrement = mpIncrement;
+        this.price = price;
         SetCategory();
     }
 }

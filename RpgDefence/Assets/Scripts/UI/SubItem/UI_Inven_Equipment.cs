@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Equipment : UI_Base
+public class UI_Inven_Equipment : UI_Base
 {
     Defines.EquipmentCategory equipmentCategory;
     bool equipmentIsUsed = false;
@@ -68,11 +68,13 @@ public class UI_Equipment : UI_Base
     }
 
     public void BtnOnClicked(PointerEventData data)
-    {        
-        Managers.UI.ShowPopupUI<UI_Item_UseOrNot>();
+    {                
         Managers.Game.ItemClickCategory = Defines.ItemClickCategory.EquipmentRelease;
         PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
         playerStat.CurrentEquipmentCategory = equipmentCategory;
+
+        if (GameObject.FindWithTag("UI_Item_UseOrNot") == null)
+            Managers.UI.ShowPopupUI<UI_Item_UseOrNot>();        
     }
 
 }

@@ -25,8 +25,7 @@ public class InputManager
             {
                 // 다음챕터로 이동 or 상점으로 이동하는 문을 클릭한 경우
                 if (!CursorController.chapterOrStoreClick && (CursorController._cursorType == CursorController.CursorType.NextChapter || CursorController._cursorType == CursorController.CursorType.Store))
-                {
-                    // UI 선택창 호출
+                {                    
                     CursorController.chapterOrStoreClick = true;
                     Managers.UI.ShowPopupUI<UI_Choice>();
                     return;

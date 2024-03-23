@@ -9,12 +9,15 @@ using UnityEngine;
 
 public class GameManagerEx
 {
-    int currentChpater; // 현재 플레이어가 있는 챕터(맵)
+    // 현재 플레이어가 있는 챕터(맵)
+    int currentChpater; 
     public int CurrentChpater { get{ return currentChpater; } set{ currentChpater = value;} }
 
+    // 플레이어 정보
     GameObject player;
     public GameObject GetPlayer() { return player; }
 
+    // 생성된 몬스터 정보
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
     public Action<int> OnSpawnEvent;
@@ -22,8 +25,13 @@ public class GameManagerEx
     Defines.ItemClickCategory itemClickCategory = Defines.ItemClickCategory.Unknown;
     public Defines.ItemClickCategory ItemClickCategory { get { return itemClickCategory; } set { itemClickCategory = value; } }
 
-    Item useChoiceItem = null; // 사용을 위해 선택한 아이템    
+    // 사용을 위해 선택한 아이템
+    Item useChoiceItem = null; 
     public Item UseChoiceItem { get { return useChoiceItem; } set { useChoiceItem = value; } }
+
+    // 상점에 있는 아이템 정보
+    Dictionary<int, Item> storeItem = new Dictionary<int, Item>();
+    public Dictionary<int, Item> StoreItem { get { return storeItem; } set { storeItem = value; } }
 
     public void MoveNextChpater()
     {        
@@ -43,7 +51,17 @@ public class GameManagerEx
 
     public void MoveStore()
     {
-        Managers.Scene.LoadScene(Defines.Scene.Store);
+        if (GameObject.FindWithTag("UI_Store") == null)
+        {
+            Managers.UI.ShowPopupUI<UI_Store>("UI_Store");
+            UI_Inven Inven = Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
+            /*foreach(Transform child in Inven.gameObject.transform)
+            {
+                if (child.name == "UI_Inven_Close" || child.name == "UI_Equip_Grid")
+                    child.gameObject.SetActive(false);
+            }            */
+        }
+            
     }
 
     public GameObject Spawn(Defines.WorldObject type, string path, Transform parent = null)

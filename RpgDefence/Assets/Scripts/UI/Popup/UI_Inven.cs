@@ -74,7 +74,7 @@ public class UI_Inven : UI_Popup
         foreach (var playerEquipmentItem in stat.EquipmentState)
         {
             // parent : --> [힌트 표시] 
-            GameObject item = Managers.UI.MakeSubItem<UI_Equipment>(parent: equipGrid.transform).gameObject;
+            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Equipment>(parent: equipGrid.transform).gameObject;
             
             string name = null;
             switch (playerEquipmentItem.Key)
@@ -93,13 +93,13 @@ public class UI_Inven : UI_Popup
                     break;
 
             }            
-            item.GetComponent<UI_Equipment>().SetInfo(name);
-            item.GetComponent<UI_Equipment>().EquipmentCategory = playerEquipmentItem.Key;
+            item.GetComponent<UI_Inven_Equipment>().SetInfo(name);
+            item.GetComponent<UI_Inven_Equipment>().EquipmentCategory = playerEquipmentItem.Key;
 
             // 플레이어가 착용하고 있는 장비템이 있는 경우만 화면에 그려줌
             if (playerEquipmentItem.Value != null)
             {
-                item.GetComponent<UI_Equipment>().EquipmentIsUsed = true;
+                item.GetComponent<UI_Inven_Equipment>().EquipmentIsUsed = true;
             }
         }
     }
@@ -112,6 +112,8 @@ public class UI_Inven : UI_Popup
 
     public void InvenCloseEvent(PointerEventData data)
     {
+        if(GameObject.FindWithTag("UI_Item_UseOrNot") != null)        
+            Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>().transform.parent.gameObject);        
         Managers.UI.CloseAllPopupUI();
         UI_MyInvenBtn.myInvenOpenCheck = false;
     }

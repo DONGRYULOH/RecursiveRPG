@@ -123,12 +123,14 @@ public class UI_Item_UseOrNot : UI_Popup
             // 아이템 인벤토리에서 해당 소비 아이템 제거
             playerStat.Item.Remove(Managers.Game.UseChoiceItem.ItemNumber);            
         }
+
+        Managers.UI.CloseSelectedPopupUI(gameObject.GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").transform.parent.gameObject);
         Managers.UI.CloseAllPopupUI();
         Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
     }
 
     public void BtnOnClickedNo(PointerEventData data)
     {        
-        Managers.UI.ClosePopupUI(gameObject.GetComponent<UI_Item_UseOrNot>());
+        Managers.UI.CloseSelectedPopupUI(gameObject.GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").transform.parent.gameObject);
     }
 }
