@@ -18,12 +18,8 @@ public class GameScene : BaseScene
         GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
         go.GetOrAddComponent<UI_MyInvenBtn>();
 
-        // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
-        // number 1~100 까지 상점아이템으로 전용으로 사용
-        EquipmentItem equipmentItem = new EquipmentItem(1, "대검", 100, 0, Defines.EquipmentCategory.Weapon, 200);
-        ConsumeItem consumeItem = new ConsumeItem(2, "파란포션", 10, 0, 50);
-        Managers.Game.StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
-        Managers.Game.StoreItem.Add(consumeItem.ItemNumber, consumeItem);
+        // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)        
+        MakeStoreItem();        
     }
 
     // 데이터(플레이어, 몬스터 스탯..등등 매핑) 파일
@@ -31,6 +27,15 @@ public class GameScene : BaseScene
     {
         Managers.Data.Init();
     }    
+
+    public void MakeStoreItem()
+    {
+        // Managers.Game.CurrentItemNumberIndex 1~100 까지 상점아이템으로 전용으로 사용
+        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "대검", 100, 0, Defines.EquipmentCategory.Weapon, 10);
+        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "파란포션", 10, 0, 10);
+        Managers.Game.StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
+        Managers.Game.StoreItem.Add(consumeItem.ItemNumber, consumeItem);
+    }
 
     public void PlayerSpwan()
     {
@@ -42,7 +47,7 @@ public class GameScene : BaseScene
         ConsumeItem consumeItem = new ConsumeItem(102, "HpPortion", 10, 0, 20);
         PlayerStat stat = player.GetComponent<PlayerStat>();
         stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
-        stat.Item.Add(consumeItem.ItemNumber, consumeItem);
+        stat.Item.Add(consumeItem.ItemNumber, consumeItem);                
     }
 
     public void MakeMonsterPooling()

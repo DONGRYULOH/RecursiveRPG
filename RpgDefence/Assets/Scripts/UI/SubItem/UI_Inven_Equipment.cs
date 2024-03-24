@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Inven_Equipment : UI_Base
 {
+    // 장비 카테고리별 착용여부(무기 X, 방어구 O, .. 이런식으로 체크)
     Defines.EquipmentCategory equipmentCategory;
     bool equipmentIsUsed = false;
 

@@ -12,7 +12,7 @@ public abstract class Item
     protected string itemName;
     protected int price;
 
-    public int ItemNumber { get { return itemNumber; } }
+    public int ItemNumber { get { return itemNumber; } set { itemNumber = value; } }
     public Defines.ItemCategory GetCatecory { get { return ItemCatecory; } }    
     public string ItemName { get { return itemName; } }
     public int Price { get { return price; } }

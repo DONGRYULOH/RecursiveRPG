@@ -33,6 +33,9 @@ public class GameManagerEx
     Dictionary<int, Item> storeItem = new Dictionary<int, Item>();
     public Dictionary<int, Item> StoreItem { get { return storeItem; } set { storeItem = value; } }
 
+    int currentItemNumberIndex;
+    public int CurrentItemNumberIndex { get { return currentItemNumberIndex++; } set { currentItemNumberIndex = value; } }
+
     public void MoveNextChpater()
     {        
         switch (++currentChpater)
@@ -54,14 +57,15 @@ public class GameManagerEx
         if (GameObject.FindWithTag("UI_Store") == null)
         {
             Managers.UI.ShowPopupUI<UI_Store>("UI_Store");
-            UI_Inven Inven = Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
-            /*foreach(Transform child in Inven.gameObject.transform)
+            UI_Inven InvenItem = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenItemGrid");
+            foreach(Transform child in InvenItem.gameObject.transform)
             {
-                if (child.name == "UI_Inven_Close" || child.name == "UI_Equip_Grid")
-                    child.gameObject.SetActive(false);
-            }            */
-        }
-            
+                if (child.gameObject.name == "UI_Inven_Close")                
+                    Managers.Resource.Destroy(child.gameObject);                                    
+            }            
+            InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;
+            InvenItem.StoreSellCheck = true;
+        }            
     }
 
     public GameObject Spawn(Defines.WorldObject type, string path, Transform parent = null)

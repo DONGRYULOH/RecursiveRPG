@@ -31,8 +31,12 @@ public class UI_MyInvenBtn : UI_Scene
     {
         // 임시 : 인벤토리 생성        
         if (!myInvenOpenCheck)
-        {            
-            Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
+        {
+            UI_Inven InvenItem = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenItemGrid");
+            InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;
+
+            UI_Inven InvenEquipment = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenEquipmentGrid");
+            InvenEquipment.InvenGridCategory = Defines.UiInvenGridCategory.EquipmentGird;
             myInvenOpenCheck = true;
         }        
     }

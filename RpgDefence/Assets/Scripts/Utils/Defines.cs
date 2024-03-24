@@ -89,12 +89,21 @@ public class Defines
         Shoes
     }
 
-    // 플레이어가 장비 착용, 해제 or 소모성 아이템 사용하는 경우
+    // 플레이어가 장비 착용, 해제, 소모성 아이템 사용하는 경우 or 상점에서 판매, 구매 클릭 여부 체크
     public enum ItemClickCategory
     {
         Unknown,
         EquipmentUse,
         EquipmentRelease,
-        ConsumeUse
+        ConsumeUse,
+        BuyStore,
+        SellStore
+    }
+
+    public enum UiInvenGridCategory
+    {
+        Unknown,
+        ItemGrid,
+        EquipmentGird        
     }
 }

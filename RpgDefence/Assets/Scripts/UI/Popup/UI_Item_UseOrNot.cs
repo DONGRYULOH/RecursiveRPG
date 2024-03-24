@@ -66,27 +66,34 @@ public class UI_Item_UseOrNot : UI_Popup
     public void BtnOnClickedYes(PointerEventData data)
     {        
         Defines.ItemClickCategory itemClickCategory = Managers.Game.ItemClickCategory;
+        PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
 
         if (itemClickCategory == Defines.ItemClickCategory.EquipmentRelease)
-        {            
-            PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
-
+        {                        
             // 장비중에서 어떤 장비인지 판단(무기, 방어구 ..등)
             EquipmentItem equipmentItem;
             if(playerStat.EquipmentState.TryGetValue(playerStat.CurrentEquipmentCategory, out equipmentItem))
             {
                 if(equipmentItem != null)
-                {                    
+                {
+                    // *** TODO : 인벤토리가 꽉차있으면 빼지 못하게 수정
+                    playerStat.InvenItemCount += 1; // 인벤토리에 아이템을 최대로 넣을 수 있는 개수 업데이트                    
+                    if (playerStat.InvenItemCount > playerStat.MaxInvenItemCount)
+                    {
+                        Managers.UI.CloseParentPopupUI();
+                        UI_TextPopup text = Managers.UI.ShowPopupUI<UI_TextPopup>("UI_TextPopup");
+                        text.Text = "인벤토리 공간이 부족합니다!";
+                        playerStat.InvenItemCount -= 1;
+                        return;
+                    }
                     playerStat.Item.Add(equipmentItem.ItemNumber, equipmentItem); // 아이템 인벤토리에 넣고 
                     playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = null; // 장비 인벤토리에선 삭제                                        
-                    playerStat.PlayerStatRelease(equipmentItem); // 해제된 장비 능력만큼 플레이어 스탯 변경
+                    playerStat.PlayerStatRelease(equipmentItem); // 해제된 장비 능력만큼 플레이어 스탯 변경                    
                 }
             }            
         }            
         else if (itemClickCategory == Defines.ItemClickCategory.EquipmentUse)
-        {
-            PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
-
+        {            
             // 장비중에서 어떤 장비인지 판단(무기, 방어구 ..등)
             EquipmentItem equipmentItem;
             if (playerStat.EquipmentState.TryGetValue(playerStat.CurrentEquipmentCategory, out equipmentItem))
@@ -111,22 +118,26 @@ public class UI_Item_UseOrNot : UI_Popup
                     playerStat.EquipmentState[playerStat.CurrentEquipmentCategory] = equipmentItem; // 장비 인벤토리에 넣고    
                     playerStat.Item.Remove(equipmentItem.ItemNumber); // 아이템 인벤토리에 삭제
                     playerStat.PlayerStatUpgrade(equipmentItem); // 장착된 장비 능력만큼 플레이어 스탯 변경
+                    playerStat.InvenItemCount -= 1; // 인벤토리에 아이템을 최대로 넣을 수 있는 개수 업데이트
                 } 
             }
         
         }
         else if (itemClickCategory == Defines.ItemClickCategory.ConsumeUse)
         {
-            // 플레이어 스탯에서 소비 아이템 사용효과 적용하기
-            PlayerStat playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
-            playerStat.UseConsumeItem(Managers.Game.UseChoiceItem);
-            // 아이템 인벤토리에서 해당 소비 아이템 제거
-            playerStat.Item.Remove(Managers.Game.UseChoiceItem.ItemNumber);            
+            playerStat.UseConsumeItem(Managers.Game.UseChoiceItem);         // 플레이어 스탯에서 소비 아이템 사용효과 적용                       
+            playerStat.Item.Remove(Managers.Game.UseChoiceItem.ItemNumber); // 아이템 인벤토리에서 해당 소비 아이템 제거
+            playerStat.InvenItemCount -= 1; // 인벤토리에 아이템을 최대로 넣을 수 있는 개수 업데이트
         }
 
         Managers.UI.CloseSelectedPopupUI(gameObject.GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").transform.parent.gameObject);
-        Managers.UI.CloseAllPopupUI();
-        Managers.UI.ShowPopupUI<UI_Inven>("UI_Inven");
+        Managers.UI.CloseAllParentPopupUI();
+
+        UI_Inven InvenItem = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenItemGrid");
+        InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;
+
+        UI_Inven InvenEquipment = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenEquipmentGrid");
+        InvenEquipment.InvenGridCategory = Defines.UiInvenGridCategory.EquipmentGird;        
     }
 
     public void BtnOnClickedNo(PointerEventData data)

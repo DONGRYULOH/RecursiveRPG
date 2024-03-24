@@ -118,12 +118,27 @@ public class UiManager
 
     public void CloseAllPopupUI()
     {
-        while(_popStack.Count > 0)
+        while (_popStack.Count > 0)
         {
             ClosePopupUI();
-        }           
+        }
     }
 
+    public void CloseParentPopupUI()
+    {
+        if (_popStack.Count == 0) return;
+        UI_Popup popup = _popStack.Pop();
+        _order--;       
+        Managers.Resource.Destroy(popup.gameObject.transform.parent.gameObject);        
+    }
+
+    public void CloseAllParentPopupUI()
+    {
+        while (_popStack.Count > 0)
+        {
+            CloseParentPopupUI();
+        }
+    }   
 
     // ------------- Popup¿Ã æ∆¥— Scene UI --------------------------
 

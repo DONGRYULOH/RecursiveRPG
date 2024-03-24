@@ -7,6 +7,8 @@ public class PlayerStat : Stat
     private int _exp;    
     private int _gold;
     private int mp;
+    private const int maxInvenItemCount = 6; // 인벤토리 아이템 개수 최대치 고정
+    private int invenItemCount;
 
     // 플레이어가 들고있는 아이템
     Dictionary<int, Item> item = new Dictionary<int, Item>();
@@ -16,6 +18,16 @@ public class PlayerStat : Stat
 
     // 플레이어가 착용하려고 하거나 해제하려고 하는 장비종류(무기, 방어구 ..등)
     Defines.EquipmentCategory currentEquipmentCategory;
+
+    public int MaxInvenItemCount
+    {
+        get { return maxInvenItemCount; }        
+    }
+    public int InvenItemCount
+    {
+        get { return invenItemCount; }
+        set { invenItemCount = value; }
+    }
 
     public Defines.EquipmentCategory CurrentEquipmentCategory
     {
@@ -76,7 +88,8 @@ public class PlayerStat : Stat
         _defense = 5;
         _moveSpeed = 10.0f;
         _exp = 10;
-        _gold = 0;
+        _gold = 10000;
+        invenItemCount = 2;
         SetStat(_level);
 
         EquipmentInit();
@@ -146,3 +159,4 @@ public class PlayerStat : Stat
         }
     }
 }
+

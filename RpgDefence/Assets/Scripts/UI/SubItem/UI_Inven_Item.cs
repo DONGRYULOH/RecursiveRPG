@@ -53,8 +53,13 @@ public class UI_Inven_Item : UI_Base
         GameObject go = Get<GameObject>((int)GameObjects.ItemName);
         go.GetComponent<Text>().text = _name;
 
+        // 그냥 아이템 인벤토리 or 상점에서 판매하는 아이템 인벤토리
         GameObject itemIcon = Get<GameObject>((int)GameObjects.ItemIcon);
-        BindEvent(itemIcon, BtnOnClicked, Defines.UIEvent.Click);
+        UI_Inven inven = itemIcon.transform.parent.parent.parent.gameObject.GetComponent<UI_Inven>();
+        if (!inven.StoreSellCheck)
+            BindEvent(itemIcon, BtnOnClickedItem, Defines.UIEvent.Click);
+        else
+            BindEvent(itemIcon, BtnOnClickedStore, Defines.UIEvent.Click);
     }
 
     public void SetInfo(string name)
@@ -62,7 +67,7 @@ public class UI_Inven_Item : UI_Base
         _name = name;
     }
 
-    public void BtnOnClicked(PointerEventData data)
+    public void BtnOnClickedItem(PointerEventData data)
     {        
         if(itemCategory == Defines.ItemCategory.Equipment)
         {
@@ -79,6 +84,16 @@ public class UI_Inven_Item : UI_Base
         
         if(GameObject.FindWithTag("UI_Item_UseOrNot") == null)
             Managers.UI.ShowPopupUI<UI_Item_UseOrNot>();        
+    }
+
+    public void BtnOnClickedStore(PointerEventData data)
+    {
+        if (GameObject.FindWithTag("UI_Item_SellOrBuy") == null)
+        {
+            Managers.Game.ItemClickCategory = Defines.ItemClickCategory.SellStore; // 판매여부        
+            Managers.Game.UseChoiceItem = itmeInfo; // 판매할 아이템 정보        
+            Managers.UI.ShowPopupUI<UI_Item_SellOrBuy>();            
+        }                    
     }
 
 }

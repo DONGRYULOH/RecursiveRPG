@@ -54,7 +54,7 @@ public class UI_Store : UI_Popup
     {
         if (GameObject.FindWithTag("UI_Store") != null)
         {
-            Managers.UI.CloseAllPopupUI();
+            Managers.UI.CloseAllParentPopupUI();
             CursorController.chapterOrStoreClick = false;
         }            
     }

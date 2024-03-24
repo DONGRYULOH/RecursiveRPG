@@ -2,14 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI_Inven : UI_Popup
 {
+    Defines.UiInvenGridCategory invenGridCategory = Defines.UiInvenGridCategory.Unknown;
+
+    // 상점 판매 or 그냥 아이템 인벤토리에 따라서 이벤트가 달라짐
+    bool storeSellCheck;
+
+    public bool StoreSellCheck
+    {
+        get { return storeSellCheck; }
+        set { storeSellCheck = value; }
+    }
+
+    public Defines.UiInvenGridCategory InvenGridCategory
+    {
+        get { return invenGridCategory; }
+        set { invenGridCategory = value; }
+    }
+
     enum GameObjects
     {
         UI_Inven_Grid,
         UI_Equip_Grid,
-        UI_Inven_Close
+        UI_Inven_Close,
+        UI_Inven_Gold
     }
 
     private void Start()
@@ -22,13 +41,26 @@ public class UI_Inven : UI_Popup
         base.Init();
 
         Bind<GameObject>(typeof(GameObjects));
-        
-        PlayerInvenGridSet();
-        PlayerEquipGridSet();
+
+        if (invenGridCategory == Defines.UiInvenGridCategory.ItemGrid)
+        {
+            PlayerInvenItemGridSet();
+            PlayerInvenGoldSet();
+        }
+        else if (invenGridCategory == Defines.UiInvenGridCategory.EquipmentGird)
+        {
+            PlayerInvenEquipGridSet();
+        }
         BtnInvenCloseMapping();
     }
 
-    public void PlayerInvenGridSet()
+    public void PlayerInvenGoldSet()
+    {
+        GameObject playerGold = Get<GameObject>((int)GameObjects.UI_Inven_Gold);
+        playerGold.GetComponent<Text>().text = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Gold + "$";
+    }
+
+    public void PlayerInvenItemGridSet()
     {
         GameObject InvenGrid = Get<GameObject>((int)GameObjects.UI_Inven_Grid);
         foreach (Transform child in InvenGrid.transform)
@@ -41,9 +73,7 @@ public class UI_Inven : UI_Popup
         PlayerStat stat = player.GetComponent<PlayerStat>();
 
         foreach (var playerItem in stat.Item)
-        {
-            Debug.Log(playerItem.Value.GetCatecory);
-
+        {            
             GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(InvenGrid.transform, playerItem.Value.ItemName).gameObject;
             if(playerItem.Value.GetCatecory == Defines.ItemCategory.Equipment)
             {
@@ -59,7 +89,7 @@ public class UI_Inven : UI_Popup
         }
     }
 
-    public void PlayerEquipGridSet()
+    public void PlayerInvenEquipGridSet()
     {
         GameObject equipGrid = Get<GameObject>((int)GameObjects.UI_Equip_Grid);
         foreach (Transform child in equipGrid.transform)
@@ -113,8 +143,8 @@ public class UI_Inven : UI_Popup
     public void InvenCloseEvent(PointerEventData data)
     {
         if(GameObject.FindWithTag("UI_Item_UseOrNot") != null)        
-            Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>().transform.parent.gameObject);        
-        Managers.UI.CloseAllPopupUI();
+            Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>().transform.parent.gameObject);
+        Managers.UI.CloseAllParentPopupUI();
         UI_MyInvenBtn.myInvenOpenCheck = false;
     }
 }
