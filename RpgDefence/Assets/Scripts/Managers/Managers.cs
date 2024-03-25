@@ -11,13 +11,13 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     static Managers S_Instance;
-    static Managers Instance { get { Init(); return S_Instance; } }
+    static Managers GetInstance { get { Init(); return S_Instance; } }
 
     // 게임 컨텐츠 별로 다르게 사용하는 각종 매니저
     #region Contents
     GameManagerEx _game = new GameManagerEx();
 
-    public static GameManagerEx Game { get { return Instance._game; } }
+    public static GameManagerEx Game { get { return GetInstance._game; } }
     #endregion
 
     // 공통으로 사용하는 각종 매니저
@@ -30,21 +30,15 @@ public class Managers : MonoBehaviour
     PoolManager _pool = new PoolManager();
     DataManager _data = new DataManager();
 
-    public static InputManager Input { get { return Instance.input; } }    
-    public static UiManager UI { get { return Instance.ui; } }    
-    public static ResourcesManager Resource { get { return Instance.resource; } }
-    public static SceneManagerEx Scene { get { return Instance._scene; } }
-    public static SoundManager Sound { get { return Instance._sound; } }
-    public static PoolManager Pool { get { return Instance._pool; } }
-    public static DataManager Data { get { return Instance._data; } }
+    public static InputManager Input { get { return GetInstance.input; } }    
+    public static UiManager UI { get { return GetInstance.ui; } }    
+    public static ResourcesManager Resource { get { return GetInstance.resource; } }
+    public static SceneManagerEx Scene { get { return GetInstance._scene; } }
+    public static SoundManager Sound { get { return GetInstance._sound; } }
+    public static PoolManager Pool { get { return GetInstance._pool; } }
+    public static DataManager Data { get { return GetInstance._data; } }
     #endregion
-
-    public static Managers GetInstance() {
-        Init();
-        return Instance;
-    }       
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         Init();
@@ -68,9 +62,11 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(manager);
             S_Instance = manager.GetComponent<Managers>();
 
+            // 각종 인스턴스 초기화 작업 수행
             S_Instance._data.Init();
             S_Instance._sound.Init(); // 게임시작시 Sound 붙이기
-            S_Instance._pool.Init(); // pool 객체를 담을 Root를 만들어줌
+            S_Instance._pool.Init();  // pool 객체를 담을 Root를 만들어줌
+            S_Instance._game.Init();  // 상점아이템, 처음 시작시 챕터 1부터 실행
         }
     }
 

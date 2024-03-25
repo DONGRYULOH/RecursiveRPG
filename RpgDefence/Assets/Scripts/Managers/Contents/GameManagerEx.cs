@@ -36,18 +36,36 @@ public class GameManagerEx
     int currentItemNumberIndex;
     public int CurrentItemNumberIndex { get { return currentItemNumberIndex++; } set { currentItemNumberIndex = value; } }
 
+
+    public void Init()
+    {
+        currentChpater = 1;
+        MakeStoreItem();
+    }
+
+    // 다음 챕터로 넘어가도 상점에 있는 아이템은 그대로 고정이므로 초기화시 딱 한번만 만들어줌
+    public void MakeStoreItem()
+    {
+        // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
+        // Managers.Game.CurrentItemNumberIndex 1~100 까지 상점아이템으로 전용으로 사용
+        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "대검", 100, 0, Defines.EquipmentCategory.Weapon, 10);
+        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "파란포션", 10, 0, 10);
+        StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
+        StoreItem.Add(consumeItem.ItemNumber, consumeItem);
+    }
+
     public void MoveNextChpater()
     {        
         switch (++currentChpater)
         {
             case 1:
-                Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
+                Managers.Scene.LoadChpater(Defines.Chapter.ChapterOne);
                 break;
             case 2:
                 Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
                 break;
             case 3:
-                Managers.Scene.LoadChpater(Defines.Chapter.ChapterTwo);
+                Managers.Scene.LoadChpater(Defines.Chapter.ChapterThree);
                 break;
         }
     }
@@ -80,6 +98,11 @@ public class GameManagerEx
                     OnSpawnEvent.Invoke(1);                
                 break;
             case Defines.WorldObject.Player:
+                // TODO : 첫 스테이지가 아닌경우는 이전의 플레이어 정보를 그대로 가져옴
+                /*if(player != null)
+                {
+                    
+                }*/                
                 player = go;
                 break;
         }        

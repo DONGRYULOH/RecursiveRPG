@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/*
- * Scene 매니저를 따로 만들어주는 이유? 
- * 다크소울 게임을 예시로 들자면 
- * 씬에 플레이어가 무조건 배치되어 있는게 아니라 클라이언트가 게임에 접속하고 그 플레이어로 게임을 시작해야지 동적으로 플레이어를 씬에 배치시킴
-*/
-
 public abstract class BaseScene : MonoBehaviour
 {    
     public Defines.Scene SceneType

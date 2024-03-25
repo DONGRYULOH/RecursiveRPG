@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterController : BaseController
 {
-    Stat _stat;
+    MonsterStat _stat;
 
     private MonsterStateContext _monsterStateContext;
     private MonsterState dieState, moveState, waitState, skillState;
@@ -24,7 +24,7 @@ public class MonsterController : BaseController
     public float ScanRange { get { return _scanRange; } set { _scanRange = value; } }
     public float AttackRange { get { return _attackRange; } set { _attackRange = value; } }
     public Defines.State State { get { return state; } set { state = value; } }
-    public Stat Stat { get { return _stat; } set { _stat = value; } }    
+    public MonsterStat Stat { get { return _stat; } set { _stat = value; } }    
 
     public override void Init()
     {
@@ -32,7 +32,13 @@ public class MonsterController : BaseController
         WorldObjectType = Defines.WorldObject.Monster;
 
         // Ω∫≈»
-        _stat = gameObject.GetComponent<Stat>();
+        _stat = gameObject.GetOrAddComponent<MonsterStat>();
+        if(Managers.Game.CurrentChpater == 1)
+        {
+            _stat.Gold = 10;
+            _stat.Exp = 10;
+            _stat.Score = 1;
+        }
 
         // HpBar UI «•Ω√
         if (gameObject.GetComponentInChildren<UI_HpBar>() == null)

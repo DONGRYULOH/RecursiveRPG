@@ -819,7 +819,6 @@ GameObject:
   - component: {fileID: 1124140909926389814}
   - component: {fileID: 2140982905656801772}
   - component: {fileID: 4072000341784653234}
-  - component: {fileID: 2750215680234927015}
   - component: {fileID: 2992152524213583905}
   - component: {fileID: 7784471155123419369}
   m_Layer: 6
@@ -885,24 +884,6 @@ MonoBehaviour:
   _lockTarget: {fileID: 0}
   _scanRange: 10
   _attackRange: 2
---- !u!114 &2750215680234927015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 680391322115395454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7efbb143034e8094fa57deecd1fdfab7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 100
-  _defense: 0
-  _moveSpeed: 0
 --- !u!136 &2992152524213583905
 CapsuleCollider:
   m_ObjectHideFlags: 0

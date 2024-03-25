@@ -38,7 +38,7 @@ public class MonsterSkillState : MonoBehaviour, MonsterState
         if(_monsterController.LockTarget != null)
         {
             // 몬스터가 플레이어를 공격했을때 플레이어 스탯에서 HP 처리
-            Stat targetStat = _monsterController.LockTarget.GetComponent<Stat>();
+            Stat targetStat = _monsterController.LockTarget.GetComponent<Stat>(); // 플레이어 컴포넌트는 PlayerStat이지만 Stat을 상속받은 자식이기 때문에 가져올 수 있음
             targetStat.OnAttacked(_monsterController.Stat);
 
             if (targetStat.Hp > 0)
