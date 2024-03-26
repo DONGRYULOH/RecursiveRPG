@@ -43,6 +43,28 @@ public class GameManagerEx
         MakeStoreItem();
     }
 
+    public void MonsterAllRemove()
+    {
+        List<GameObject> monsters = new List<GameObject>();
+
+        // hashset에 들어가 있는 몬스터를 꺼내오기 위해 컬렉션을 반복하는 동안 해당 컬렉션을 수정하면 안되기 때문에 List에 넣음
+        foreach (GameObject monster in _monsters)
+        {
+            monsters.Add(monster);            
+        }
+
+        for(int i = 0; i < monsters.Count; i++)
+        {
+            DeSpawn(monsters[i]);
+        }        
+    }
+
+    public void OpenDoor()
+    {
+        Managers.Resource.Instantiate("NextChapter");
+        Managers.Resource.Instantiate("Store");
+    }
+
     // 다음 챕터로 넘어가도 상점에 있는 아이템은 그대로 고정이므로 초기화시 딱 한번만 만들어줌
     public void MakeStoreItem()
     {

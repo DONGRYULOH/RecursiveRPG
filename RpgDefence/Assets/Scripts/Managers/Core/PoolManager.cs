@@ -122,11 +122,6 @@ public class PoolManager
         return _pool[name].Original;
     }
 
-    // Q) Pool 객체를 날려버릴지 아니면 계속 들고 있을껀지? 
-    // 게임마다 다르기 때문에 상황에 맞춰서 구현해야함 
-    // ex) 대규모 MMORPG 게임에서 지역마다 오브젝트가 달라지고 그 오브젝트의 수도 많을 경우 굳이 기존의 Pool을 계속 들고 있을 필요가 없음
-    // 다른 씬으로 넘어갔는데 사용을 안하는 Pool 객체가 많이있으면 그만큼 메모리를 많이 잡아먹기 때문에 성능이 저하됨
-    // ex) 롤같은 AOS 게임에서는 한 맵에서 계속 플레이되기 때문에 굳이 Pool 객체를 날려줄 필요가 없음
     public void Clear()
     {
         foreach(Transform child in _root)        

@@ -37,6 +37,7 @@ public class UI_TextPopup : UI_Popup
         Bind<Button>(typeof(Buttons));
         BtnClickConfirmMapping();
     }
+
     public void TextPopup()
     {
         Defines.ItemClickCategory ItemClickCategoryText = Managers.Game.ItemClickCategory;
@@ -44,7 +45,12 @@ public class UI_TextPopup : UI_Popup
         if (ItemClickCategoryText == Defines.ItemClickCategory.BuyStore || ItemClickCategoryText == Defines.ItemClickCategory.EquipmentRelease)
         {
             Get<Text>((int)Texts.TextPopup).text = Text;
-        }                    
+        }
+    }
+
+    public void SetText(string text)
+    {
+        Get<Text>((int)Texts.TextPopup).text = text;
     }
 
     public void BtnClickConfirmMapping()
