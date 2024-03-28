@@ -17,14 +17,13 @@ public class SceneManagerEx
     }
 
     public void LoadScene(Defines.Scene type)
-    {
-        Managers.Clear();
+    {        
         SceneManager.LoadScene(GetSceneName(type));
     }
 
     public void LoadChpater(Defines.Chapter type)
     {
-        Managers.Clear();
+        Managers.UI.Clear();
         SceneManager.LoadScene(GetChpaterName(type));
     }
 
@@ -38,10 +37,5 @@ public class SceneManagerEx
     {
         string name = System.Enum.GetName(typeof(Defines.Chapter), type);
         return name;
-    }
-
-    public void Clear()
-    {
-        CurrentScene.Clear();
-    }
+    }    
 }

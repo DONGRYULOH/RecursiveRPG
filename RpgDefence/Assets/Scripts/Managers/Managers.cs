@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
-    <게임 전체를 관리하는 매니저>
-
-    매니저에 MonoBehaviour를 붙인 이유는 씬이 구성될때 게임 오브젝트가 모두 로드되고 
-    MonoBehaviour가 붙은 C# 스크립트로 만들어진 컴포넌트들이 모두 작업이 수행되기 때문에 총괄 매니저의 경우 MonoBehavior가 필요함
-*/
 public class Managers : MonoBehaviour
 {
     static Managers S_Instance;
-    static Managers GetInstance { get { Init(); return S_Instance; } }
+    public static Managers GetInstance { get { Init(); return S_Instance; } }
 
     // 게임 컨텐츠 별로 다르게 사용하는 각종 매니저
     #region Contents
@@ -68,14 +62,5 @@ public class Managers : MonoBehaviour
             S_Instance._pool.Init();  // pool 객체를 담을 Root를 만들어줌
             S_Instance._game.Init();  // 상점아이템, 처음 시작시 챕터 1부터 실행
         }
-    }
-
-    static public void Clear()
-    {
-        Input.Clear();
-        Sound.Clear();
-        Scene.Clear();
-        UI.Clear();
-        Pool.Clear();
-    }
+    }    
 }

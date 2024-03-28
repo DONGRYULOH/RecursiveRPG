@@ -17,7 +17,7 @@ public class DataManager
         // "StatData"라는 Json 파일을 해당 타입(Loader)에 맞춰서 파싱
         Data.StatData loader = LoadJson<Data.StatData, int, Data.Stat>("StatData");
         StatDic = loader.MakeDict();
-    }
+    }   
 
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : DataLoader<Key, Value>
     {

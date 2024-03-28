@@ -39,6 +39,12 @@ public class MonsterController : BaseController
             _stat.Exp = 10;
             _stat.Score = 1;
         }
+        else if (Managers.Game.CurrentChpater == 2)
+        {
+            _stat.Gold = 20;
+            _stat.Exp = 20;
+            _stat.Score = 2;
+        }
 
         // HpBar UI Ç¥½Ã
         if (gameObject.GetComponentInChildren<UI_HpBar>() == null)

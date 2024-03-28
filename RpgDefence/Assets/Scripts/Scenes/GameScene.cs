@@ -9,21 +9,15 @@ public class GameScene : BaseScene
     private float limitSeconds;
     private int nextScore;
 
-    SpawningPool monsterSpawningPool;
+    SpawningPool monsterSpawningPool;    
 
     protected override void Init()
     {
         base.Init();
         SceneType = Defines.Scene.Game;
         gameObject.GetOrAddComponent<CursorController>();
-
-        LoadDataFile();      
-        PlayerSpwan();
-        
-
-        // TODO : 타이머가 종료되고 다음챕터로 이동이 가능한 경우만 장비창 띄우기
-        GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
-        go.GetOrAddComponent<UI_MyInvenBtn>();
+        CursorController.chapterOrStoreClick = false;
+        PlayerSpwan();                        
     }
 
     private void Start()
@@ -44,18 +38,18 @@ public class GameScene : BaseScene
             limitSeconds = 120.0f;
             nextScore = 30;
         }
-
         StartCoroutine("CountDown");
     }
 
     IEnumerator CountDown()
     {        
+        // 1.게임 시작 전 카운트 다운 UI 
         UI_GameStartAlert startAlert = Managers.UI.ShowPopupUI<UI_GameStartAlert>("UI_GameStartAlert");
         yield return new WaitForSeconds(1);
 
         while (seconds > 0.0f)
         {
-            seconds -= 1f; // 각 프레임마다 1초씩 감소시킴
+            seconds -= 1f;
 
             if (seconds >= 3.0f)
             {                
@@ -74,10 +68,12 @@ public class GameScene : BaseScene
             }
         }
 
-        // 게임시작!
+        // 2.게임시작!
         if (seconds <= 0.0f)
         {            
-            Managers.UI.ClosePopupUI(startAlert);            
+            Managers.UI.ClosePopupUI(startAlert);
+            GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
+            go.GetOrAddComponent<UI_MyInvenBtn>();
             MakeMonsterPooling();
             
             // 다음 스테이지로 가기위한 점수 UI(점수 고정)
@@ -101,27 +97,29 @@ public class GameScene : BaseScene
                 timerText = timer.transform.GetChild(0).gameObject.GetComponent<Text>();
 
             while(seconds <= limitSeconds)
-            {             
-                seconds += Time.deltaTime;
-                playerScoreText.text = "Player Score : " + Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
-                string minutes = Mathf.Floor(seconds / 60).ToString("00");
-                string secondsTime = (seconds % 60).ToString("00");
-                timerText.text = "경과한 시간 " + string.Format("{0}:{1}", minutes, secondsTime);
-                yield return null; // *** 1프레임이 1초가 아니라 엄청 짧은 시간 0.0001초 간격일 수 있음 컴퓨터 성능에 따라 다름
+            {
+                // 게임도중에 플레이어가 죽으면 타이머 중지
+                if (Managers.Game.GetPlayer() == null)                
+                    yield break; // 코루틴 함수 종료                
+                else
+                {
+                    seconds += Time.deltaTime;
+                    playerScoreText.text = "Player Score : " + Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
+                    string minutes = Mathf.Floor(seconds / 60).ToString("00");
+                    string secondsTime = (seconds % 60).ToString("00");
+                    timerText.text = "경과한 시간 " + string.Format("{0}:{1}", minutes, secondsTime) + " (제한시간 : " + limitSeconds + " 초)";
+                    yield return null; // *** 1프레임이 1초가 아니라 엄청 짧은 시간 0.0001초 간격일 수 있음 컴퓨터 성능에 따라 다름
+                }                
             }
 
             // Debug.Log(seconds); // 60.00827
             int finalPlayerScore = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
-            if (finalPlayerScore >= this.nextScore)
-            {
-                Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 객체 제거                
-                StartCoroutine("NextStageAlert");                
-                Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
-                Managers.Game.OpenDoor(); // 다음챕터이동, 상점으로 가는 문 열어두기
-            }
+            if (finalPlayerScore >= this.nextScore)            
+                Clear();            
             else
-            {                
-                Managers.Scene.LoadScene(Defines.Scene.Main);
+            {
+                Managers.Resource.Destroy(Managers.GetInstance.gameObject);
+                Managers.Scene.LoadScene(Defines.Scene.Main);                
             }
         }
     }
@@ -133,28 +131,24 @@ public class GameScene : BaseScene
         alert.SetText("다음 스테이지 이동 또는 상점 이동하기 위해서 두 개의 문을 이용하세요");
     }
 
-    private void Update()
-    {
-               
-    }
-
-    // 데이터(플레이어, 몬스터 스탯..등등 매핑) 파일
-    public void LoadDataFile()
-    {
-        Managers.Data.Init();
-    }
-
     public void PlayerSpwan()
     {
-        GameObject player = Managers.Game.Spawn(Defines.WorldObject.Player, "unitychan");
-        Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
-
-        // TODO : 게임시작시 첫번째 스테이지에서만 플레이어에게 기본 아이템을 일부 넣어주기
-        EquipmentItem equipmentItem = new EquipmentItem(101, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
-        ConsumeItem consumeItem = new ConsumeItem(102, "HpPortion", 10, 0, 20);
-        PlayerStat stat = player.GetOrAddComponent<PlayerStat>();
-        stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
-        stat.Item.Add(consumeItem.ItemNumber, consumeItem);                
+        // 최초 시작시에만 플레이어에게 기본 아이템을 넣어주기
+        if (Managers.Game.GetPlayer() == null)
+        {
+            GameObject player = Managers.Game.Spawn(Defines.WorldObject.Player, "unitychan");
+            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);            
+            EquipmentItem equipmentItem = new EquipmentItem(101, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
+            ConsumeItem consumeItem = new ConsumeItem(102, "HpPortion", 100, 0, 20);
+            PlayerStat stat = player.GetOrAddComponent<PlayerStat>();
+            stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
+            stat.Item.Add(consumeItem.ItemNumber, consumeItem);
+        }
+        else
+        {
+            Managers.Game.GetPlayer().GetComponent<Transform>().position = new Vector3(0, 0, 0);
+            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(Managers.Game.GetPlayer());
+        }
     }
 
     public void MakeMonsterPooling()
@@ -165,10 +159,12 @@ public class GameScene : BaseScene
     }
 
     public override void Clear()
-    {
-
+    {        
+        DontDestroyOnLoad(Managers.Game.GetPlayer());              // 다음 챕터로 이동해도 현재 플레이어의 상태를 계속 유지
+        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        StartCoroutine("NextStageAlert");
+        Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
+        Managers.Game.OpenDoor();         // 다음챕터이동, 상점으로 가는 문 열어두기        
     }
-
-
 
 }

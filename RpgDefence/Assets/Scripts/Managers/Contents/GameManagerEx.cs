@@ -70,8 +70,8 @@ public class GameManagerEx
     {
         // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
         // Managers.Game.CurrentItemNumberIndex 1~100 까지 상점아이템으로 전용으로 사용
-        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "대검", 100, 0, Defines.EquipmentCategory.Weapon, 10);
-        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "파란포션", 10, 0, 10);
+        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "대검", 300, 0, Defines.EquipmentCategory.Weapon, 500);
+        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "파란포션", 100, 0, 100);
         StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
         StoreItem.Add(consumeItem.ItemNumber, consumeItem);
     }
@@ -119,12 +119,7 @@ public class GameManagerEx
                 if(OnSpawnEvent != null)                
                     OnSpawnEvent.Invoke(1);                
                 break;
-            case Defines.WorldObject.Player:
-                // TODO : 첫 스테이지가 아닌경우는 이전의 플레이어 정보를 그대로 가져옴
-                /*if(player != null)
-                {
-                    
-                }*/                
+            case Defines.WorldObject.Player:             
                 player = go;
                 break;
         }        
@@ -159,7 +154,10 @@ public class GameManagerEx
             case Defines.WorldObject.Player:
                 {
                     if (player == go)
+                    {
+                        GameObject.FindWithTag("UI_MyInvenBtn").SetActive(false); // 장비창 인벤 비활성화                        
                         player = null;
+                    }                        
                 }                
                 break;
         }

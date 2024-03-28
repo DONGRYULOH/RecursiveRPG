@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterDieState : MonoBehaviour, MonsterState
 {
     public void Handle(MonsterController controller)
-    {
-        throw new System.NotImplementedException();
+    {        
+        Managers.Game.DeSpawn(controller.gameObject);
     }
 }

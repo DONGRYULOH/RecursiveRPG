@@ -53,10 +53,7 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
     }
 
     // 애니메이션 이벤트 
-    public void OnRunEvent()
-    {
-        // Debug.Log("run event!");
-    }
+    public void OnRunEvent() { }                
 
     public void Handle(PlayerController playerController)
     {

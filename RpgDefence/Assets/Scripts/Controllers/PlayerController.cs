@@ -13,11 +13,11 @@ public class PlayerController : BaseController
     private int _mask = (1 << (int)Defines.Layer.Ground) | (1 << (int)Defines.Layer.Monster1); // Layer 마스킹 처리    
 
     // 몬스터와 플레이어가 공통으로 갖고 있는 상태(이동, 멈춤)도 있지만 서로 다른 상태(플레이어의 버프 상태 .)도 있을 수 있음
-    private Defines.State playerState = Defines.State.Wait;
+    private Defines.State currentPlayerState = Defines.State.Wait;
 
     private bool _stopSkill = false;
 
-    public Defines.State PlayerState { get { return playerState; } set { playerState = value; } }
+    public Defines.State PlayerState { get { return currentPlayerState; } set { currentPlayerState = value; } }
     public PlayerStat Stat { get { return _stat; }}    
     public bool StopSkill { get { return _stopSkill; } }
 
@@ -62,7 +62,7 @@ public class PlayerController : BaseController
     // 플레이어가 스킬을 시전중인 상태일때 마우스를 클릭하는 경우 다른 메소드가 실행되면 안되기 때문에 분기처리를 해줬음
     void OnMouseEvent(Defines.MouseEvent evt)
     {
-        switch (playerState)
+        switch (PlayerState)
         {
             case Defines.State.Wait:
                 OnMouseEvent_IdleRun(evt);
@@ -84,7 +84,7 @@ public class PlayerController : BaseController
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 50.0f, _mask);
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 50.0f, Color.red, 2.0f);
+        // Debug.DrawRay(Camera.main.transform.position, ray.direction * 50.0f, Color.red, 2.0f);
 
         switch (evt)
         {            

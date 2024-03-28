@@ -29,6 +29,7 @@ public class CursorController : MonoBehaviour
         _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Hand");
         _nextChapterIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/NextChapter");
         _storeIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Store");
+        DefaultCursor();
     }
     
     void Update()
@@ -76,5 +77,11 @@ public class CursorController : MonoBehaviour
                 _cursorType = CursorType.Store;    
             }
         }
+    }
+
+    public void DefaultCursor()
+    {
+        Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3, 0), CursorMode.Auto);
+        _cursorType = CursorType.Hand;
     }
 }

@@ -71,10 +71,10 @@ public class PlayerStat : Stat
    
     private void Start()
     {
-        _level = 2;
+        _level = 1;
         _defense = 5;
         _moveSpeed = 10.0f;
-        exp = 10;
+        exp = 0;
         gold = 10000;
         invenItemCount = 2;
         SetStat(_level);
@@ -124,8 +124,6 @@ public class PlayerStat : Stat
         {
             gameObject.GetComponent<PlayerStat>().Exp -= 10;
         }
-
-        Debug.Log("player 경험치 감소");
     }
 
     // 해당 플레이어가 들고있는 장비상태를 초기화
@@ -138,7 +136,7 @@ public class PlayerStat : Stat
             equipmentState.Add((Defines.EquipmentCategory)equipmentCategory.GetValue(i), null);
         }
 
-        // 임시 : 무기장비를 넣어서 화면에서 무기장비가 들어가 있는지 확인하기
+        // 기본무기 세팅
         if (equipmentState.ContainsKey(Defines.EquipmentCategory.Armor))
         {
             EquipmentItem equipmentItem = new EquipmentItem(103, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);

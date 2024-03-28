@@ -52,7 +52,7 @@ public class MonsterSkillState : MonoBehaviour, MonsterState
             }
             else
             {
-                Managers.Game.DeSpawn(targetStat.gameObject);
+                _monsterController.LockTarget.GetComponent<PlayerController>().PlayerState = Defines.State.Die;                
                 _monsterController.State = Defines.State.Wait;                
             }
         }

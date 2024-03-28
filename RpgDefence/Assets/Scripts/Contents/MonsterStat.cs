@@ -32,13 +32,13 @@ public class MonsterStat : Stat
 
     protected override void OnDead(Stat attacker)
     {
+        gameObject.GetComponent<MonsterController>().State = Defines.State.Die;
         PlayerStat playerStat = attacker as PlayerStat;
         if (playerStat != null)
         {
             playerStat.Gold += this.Gold;
             playerStat.Exp += this.Exp;
-            playerStat.Score += this.Score;
-            Managers.Game.DeSpawn(gameObject);
+            playerStat.Score += this.Score;            
         }
     }
 }

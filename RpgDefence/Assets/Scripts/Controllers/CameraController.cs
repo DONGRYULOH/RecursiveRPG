@@ -8,29 +8,19 @@ public class CameraController : MonoBehaviour
     Defines.CameraMode mode = Defines.CameraMode.QuaterView;
 
     [SerializeField]
-    Vector3 delta = new Vector3(0.0f, 6.0f, -5.0f); // 플레이어로 부터 얼만큼 떨어져 있는지
+    Vector3 delta = new Vector3(0.0f, 6.0f, -5.0f); // 카메라가 플레이어로부터 얼만큼 떨어져 있는지
 
     [SerializeField]
-    GameObject player;    
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    GameObject player;
 
     void LateUpdate()
     {
         // 플레이어가 이동할때마다 덜덜거리는 현상 발생
-        // 어떤 object의 update가 먼저 실행될거라는 보장이 없기 때문에 
-        // 카메라 위치 변경 -> 캐릭터 좌표 이동 순으로 하게되면 카메라는 이동을 했는데 캐릭터는 멈춰있거나 하는 현상이 발생한다
-        // 첫번째 해결방법)
-        // 하나의 여러개의 update 구문에 있는 카메라 위치 변경, 캐릭터 좌표 이동 기능을 하나의 update에 몰아넣고 
-        // 캐릭터 좌표 이동 -> 카메라 위치 변경 순으로 로직을 구성해야 된다.
-        // 두번째 해결방법)
-        // 카메라 위치 변경되는 기능을 LateUpdate()에 구현한다 (LateUpdate는 Update 이후에 실행되기 때문)
+        // 캐릭터의 이동을 담당하는 update가 먼저 실행될거라는 보장이 없음 카메라 위치 변경 update 먼저 발생하고 캐릭터 이동 update가 발생하면 카메라는 이동을 했는데 캐릭터는 멈춰있거나 하는 현상이 발생함
+        // 해결방법)
+        // 카메라 위치 변경되는 기능을 LateUpdate()에 구현한다 (LateUpdate는 Update 이후에 실행되기 때문에 캐릭터가 먼저 이동하고 그 이동한 지점을 카메라로 쏴준다)
 
-        if(mode == Defines.CameraMode.QuaterView)
+        if (mode == Defines.CameraMode.QuaterView)
         {
             // 풀링 대상의 객체인 경우 메모리에서 제거하지 않고 inactive 상태처리로 바꾸기 때문에 null 체크로는 판별 불가능
             if (player == null || !player.activeSelf) return;
