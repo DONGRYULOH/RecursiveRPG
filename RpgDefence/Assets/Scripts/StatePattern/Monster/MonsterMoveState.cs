@@ -30,16 +30,12 @@ public class MonsterMoveState : MonoBehaviour, MonsterState
         }
 
         // 공격 사정거리내에 들어오지 않으면 플레이어를 향해 움직임
-        Vector3 dir = _monsterController.DestPos - transform.position;
-        // Debug.Log(dir.magnitude);
-        if (dir.magnitude < 1.0f)
-        {
-            _monsterController.RangeCheck = false;
-            _monsterController.State = Defines.State.Wait;
-        }
-        else if(dir.magnitude > _monsterController.ScanRange)
+        Vector3 dir = _monsterController.DestPos - transform.position; // 몬스터 목적지 - 몬스터 현재위치        
+        if(dir.magnitude > _monsterController.ScanRange)
         {
             // 몬스터가 이동중에 플레이어를 감지하는 반경거리를 넘어섰을때
+            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
+            nma.SetDestination(transform.position);            
             _monsterController.State = Defines.State.Wait;
         }
         else
@@ -47,9 +43,7 @@ public class MonsterMoveState : MonoBehaviour, MonsterState
             NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
             nma.speed = _monsterController.Stat.MoveSpeed;
             nma.SetDestination(_monsterController.DestPos);            
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-            MovingAnimationState(GetComponent<Animator>());
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);            
         }
     }
 

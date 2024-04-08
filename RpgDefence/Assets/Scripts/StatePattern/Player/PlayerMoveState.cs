@@ -15,7 +15,8 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
             float distance = (_playerController.DestPos - transform.position).magnitude;
             // 플레이어의 사정거리(TODO: 추후에 사정거리 설정필요)에 몬스터가 들어오면 공격처리
             if (distance <= 2.0f)
-            {                
+            {
+                Managers.Game.GetPlayer().GetComponent<PlayerController>().StopSkill = false;
                 _playerController.Skill();
                 return;
             }
@@ -28,8 +29,7 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
             _playerController.Wait();
         }
         else
-        {            
-            Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.blue);
+        {                        
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
             {
                 if (Input.GetMouseButton(0) == false)

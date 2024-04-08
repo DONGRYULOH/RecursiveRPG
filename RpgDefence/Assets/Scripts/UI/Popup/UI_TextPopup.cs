@@ -39,13 +39,8 @@ public class UI_TextPopup : UI_Popup
     }
 
     public void TextPopup()
-    {
-        Defines.ItemClickCategory ItemClickCategoryText = Managers.Game.ItemClickCategory;
-
-        if (ItemClickCategoryText == Defines.ItemClickCategory.BuyStore || ItemClickCategoryText == Defines.ItemClickCategory.EquipmentRelease)
-        {
-            Get<Text>((int)Texts.TextPopup).text = Text;
-        }
+    {        
+        Get<Text>((int)Texts.TextPopup).text = Text;
     }
 
     public void SetText(string text)

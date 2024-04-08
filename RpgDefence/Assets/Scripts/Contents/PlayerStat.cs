@@ -14,6 +14,10 @@ public class PlayerStat : Stat
     private int gold;
     public int Gold { get { return gold; } set { gold = value; } }
 
+    private Defines.PlayerJob job;
+    public Defines.PlayerJob Job { get { return job; } set { job = value; } }
+
+
     [SerializeField]
     private int exp;
     public int Exp
@@ -24,9 +28,9 @@ public class PlayerStat : Stat
         {
             // 1.경험치가 깎였을때 현재 레벨의 경험치를 충족하는 값 아래로 내려가지 않도록 설정            
             exp = value;
-            if (Managers.Data.StatDic.ContainsKey(Level))
+            if (Managers.Data.PlayerStatDic.ContainsKey(Level))
             {
-                Data.Stat stat = Managers.Data.StatDic[Level];
+                Data.Stat stat = Managers.Data.PlayerStatDic[Level];
                 if (exp < stat.totalExp) exp = stat.totalExp; // 현재 레벨을 충족하는 최소 EXP 값으로 세팅                
             }
 
@@ -36,7 +40,7 @@ public class PlayerStat : Stat
             while (true)
             {
                 Data.Stat stat;
-                if (Managers.Data.StatDic.TryGetValue(level + 1, out stat) == false) // 그 다음 레벨이 없는 경우 (만렙)
+                if (Managers.Data.PlayerStatDic.TryGetValue(level + 1, out stat) == false) // 그 다음 레벨이 없는 경우 (만렙)
                     break;
                 if (exp < stat.totalExp) // 그 다음 레벨이 있으면 현재 경험치가 다음 레벨 경험치를 충족하는지 체크
                     break;
@@ -71,6 +75,11 @@ public class PlayerStat : Stat
    
     private void Start()
     {
+        job = MainScene.playerJob;
+        MainScene.playerJob = Defines.PlayerJob.Unknown; // 멀티작업인 경우 unKnown처리를 해주지 않으면 그 다음 선택하는 유저는 무조건 직업이 선택되어있는 상태?(Static 이므로)        
+        
+        // TODO : 직업별로 플레이어 스탯 변경
+
         _level = 1;
         _defense = 5;
         _moveSpeed = 10.0f;
@@ -112,7 +121,7 @@ public class PlayerStat : Stat
     // 레벨업 할때마다 해당 플레이어의 스텟을 변경
     public void SetStat(int level)
     {
-        Dictionary<int, Data.Stat> stat = Managers.Data.StatDic;
+        Dictionary<int, Data.Stat> stat = Managers.Data.PlayerStatDic;
         _hp = stat[_level].maxHp;
         _maxHp = stat[_level].maxHp;
         _attack = stat[_level].attack;

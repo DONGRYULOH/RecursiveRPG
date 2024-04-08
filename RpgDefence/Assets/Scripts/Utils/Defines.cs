@@ -106,4 +106,11 @@ public class Defines
         ItemGrid,
         EquipmentGird        
     }
+
+    public enum PlayerJob
+    {
+        Unknown,
+        Warrior,
+        Thief        
+    }
 }

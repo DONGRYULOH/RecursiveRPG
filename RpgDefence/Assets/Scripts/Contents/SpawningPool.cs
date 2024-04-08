@@ -48,20 +48,21 @@ public class SpawningPool : MonoBehaviour
     {
         _reserveCount++;
         yield return new WaitForSeconds(Random.Range(0, _spawnTime));
-
-        // TODO : 스테이지 별로 스폰할 몬스터 변경
+        
         string spawnMonsterName = null;
-        if (Managers.Game.CurrentChpater == 1)        
-            spawnMonsterName = "Monster/Warrior";        
-        else if (Managers.Game.CurrentChpater == 2)        
-            spawnMonsterName = "Monster/Warrior";        
+        if (Managers.Game.CurrentChpater == 1)
+            spawnMonsterName = "Monster/Warrior";
+        else if (Managers.Game.CurrentChpater == 2)
+            spawnMonsterName = "Monster/Skeleton";
+        else
+            spawnMonsterName = "Monster/Skeleton";
         GameObject go = Managers.Game.Spawn(Defines.WorldObject.Monster, spawnMonsterName);
-        NavMeshAgent nma = go.GetOrAddComponent<NavMeshAgent>(); // 길찾기 컴포넌트를 이용해서 스폰할 수 있는 영역인지 판단
 
+        NavMeshAgent nma = go.GetOrAddComponent<NavMeshAgent>(); // 길찾기 컴포넌트를 이용해서 스폰할 수 있는 영역인지 판단
         Vector3 randomPos;
         while (true)
         {
-            Vector3 randomDir = Random.insideUnitSphere * Random.Range(0, _spawnRadius);
+            Vector3 randomDir = Random.insideUnitSphere * Random.Range(0, 5.0f);
             randomDir.y = 0;
             randomPos = go.transform.position + randomDir;
 

@@ -9,7 +9,8 @@ public class GameScene : BaseScene
     private float limitSeconds;
     private int nextScore;
 
-    SpawningPool monsterSpawningPool;    
+    SpawningPool monsterSpawningPool;
+    GameObject bossMonster;
 
     protected override void Init()
     {
@@ -25,18 +26,17 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정
         if(Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 60.0f;
-            nextScore = 10;
+            limitSeconds = 3.0f;
+            nextScore = 0;
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            limitSeconds = 90.0f;
-            nextScore = 20;
+            limitSeconds = 30000.0f;
+            nextScore = 1;
         }
-        else
+        else if(Managers.Game.CurrentChpater == 3)
         {
-            limitSeconds = 120.0f;
-            nextScore = 30;
+            limitSeconds = 30.0f;            
         }
         StartCoroutine("CountDown");
     }
@@ -75,22 +75,32 @@ public class GameScene : BaseScene
             GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
             go.GetOrAddComponent<UI_MyInvenBtn>();
             MakeMonsterPooling();
-            
-            // 다음 스테이지로 가기위한 점수 UI(점수 고정)
-            GameObject nextScore = Managers.Resource.Instantiate($"UI/Scene/NextChapterScore");
-            if (nextScore.transform.GetChild(0) != null)
-                nextScore.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Next Stage Score : " + this.nextScore;
 
-            // 플레이어가 획득한 점수 UI(점수 실시간으로 변경) 
+            GameObject nextScore = Managers.Resource.Instantiate($"UI/Scene/NextChapterScore");
             GameObject playerScore = Managers.Resource.Instantiate($"UI/Scene/CurrentPlayerScore");
+            string scoreForNext = null;            
+            // 마지막 챕터면 보스 몬스터 생성
+            if (Managers.Game.CurrentChpater == 3)
+            {
+                MakeBossMonster();                
+                scoreForNext = "마지막 스테이지";                
+            }
+            else
+            {                
+                scoreForNext = "Next Stage Score : " + this.nextScore;               
+            }
+            // 다음 스테이지로 가기위한 점수 UI(점수 고정)
+            if (nextScore.transform.GetChild(0) != null)
+                nextScore.transform.GetChild(0).gameObject.GetComponent<Text>().text = scoreForNext;
+            // 플레이어가 획득한 점수 UI(점수 실시간으로 변경)     
             Text playerScoreText = null;
             if (playerScore.transform.GetChild(0) != null)
             {
                 playerScoreText = playerScore.transform.GetChild(0).gameObject.GetComponent<Text>();
                 playerScoreText.text = "Player Score : " + Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
-            }                            
+            }            
 
-            // 타이머 UI
+            // 타이머 UI 제한시간 체크
             GameObject timer = Managers.Resource.Instantiate($"UI/Scene/Timer");
             Text timerText = null;
             if (timer.transform.GetChild(0) != null)
@@ -103,7 +113,14 @@ public class GameScene : BaseScene
                     yield break; // 코루틴 함수 종료                
                 else
                 {
-                    seconds += Time.deltaTime;
+                    if(Managers.Game.CurrentChpater == 3 && bossMonster == null)
+                    {
+                        // 게임 클리어!
+                        yield break; // 코루틴 함수 종료     
+                        // TODO : 게임 클리어 메시지 띄우기
+                    }
+
+                    seconds += Time.deltaTime;                    
                     playerScoreText.text = "Player Score : " + Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
                     string minutes = Mathf.Floor(seconds / 60).ToString("00");
                     string secondsTime = (seconds % 60).ToString("00");
@@ -122,13 +139,6 @@ public class GameScene : BaseScene
                 Managers.Scene.LoadScene(Defines.Scene.Main);                
             }
         }
-    }
-
-    IEnumerator NextStageAlert()
-    {
-        UI_TextPopup alert = Managers.UI.ShowPopupUI<UI_TextPopup>("UI_TextPopup");        
-        yield return null;
-        alert.SetText("다음 스테이지 이동 또는 상점 이동하기 위해서 두 개의 문을 이용하세요");
     }
 
     public void PlayerSpwan()
@@ -167,4 +177,15 @@ public class GameScene : BaseScene
         Managers.Game.OpenDoor();         // 다음챕터이동, 상점으로 가는 문 열어두기        
     }
 
+    IEnumerator NextStageAlert()
+    {
+        UI_TextPopup alert = Managers.UI.ShowPopupUI<UI_TextPopup>("UI_TextPopup");
+        yield return null;
+        alert.SetText("다음 스테이지 이동 또는 상점 이동하기 위해서 두 개의 문을 이용하세요");
+    }
+
+    void MakeBossMonster()
+    {
+        bossMonster = Managers.Resource.Instantiate($"Monster/Boss");        
+    }
 }

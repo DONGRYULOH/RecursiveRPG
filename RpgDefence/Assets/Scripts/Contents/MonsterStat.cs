@@ -26,6 +26,7 @@ public class MonsterStat : Stat
         if (Hp <= 0)
         {
             Hp = 0;
+            Managers.Game.GetPlayer().GetComponent<PlayerController>().StopSkill = true;
             OnDead(attacker);
         }
     }

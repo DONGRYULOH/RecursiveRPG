@@ -19,7 +19,7 @@ public class PlayerController : BaseController
 
     public Defines.State PlayerState { get { return currentPlayerState; } set { currentPlayerState = value; } }
     public PlayerStat Stat { get { return _stat; }}    
-    public bool StopSkill { get { return _stopSkill; } }
+    public bool StopSkill { get { return _stopSkill; } set { _stopSkill = value; } }
 
     public override void Init()
     {
@@ -61,7 +61,7 @@ public class PlayerController : BaseController
 
     // 플레이어가 스킬을 시전중인 상태일때 마우스를 클릭하는 경우 다른 메소드가 실행되면 안되기 때문에 분기처리를 해줬음
     void OnMouseEvent(Defines.MouseEvent evt)
-    {
+    {        
         switch (PlayerState)
         {
             case Defines.State.Wait:
@@ -70,10 +70,11 @@ public class PlayerController : BaseController
             case Defines.State.Moving:
                 OnMouseEvent_IdleRun(evt);
                 break;
-            case Defines.State.Skill: // 공격을 하고 있는 상태라면 이동모션 불가능
+            case Defines.State.Skill: 
                 {
-                    if (evt == Defines.MouseEvent.PointerUp)
-                        _stopSkill = true; // 마우스 클릭이 끝났을때 다른 모션 가능
+                    // 공격 애니메이션이 끝난 경우만 다른 상태로 변환 가능
+                    if(gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)                    
+                        OnMouseEvent_IdleRun(evt);                    
                 }                
                 break;
         }
@@ -91,10 +92,7 @@ public class PlayerController : BaseController
             case Defines.MouseEvent.PointerDown: // 마우스 클릭을 놓은 상태에서 최초로 해당 지점을 마우스로 클릭했을 때
                 {
                     if (raycastHit)
-                    {
-                        _stopSkill = false;
-
-                        // 몬스터 클릭시 락온 설정
+                    {                                                
                         if (hit.collider.gameObject.layer == (int)Defines.Layer.Monster1)
                             _lockTarget = hit.collider.gameObject;
                         else
@@ -111,18 +109,13 @@ public class PlayerController : BaseController
                         destPos = hit.point;
                 }
                 break;
-            case Defines.MouseEvent.PointerUp: // 클릭하고 바로땐경우 공격스킬을 한번만 실행
-                _stopSkill = true;
-                break;
         }
     }
 
     // -------------- 플레이어 state 패턴 --------------------
     public void StatePattern()
     {        
-        _playerStateContext = new PlayerStateContext(this);
-
-        // PlayerController 컴포넌트가 붙어있는 오브젝트에 PlayerMoveState 클래스도 컴포넌트로 붙임
+        _playerStateContext = new PlayerStateContext(this);        
         moveState = gameObject.AddComponent<PlayerMoveState>();
         waitState = gameObject.AddComponent<PlayerWaitState>();
         dieState = gameObject.AddComponent<PlayerDieState>();
