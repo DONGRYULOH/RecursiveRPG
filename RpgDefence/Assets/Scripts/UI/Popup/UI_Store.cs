@@ -37,7 +37,7 @@ public class UI_Store : UI_Popup
         Dictionary<int, Item> storeItem = Managers.Game.StoreItem;
         foreach (var store in storeItem)
         {                        
-            GameObject item = Managers.UI.MakeSubItem<UI_Store_Item>(storeGrid.transform).gameObject;
+            GameObject item = Managers.UI.MakeSubItem<UI_Store_Item>(storeGrid.transform, store.Value.ItemName).gameObject;
             item.GetComponent<UI_Store_Item>().ItmeInfo = store.Value;
             item.GetComponent<UI_Store_Item>().Name = store.Value.ItemName;
             item.GetComponent<UI_Store_Item>().Price = store.Value.Price;

@@ -36,7 +36,7 @@ public class UI_MyInvenBtn : UI_Scene
             InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;
 
             UI_Inven InvenEquipment = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenEquipmentGrid");
-            InvenEquipment.InvenGridCategory = Defines.UiInvenGridCategory.EquipmentGird;
+            InvenEquipment.InvenGridCategory = Defines.UiInvenGridCategory.EquipmentGird;            
             myInvenOpenCheck = true;
         }        
     }

@@ -70,8 +70,8 @@ public class GameManagerEx
     {
         // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
         // Managers.Game.CurrentItemNumberIndex 1~100 까지 상점아이템으로 전용으로 사용
-        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "대검", 300, 0, Defines.EquipmentCategory.Weapon, 500);
-        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "파란포션", 100, 0, 100);
+        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "LongSword", 150, 0, Defines.EquipmentCategory.Weapon, 500);
+        ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "BigHpPortion", 100, 0, 100);
         StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
         StoreItem.Add(consumeItem.ItemNumber, consumeItem);
     }
@@ -106,6 +106,13 @@ public class GameManagerEx
             InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;
             InvenItem.StoreSellCheck = true;
         }            
+    }
+
+    public GameObject BossMonsterSpawn(string path, Transform parent = null)
+    {
+        GameObject go = Managers.Resource.Instantiate(path, parent);
+        _monsters.Add(go);
+        return go;
     }
 
     public GameObject Spawn(Defines.WorldObject type, string path, Transform parent = null)

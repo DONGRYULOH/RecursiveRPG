@@ -111,7 +111,7 @@ public class UiManager
         _order--;
 
         if (_order == 1)            
-            Managers.Resource.Destroy(popup.gameObject.transform.parent.gameObject);        
+            Managers.Resource.Destroy(popup.gameObject.transform.parent.gameObject);
         else        
             Managers.Resource.Destroy(popup.gameObject);
     }
@@ -188,7 +188,7 @@ public class UiManager
         return Util.GetOrAddComponent<T>(go);
     }
 
-    // 씬이 변경되면 기존에 있는 데이터를 없애버림
+    // 씬이 변경되면 기존에 열려있는 팝업 데이터를 없애버림
     public void Clear()
     {
         CloseAllPopupUI();

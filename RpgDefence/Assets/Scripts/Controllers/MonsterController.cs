@@ -35,24 +35,32 @@ public class MonsterController : BaseController
         _stat = gameObject.GetOrAddComponent<MonsterStat>();
         if(Managers.Game.CurrentChpater == 1)
         {
-            _stat.Gold = 10;
-            _stat.Exp = 10;
-            _stat.Score = 1;
+            Stat.Level = 1;            
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            _stat.Gold = 20;
-            _stat.Exp = 20;
-            _stat.Score = 2;
+            Stat.Level = 2;            
         }
         else if (Managers.Game.CurrentChpater == 3)
         {
-            _stat.Attack = 50;
-            _stat.Defense = 30;
-            _stat.Gold = 1000;
-            _stat.Exp = 100;
-            _stat.Score = 10;
+            Stat.Level = 3;            
         }
+
+        if(GameObject.FindWithTag("BossMonster") != null)
+        {            
+            Stat.Hp = 300;
+            Stat.MaxHp = 300;
+            Stat.Attack = 20;
+            Stat.Defense = 20;
+            Stat.MoveSpeed = 8;
+            Stat.Gold = 1000;
+            Stat.Exp = 1000;
+            Stat.Score = 100;
+        }
+        else
+        {
+            SetStat();
+        }        
 
         // HpBar UI 표시
         if (gameObject.GetComponentInChildren<UI_HpBar>() == null)
@@ -60,6 +68,20 @@ public class MonsterController : BaseController
 
         // 몬스터의 state 패턴 
         StatePattern();
+    }
+
+    void SetStat()
+    {
+        int level = Stat.Level;
+        Dictionary<int, Data.MonsterStat> monsterStat = Managers.Data.MonsterStatDic;
+        Stat.Hp = monsterStat[level].maxHp;
+        Stat.MaxHp = monsterStat[level].maxHp;
+        Stat.Attack = monsterStat[level].attack;
+        Stat.Defense = monsterStat[level].defense;
+        Stat.MoveSpeed = monsterStat[level].moveSpeed;
+        Stat.Gold = monsterStat[level].gold;
+        Stat.Exp = monsterStat[level].exp;
+        Stat.Score = monsterStat[level].score;
     }
 
     private void Update()

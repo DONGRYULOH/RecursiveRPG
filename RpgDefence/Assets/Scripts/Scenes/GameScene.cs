@@ -26,17 +26,17 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정
         if(Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 3.0f;
-            nextScore = 0;
+            limitSeconds = 60f;
+            nextScore = 10;
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            limitSeconds = 30000.0f;
-            nextScore = 1;
+            limitSeconds = 90f;
+            nextScore = 20;
         }
         else if(Managers.Game.CurrentChpater == 3)
         {
-            limitSeconds = 30.0f;            
+            limitSeconds = 120f;            
         }
         StartCoroutine("CountDown");
     }
@@ -108,16 +108,18 @@ public class GameScene : BaseScene
 
             while(seconds <= limitSeconds)
             {
-                // 게임도중에 플레이어가 죽으면 타이머 중지
-                if (Managers.Game.GetPlayer() == null)                
-                    yield break; // 코루틴 함수 종료                
+                // 게임도중에 플레이어가 죽거나 제한시간 안에 보스를 죽이면 타이머 중지
+                if (Managers.Game.GetPlayer() == null)
+                {
+                    yield break;
+                }
                 else
                 {
                     if(Managers.Game.CurrentChpater == 3 && bossMonster == null)
                     {
-                        // 게임 클리어!
-                        yield break; // 코루틴 함수 종료     
-                        // TODO : 게임 클리어 메시지 띄우기
+                        // 게임 클리어!                        
+                        ShowGameClearPopup();
+                        yield break;
                     }
 
                     seconds += Time.deltaTime;                    
@@ -128,31 +130,41 @@ public class GameScene : BaseScene
                     yield return null; // *** 1프레임이 1초가 아니라 엄청 짧은 시간 0.0001초 간격일 수 있음 컴퓨터 성능에 따라 다름
                 }                
             }
-
-            // Debug.Log(seconds); // 60.00827
-            int finalPlayerScore = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
-            if (finalPlayerScore >= this.nextScore)            
-                Clear();            
+            
+            if(Managers.Game.CurrentChpater == 3)
+            {
+                ShowGameOverPopup();
+            }
             else
             {
-                Managers.Resource.Destroy(Managers.GetInstance.gameObject);
-                Managers.Scene.LoadScene(Defines.Scene.Main);                
-            }
+                int finalPlayerScore = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Score;
+                if (finalPlayerScore >= this.nextScore)
+                    Clear();
+                else
+                    ShowGameOverPopup();
+            }                        
         }
+    }
+    void ShowGameOverPopup()
+    {
+        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
+        Managers.UI.ShowPopupUI<UI_GameClearPopup>("UI_GameOverPopup");
+    }
+
+    void ShowGameClearPopup()
+    {
+        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
+        Managers.UI.ShowPopupUI<UI_GameClearPopup>("UI_GameClearPopup");
     }
 
     public void PlayerSpwan()
-    {
-        // 최초 시작시에만 플레이어에게 기본 아이템을 넣어주기
+    {        
         if (Managers.Game.GetPlayer() == null)
         {
             GameObject player = Managers.Game.Spawn(Defines.WorldObject.Player, "unitychan");
-            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);            
-            EquipmentItem equipmentItem = new EquipmentItem(101, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
-            ConsumeItem consumeItem = new ConsumeItem(102, "HpPortion", 100, 0, 20);
-            PlayerStat stat = player.GetOrAddComponent<PlayerStat>();
-            stat.Item.Add(equipmentItem.ItemNumber, equipmentItem);
-            stat.Item.Add(consumeItem.ItemNumber, consumeItem);
+            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);                        
         }
         else
         {
@@ -185,7 +197,7 @@ public class GameScene : BaseScene
     }
 
     void MakeBossMonster()
-    {
-        bossMonster = Managers.Resource.Instantiate($"Monster/Boss");        
+    {                
+        bossMonster = Managers.Game.BossMonsterSpawn("Monster/Boss");
     }
 }

@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6cbe6702b875e674a942cc908cacf017, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bec64ffcc6d40164d8830ac78280b8b1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 7740847750777805741}
   - component: {fileID: 7740847750777805740}
   m_Layer: 5
-  m_Name: LongSword
+  m_Name: BigHpPortion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

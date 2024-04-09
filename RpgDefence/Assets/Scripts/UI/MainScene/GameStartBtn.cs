@@ -14,6 +14,7 @@ public class GameStartBtn : MonoBehaviour
         }
         else
         {
+            Managers.UI.Clear();
             SceneManager.LoadScene("ChapterOne");
         }        
     }

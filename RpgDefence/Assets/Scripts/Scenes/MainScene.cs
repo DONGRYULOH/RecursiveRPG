@@ -9,9 +9,12 @@ public class MainScene : BaseScene
 
     protected override void Init()
     {
-        base.Init();
+        base.Init();        
         SceneType = Defines.Scene.Main;
         playerJob = Defines.PlayerJob.Unknown;
+
+        Texture2D cursor = Managers.Resource.Load<Texture2D>("Textures/Cursor/Arrow");
+        Cursor.SetCursor(cursor, new Vector2(cursor.width / 5, 0), CursorMode.Auto);
     }
 
     public override void Clear()

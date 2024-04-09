@@ -48,7 +48,7 @@ public class UI_Store_Item : UI_Base
         price.GetComponent<Text>().text = Price + "$";
         
         GameObject icon = Get<GameObject>((int)GameObjects.StoreItemIcon);
-        icon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Art/StoreItem/" + Name);
+        icon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Art/Item/" + Name);
         BindEvent(icon, BtnOnClickedItem, Defines.UIEvent.Click);
     }
 

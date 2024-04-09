@@ -3,35 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 이름을 Json 파일에 있는 이름과 똑같이 맞춰줘야지 파싱이 됨
-/*
-    "StatData.Json"
-{
-    "stats" : [
-        {
-            "level" : "1",
-            "maxHp" : "100",
-            "attack" : "20",
-            "totalExp" : "0"
-        },
-        {
-            "level" : "2",
-            "maxHp" : "150",
-            "attack" : "30",
-            "totalExp" : "10"
-        },
-        {
-            "level" : "3",
-            "maxHp" : "200",
-            "attack" : "60",
-            "totalExp" : "20"
-        }
-    ]
-}
-*/
 namespace Data
 {
-    #region Stat
+    #region PlayerStat
     [Serializable] // [Serializable] 키워드를 붙여야지 Json 형식을 해당 형식에 맞춰서 데이터를 넣어줌
     public class Stat
     {
@@ -47,11 +21,101 @@ namespace Data
         public List<Stat> stats = new List<Stat>();
 
         public Dictionary<int, Stat> MakeDict()
-        {
-            // TODO : 해당 오브젝트를 유일하게 식별할 수 있는 값을 key로 설정
+        {         
             Dictionary<int, Stat> dict = new Dictionary<int, Stat>();
 
             foreach (Stat stat in stats)
+                dict.Add(stat.level, stat);
+
+            return dict;
+        }
+    }
+    #endregion
+
+    #region PlayerWarriorStat
+    [Serializable] // [Serializable] 키워드를 붙여야지 Json 형식을 해당 형식에 맞춰서 데이터를 넣어줌
+    public class PlayerWarriorStat
+    {
+        public int level;
+        public int maxHp;
+        public int maxMp;
+        public int attack;
+        public int defense;
+        public int moveSpeed;
+    }
+
+    [Serializable]
+    public class PlayerWarriorStatData : DataLoader<int, PlayerWarriorStat>
+    {
+        // JSON으로 읽어들인 파일 데이터
+        public List<PlayerWarriorStat> stats = new List<PlayerWarriorStat>();
+
+        public Dictionary<int, PlayerWarriorStat> MakeDict()
+        {
+            Dictionary<int, PlayerWarriorStat> dict = new Dictionary<int, PlayerWarriorStat>();
+
+            foreach (PlayerWarriorStat stat in stats)
+                dict.Add(stat.level, stat);
+
+            return dict;
+        }
+    }
+    #endregion
+
+    #region PlayerThiefStat
+    [Serializable] // [Serializable] 키워드를 붙여야지 Json 형식을 해당 형식에 맞춰서 데이터를 넣어줌
+    public class PlayerThiefStat
+    {
+        public int level;
+        public int maxHp;
+        public int maxMp;
+        public int attack;
+        public int defense;
+        public int moveSpeed;
+    }
+
+    [Serializable]
+    public class PlayerThiefStatData : DataLoader<int, PlayerThiefStat>
+    {
+        // JSON으로 읽어들인 파일 데이터
+        public List<PlayerThiefStat> stats = new List<PlayerThiefStat>();
+
+        public Dictionary<int, PlayerThiefStat> MakeDict()
+        {
+            Dictionary<int, PlayerThiefStat> dict = new Dictionary<int, PlayerThiefStat>();
+
+            foreach (PlayerThiefStat stat in stats)
+                dict.Add(stat.level, stat);
+
+            return dict;
+        }
+    }
+    #endregion
+
+    #region MonsterStat
+    [Serializable] // [Serializable] 키워드를 붙여야지 Json 형식을 해당 형식에 맞춰서 데이터를 넣어줌
+    public class MonsterStat
+    {
+        public int level;
+        public int maxHp;        
+        public int attack;
+        public int defense;
+        public int moveSpeed;
+        public int gold;
+        public int exp;
+        public int score;
+    }
+
+    [Serializable]
+    public class MonsterStatData : DataLoader<int, MonsterStat>
+    {        
+        public List<MonsterStat> stats = new List<MonsterStat>();
+
+        public Dictionary<int, MonsterStat> MakeDict()
+        {
+            Dictionary<int, MonsterStat> dict = new Dictionary<int, MonsterStat>();
+
+            foreach (MonsterStat stat in stats)
                 dict.Add(stat.level, stat);
 
             return dict;

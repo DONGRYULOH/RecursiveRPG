@@ -11,7 +11,7 @@ public class PlayerSkillState : MonoBehaviour, PlayerState
         // 락온인 경우 해당 해당 대상을 바라보게 처리
         if (_playerController.LockTarget != null)
         {
-            Vector3 dir = _playerController.LockTarget.transform.position - transform.position;
+            Vector3 dir = _playerController.LockTarget.transform.position - transform.position;            
             Quaternion quat = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
         }

@@ -1,0 +1,34 @@
+{
+    "stats" : [
+        {
+            "level" : "1",
+            "maxHp" : "50",
+            "attack" : "10",
+            "defense" : "10",
+            "moveSpeed" : "5",
+            "gold" : "10",
+            "exp" : "5",
+            "score" : "1"
+        },
+        {
+            "level" : "2",
+            "maxHp" : "60",
+            "attack" : "11",
+            "defense" : "15",
+            "moveSpeed" : "6",
+            "gold" : "15",
+            "exp" : "10",
+            "score" : "2"
+        },
+        {
+            "level" : "3",
+            "maxHp" : "70",
+            "attack" : "12",
+            "defense" : "20",
+            "moveSpeed" : "7",
+            "gold" : "20",
+            "exp" : "15",
+            "score" : "3"
+        }
+    ]
+}

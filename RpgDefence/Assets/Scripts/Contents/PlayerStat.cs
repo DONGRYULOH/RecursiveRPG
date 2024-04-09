@@ -17,6 +17,8 @@ public class PlayerStat : Stat
     private Defines.PlayerJob job;
     public Defines.PlayerJob Job { get { return job; } set { job = value; } }
 
+    private float attackRange;
+    public float AttackRange { get { return attackRange; } set { attackRange = value; } }
 
     [SerializeField]
     private int exp;
@@ -58,6 +60,9 @@ public class PlayerStat : Stat
     private int score;
     public int Score { get { return score; } set { score = value; } }
 
+    private int maxMp;
+    public int MaxMp { get { return maxMp; } set { maxMp = value; } }
+
     private int mp;
     public int Mp { get { return mp; } set { mp = value; } }
 
@@ -76,20 +81,12 @@ public class PlayerStat : Stat
     private void Start()
     {
         job = MainScene.playerJob;
-        MainScene.playerJob = Defines.PlayerJob.Unknown; // 멀티작업인 경우 unKnown처리를 해주지 않으면 그 다음 선택하는 유저는 무조건 직업이 선택되어있는 상태?(Static 이므로)        
-        
-        // TODO : 직업별로 플레이어 스탯 변경
-
-        _level = 1;
-        _defense = 5;
-        _moveSpeed = 10.0f;
-        exp = 0;
-        gold = 10000;
-        invenItemCount = 2;
-        SetStat(_level);
-
-        EquipmentInit();
-    }
+        MainScene.playerJob = Defines.PlayerJob.Unknown; // 멀티작업인 경우 unKnown처리를 해주지 않으면 그 다음 선택하는 유저는 무조건 직업이 선택되어있는 상태?(Static 이므로)                                
+        BasicStat(); // 모든 플레이어 공통 스탯
+        SetStat(_level); // 직업별 스탯
+        EquipmentInvenInit(); // start 장비 세팅
+        ItemInvenInit(); // start 아이템 세팅
+    }    
 
     public void PlayerStatRelease(Item item)
     {
@@ -118,13 +115,40 @@ public class PlayerStat : Stat
         }
     }
 
-    // 레벨업 할때마다 해당 플레이어의 스텟을 변경
-    public void SetStat(int level)
+    void BasicStat()
     {
-        Dictionary<int, Data.Stat> stat = Managers.Data.PlayerStatDic;
-        _hp = stat[_level].maxHp;
-        _maxHp = stat[_level].maxHp;
-        _attack = stat[_level].attack;
+        Level = 1;
+        Defense = 5;
+        MoveSpeed = 10.0f;
+        Exp = 0;
+        Gold = 10000;        
+        AttackRange = 2f;
+    }
+    
+    public void SetStat(int level)
+    {                
+        if (job == Defines.PlayerJob.Warrior)
+        {
+            Dictionary<int, Data.PlayerWarriorStat> warriorStat = Managers.Data.PlayerWarriorStatDic;
+            Hp = warriorStat[_level].maxHp;
+            MaxHp = warriorStat[_level].maxHp;
+            MaxMp = warriorStat[_level].maxMp;
+            Mp = warriorStat[_level].maxMp;
+            Attack = warriorStat[_level].attack;
+            Defense = warriorStat[_level].defense;
+            MoveSpeed = warriorStat[_level].moveSpeed;
+        }
+        else if (job == Defines.PlayerJob.Thief)
+        {
+            Dictionary<int, Data.PlayerThiefStat> thiefStat = Managers.Data.PlayerThiefStatDic;
+            Hp = thiefStat[_level].maxHp;
+            MaxHp = thiefStat[_level].maxHp;
+            MaxMp = thiefStat[_level].maxMp;
+            Mp = thiefStat[_level].maxMp;
+            Attack = thiefStat[_level].attack;
+            Defense = thiefStat[_level].defense;
+            MoveSpeed = thiefStat[_level].moveSpeed;
+        }        
     }
 
     protected override void OnDead(Stat attacker)
@@ -136,7 +160,7 @@ public class PlayerStat : Stat
     }
 
     // 해당 플레이어가 들고있는 장비상태를 초기화
-    public void EquipmentInit()
+    public void EquipmentInvenInit()
     {
         // 플레이어 장비상태창 개수에 맞춰서 세팅        
         System.Array equipmentCategory = System.Enum.GetValues(typeof(Defines.EquipmentCategory));
@@ -148,9 +172,16 @@ public class PlayerStat : Stat
         // 기본무기 세팅
         if (equipmentState.ContainsKey(Defines.EquipmentCategory.Armor))
         {
-            EquipmentItem equipmentItem = new EquipmentItem(103, "LongSword", 100, 0, Defines.EquipmentCategory.Weapon, 100);
+            EquipmentItem equipmentItem = new EquipmentItem(102, "BasicSword", 50, 0, Defines.EquipmentCategory.Weapon, 100);
             equipmentState[Defines.EquipmentCategory.Weapon] = equipmentItem;
         }
+    }
+
+    public void ItemInvenInit()
+    {
+        ConsumeItem consumeItem = new ConsumeItem(101, "BasicHpPortion", 50, 0, 20);
+        Item.Add(consumeItem.ItemNumber, consumeItem);
+        invenItemCount++;
     }
 }
 

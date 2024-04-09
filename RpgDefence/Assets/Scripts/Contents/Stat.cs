@@ -26,16 +26,6 @@ public class Stat : MonoBehaviour
     public int Defense { get { return _defense; } set { _defense = value; } }
     public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
 
-    private void Start()
-    {
-        _level = 1;
-        _hp = 100;
-        _maxHp = 100;
-        _attack = 10;
-        _defense = 5;
-        _moveSpeed = 5.0f;
-    }
-
     public virtual void OnAttacked(Stat attacker)
     {
         int damage = Mathf.Max(0, attacker.Attack - Defense);

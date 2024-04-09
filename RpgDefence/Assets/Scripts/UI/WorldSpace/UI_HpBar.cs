@@ -25,7 +25,7 @@ public class UI_HpBar : UI_Base
 
     private void Update()
     {
-        Transform parent = gameObject.transform.parent; // "UI_HpBar" 컴포넌트가 붙어있는 오브젝트의 부모의 transform.parent; 동일한 의미
+        Transform parent = gameObject.transform.parent; // "UI_HpBar" 컴포넌트가 붙어있는 오브젝트의 부모의 transform.parent; 동일한 의미        
         transform.position = parent.position + (Vector3.up * (parent.GetComponent<Collider>().bounds.size.y));
 
         // 체력 UI와 카메라는 같은 방향을 보게함

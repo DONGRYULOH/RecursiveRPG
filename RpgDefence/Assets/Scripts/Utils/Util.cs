@@ -47,7 +47,7 @@ public class Util
         {
             // GameObject의 하위 컴포넌트를 T타입인 것만 가져옴
             foreach (T component in go.GetComponentsInChildren<T>())
-            {                
+            {                                
                 if (string.IsNullOrEmpty(name) || component.name == name)
                 {
                     return component;

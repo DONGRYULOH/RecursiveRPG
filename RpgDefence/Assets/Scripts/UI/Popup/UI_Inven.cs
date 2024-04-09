@@ -74,7 +74,7 @@ public class UI_Inven : UI_Popup
 
         foreach (var playerItem in stat.Item)
         {            
-            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(InvenGrid.transform, playerItem.Value.ItemName).gameObject;
+            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(InvenGrid.transform).gameObject;
             if(playerItem.Value.GetCatecory == Defines.ItemCategory.Equipment)
             {
                 if (playerItem.Value is EquipmentItem equipment)
@@ -84,7 +84,7 @@ public class UI_Inven : UI_Popup
             }
             
             item.GetComponent<UI_Inven_Item>().ItemCategory = playerItem.Value.GetCatecory;
-            item.GetComponent<UI_Inven_Item>().SetInfo(playerItem.Value.ItemName);
+            item.GetComponent<UI_Inven_Item>().Name = playerItem.Value.ItemName;
             item.GetComponent<UI_Inven_Item>().ItmeInfo = playerItem.Value;
         }
     }
@@ -136,15 +136,21 @@ public class UI_Inven : UI_Popup
 
     public void BtnInvenCloseMapping()
     {
-        GameObject InvenClose = Get<GameObject>((int)GameObjects.UI_Inven_Close);
-        BindEvent(InvenClose, InvenCloseEvent, Defines.UIEvent.Click);
+        if (invenGridCategory == Defines.UiInvenGridCategory.ItemGrid)
+        {
+            GameObject InvenClose = Get<GameObject>((int)GameObjects.UI_Inven_Close);
+            BindEvent(InvenClose, InvenCloseEvent, Defines.UIEvent.Click);
+        }            
     }
 
     public void InvenCloseEvent(PointerEventData data)
     {
         if(GameObject.FindWithTag("UI_Item_UseOrNot") != null)        
             Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>(), GameObject.FindWithTag("UI_Item_UseOrNot").GetComponent<UI_Item_UseOrNot>().transform.parent.gameObject);
-        Managers.UI.CloseAllParentPopupUI();
         UI_MyInvenBtn.myInvenOpenCheck = false;
+
+        // 장비, 아이템 인벤토리 팝업 닫기
+        Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_InvenEquipmentGrid").GetComponent<UI_Inven>(), GameObject.FindWithTag("UI_InvenEquipmentGrid").GetComponent<UI_Inven>().transform.parent.gameObject);
+        Managers.UI.CloseSelectedPopupUI(GameObject.FindWithTag("UI_InvenItemGrid").GetComponent<UI_Inven>(), GameObject.FindWithTag("UI_InvenItemGrid").GetComponent<UI_Inven>().transform.parent.gameObject);                
     }
 }

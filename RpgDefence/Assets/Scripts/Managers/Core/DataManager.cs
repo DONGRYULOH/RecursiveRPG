@@ -11,23 +11,32 @@ public class DataManager
     public Dictionary<int, Data.Stat> PlayerStatDic { get; private set; } = new Dictionary<int, Data.Stat>();
 
     // 전사 스탯
-    public Dictionary<int, Data.Stat> PlayerWarriorStatDic { get; private set; } = new Dictionary<int, Data.Stat>();
+    public Dictionary<int, Data.PlayerWarriorStat> PlayerWarriorStatDic { get; private set; } = new Dictionary<int, Data.PlayerWarriorStat>();
 
     // 도적 스탯
-    public Dictionary<int, Data.Stat> PlayerThiefStatDic { get; private set; } = new Dictionary<int, Data.Stat>();
+    public Dictionary<int, Data.PlayerThiefStat> PlayerThiefStatDic { get; private set; } = new Dictionary<int, Data.PlayerThiefStat>();
 
-    // public Dictionary<string, Data.NPC> NpcDic { get; private set; } = new Dictionary<string, Data.NPC>();
+    // 몬스터 공통 스탯
+    public Dictionary<int, Data.MonsterStat> MonsterStatDic { get; private set; } = new Dictionary<int, Data.MonsterStat>();
 
     public void Init()
-    {
-        // "StatData"라는 Json 파일을 해당 타입(Loader)에 맞춰서 파싱
+    {        
         Data.StatData loader = LoadJson<Data.StatData, int, Data.Stat>("StatData");
         PlayerStatDic = loader.MakeDict();
+
+        Data.PlayerWarriorStatData loader2 = LoadJson<Data.PlayerWarriorStatData, int, Data.PlayerWarriorStat>("PlayerWarriorStatData");
+        PlayerWarriorStatDic = loader2.MakeDict();
+
+        Data.PlayerThiefStatData loader3 = LoadJson<Data.PlayerThiefStatData, int, Data.PlayerThiefStat>("PlayerThiefStatData");
+        PlayerThiefStatDic = loader3.MakeDict();
+
+        Data.MonsterStatData loader4 = LoadJson<Data.MonsterStatData, int, Data.MonsterStat>("MonsterStatData");
+        MonsterStatDic = loader4.MakeDict();
     }   
 
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : DataLoader<Key, Value>
     {
         TextAsset textAsset = Managers.Resource.Load<TextAsset>($"Data/{path}");
-        return JsonUtility.FromJson<Loader>(textAsset.text); // json 파일을 해당 Loader 타입(StatData)에 맞춰서 파싱(변환)        
+        return JsonUtility.FromJson<Loader>(textAsset.text); // <"읽어들일 JSON 파일 형식">
     }
 }

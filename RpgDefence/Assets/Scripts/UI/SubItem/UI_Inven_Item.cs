@@ -36,7 +36,7 @@ public class UI_Inven_Item : UI_Base
         set { equipmentCategory = value; }
     }
 
-    public string _name
+    public string Name
     {
         get; set;
     }
@@ -51,21 +51,17 @@ public class UI_Inven_Item : UI_Base
         Bind<GameObject>(typeof(GameObjects));
 
         GameObject go = Get<GameObject>((int)GameObjects.ItemName);
-        go.GetComponent<Text>().text = _name;
+        go.GetComponent<Text>().text = Name;        
+        GameObject itemIcon = Get<GameObject>((int)GameObjects.ItemIcon);
+        itemIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Art/Item/" + Name);
 
         // 그냥 아이템 인벤토리 or 상점에서 판매하는 아이템 인벤토리
-        GameObject itemIcon = Get<GameObject>((int)GameObjects.ItemIcon);
         UI_Inven inven = itemIcon.transform.parent.parent.parent.gameObject.GetComponent<UI_Inven>();
         if (!inven.StoreSellCheck)
             BindEvent(itemIcon, BtnOnClickedItem, Defines.UIEvent.Click);
         else
             BindEvent(itemIcon, BtnOnClickedStore, Defines.UIEvent.Click);
-    }
-
-    public void SetInfo(string name)
-    {
-        _name = name;
-    }
+    }    
 
     public void BtnOnClickedItem(PointerEventData data)
     {        

@@ -1,0 +1,28 @@
+{
+    "stats" : [
+        {
+            "level" : "1",
+            "maxHp" : "100",
+            "maxMp" : "10",
+            "attack" : "30",
+            "defense" : "8",
+            "moveSpeed" : "5"
+        },
+        {
+            "level" : "2",
+            "maxHp" : "150",
+            "maxMp" : "20",
+            "attack" : "35",
+            "defense" : "8",
+            "moveSpeed" : "6"
+        },
+        {
+            "level" : "3",
+            "maxHp" : "200",
+            "maxMp" : "30",
+            "attack" : "40",
+            "defense" : "8",
+            "moveSpeed" : "7"
+        }
+    ]
+}

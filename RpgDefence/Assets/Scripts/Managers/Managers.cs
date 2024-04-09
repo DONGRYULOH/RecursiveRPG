@@ -62,5 +62,12 @@ public class Managers : MonoBehaviour
             S_Instance._pool.Init();  // pool 객체를 담을 Root를 만들어줌
             S_Instance._game.Init();  // 상점아이템, 처음 시작시 챕터 1부터 실행
         }
-    }    
+    } 
+    
+    // 게임 재시작시 모든 데이터 초기화
+    public void GameClear()
+    {       
+        S_Instance.resource.Destroy(GameObject.Find("@Managers"));
+        S_Instance.resource.Destroy(GameObject.FindWithTag("Player"));
+    }
 }

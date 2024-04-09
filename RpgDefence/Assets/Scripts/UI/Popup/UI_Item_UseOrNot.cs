@@ -76,7 +76,6 @@ public class UI_Item_UseOrNot : UI_Popup
             {
                 if(equipmentItem != null)
                 {
-                    // *** TODO : 인벤토리가 꽉차있으면 빼지 못하게 수정
                     playerStat.InvenItemCount += 1; // 인벤토리에 아이템을 최대로 넣을 수 있는 개수 업데이트                    
                     if (playerStat.InvenItemCount > playerStat.MaxInvenItemCount)
                     {
