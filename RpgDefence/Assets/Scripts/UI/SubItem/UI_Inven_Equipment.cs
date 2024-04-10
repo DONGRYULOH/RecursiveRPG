@@ -5,12 +5,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Inven_Equipment : UI_Base
-{
-    // 장비 카테고리별 착용여부(무기 X, 방어구 O, .. 이런식으로 체크)
-    Defines.EquipmentCategory equipmentCategory;
+{    
+    Defines.EquipmentCategory equipmentCategory; // 장비 카테고리별 착용여부(무기 X, 방어구 O, .. 이런식으로 체크)
     bool equipmentIsUsed = false;
-
-    // GameObject 단위로 관리
+    
     enum GameObjects
     {
         EquipmentIcon,

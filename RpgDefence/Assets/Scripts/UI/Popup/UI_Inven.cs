@@ -6,22 +6,20 @@ using UnityEngine.UI;
 
 public class UI_Inven : UI_Popup
 {
-    Defines.UiInvenGridCategory invenGridCategory = Defines.UiInvenGridCategory.Unknown;
-
-    // 상점 판매 or 그냥 아이템 인벤토리에 따라서 이벤트가 달라짐
-    bool storeSellCheck;
-
-    public bool StoreSellCheck
-    {
-        get { return storeSellCheck; }
-        set { storeSellCheck = value; }
-    }
+    Defines.UiInvenGridCategory invenGridCategory = Defines.UiInvenGridCategory.Unknown;    
+    bool storeSellCheck; // 상점 판매 or 그냥 아이템 인벤토리에 따라서 이벤트가 달라짐
 
     public Defines.UiInvenGridCategory InvenGridCategory
     {
         get { return invenGridCategory; }
         set { invenGridCategory = value; }
     }
+
+    public bool StoreSellCheck
+    {
+        get { return storeSellCheck; }
+        set { storeSellCheck = value; }
+    }    
 
     enum GameObjects
     {

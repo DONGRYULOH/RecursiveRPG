@@ -42,6 +42,8 @@ public class PlayerController : BaseController
 
     private void Update()
     {
+        Managers.Input.MouseActionCheck(); // 입력(마우스 클릭 또는 키보드)감지를 매 프레임마다 체크        
+
         switch (PlayerState)
         {
             case Defines.State.Die:

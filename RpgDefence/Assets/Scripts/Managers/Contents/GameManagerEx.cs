@@ -96,6 +96,14 @@ public class GameManagerEx
     {
         if (GameObject.FindWithTag("UI_Store") == null)
         {
+            // MyInven(아이템, 장비)이 열려져 있으면 강제로 닫음
+            if(GameObject.FindWithTag("UI_InvenEquipmentGrid") != null && GameObject.FindWithTag("UI_InvenItemGrid") != null)
+            {
+                UI_MyInvenBtn.myInvenOpenCheck = false;
+            }                
+            Managers.UI.CloseAllParentPopupUI();
+
+            // 상점과 아이템 인벤 팝업 띄우기
             Managers.UI.ShowPopupUI<UI_Store>("UI_Store");
             UI_Inven InvenItem = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenItemGrid");
             foreach(Transform child in InvenItem.gameObject.transform)

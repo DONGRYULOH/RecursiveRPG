@@ -36,12 +36,7 @@ public class Managers : MonoBehaviour
     void Start()
     {
         Init();
-    }
-
-    void Update()
-    {
-        input.OnUpdate(); // 입력(마우스 클릭 또는 키보드)감지를 매 프레임마다 체크
-    }
+    }    
 
     static void Init() {
         // Manager 오브젝트가 무조건 존재한다는 보장이 없기 때문에 null 체크를 해줘야 함                 

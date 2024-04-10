@@ -5,26 +5,18 @@ using UnityEngine;
 public class MonsterController : BaseController
 {
     MonsterStat _stat;
-
     private MonsterStateContext _monsterStateContext;
     private MonsterState dieState, moveState, waitState, skillState;
+    private Defines.State state = Defines.State.Wait;    
+    private float scanRange = 10;
+    private float attackRange = 2;    
+    private bool rangeCheck = true; // 플레이어가 죽거나 플레이어 근처에 도착하면 반경거리를 체크하지 않음
 
-    private Defines.State state = Defines.State.Wait;
-
-    [SerializeField]
-    float _scanRange = 10;
-
-    [SerializeField]
-    float _attackRange = 2;
-
-    // 플레이어가 죽거나 플레이어 근처에 도착하면 반경거리를 체크하지 않음
-    private bool rangeCheck = true;
-
-    public bool RangeCheck { get { return rangeCheck; } set { rangeCheck = value; } }
-    public float ScanRange { get { return _scanRange; } set { _scanRange = value; } }
-    public float AttackRange { get { return _attackRange; } set { _attackRange = value; } }
-    public Defines.State State { get { return state; } set { state = value; } }
-    public MonsterStat Stat { get { return _stat; } set { _stat = value; } }    
+    public MonsterStat Stat { get { return _stat; } set { _stat = value; } }
+    public Defines.State State { get { return state; } set { state = value; } }    
+    public float ScanRange { get { return scanRange; } set { scanRange = value; } }
+    public float AttackRange { get { return attackRange; } set { attackRange = value; } }
+    public bool RangeCheck { get { return rangeCheck; } set { rangeCheck = value; } }             
 
     public override void Init()
     {
@@ -32,35 +24,7 @@ public class MonsterController : BaseController
         WorldObjectType = Defines.WorldObject.Monster;
 
         // 스탯
-        _stat = gameObject.GetOrAddComponent<MonsterStat>();
-        if(Managers.Game.CurrentChpater == 1)
-        {
-            Stat.Level = 1;            
-        }
-        else if (Managers.Game.CurrentChpater == 2)
-        {
-            Stat.Level = 2;            
-        }
-        else if (Managers.Game.CurrentChpater == 3)
-        {
-            Stat.Level = 3;            
-        }
-
-        if(GameObject.FindWithTag("BossMonster") != null)
-        {            
-            Stat.Hp = 300;
-            Stat.MaxHp = 300;
-            Stat.Attack = 20;
-            Stat.Defense = 20;
-            Stat.MoveSpeed = 8;
-            Stat.Gold = 1000;
-            Stat.Exp = 1000;
-            Stat.Score = 100;
-        }
-        else
-        {
-            SetStat();
-        }        
+        Stat = gameObject.GetOrAddComponent<MonsterStat>();        
 
         // HpBar UI 표시
         if (gameObject.GetComponentInChildren<UI_HpBar>() == null)
@@ -68,21 +32,7 @@ public class MonsterController : BaseController
 
         // 몬스터의 state 패턴 
         StatePattern();
-    }
-
-    void SetStat()
-    {
-        int level = Stat.Level;
-        Dictionary<int, Data.MonsterStat> monsterStat = Managers.Data.MonsterStatDic;
-        Stat.Hp = monsterStat[level].maxHp;
-        Stat.MaxHp = monsterStat[level].maxHp;
-        Stat.Attack = monsterStat[level].attack;
-        Stat.Defense = monsterStat[level].defense;
-        Stat.MoveSpeed = monsterStat[level].moveSpeed;
-        Stat.Gold = monsterStat[level].gold;
-        Stat.Exp = monsterStat[level].exp;
-        Stat.Score = monsterStat[level].score;
-    }
+    }   
 
     private void Update()
     {
@@ -102,7 +52,6 @@ public class MonsterController : BaseController
                 break;
         }
     }
-
 
     // -------------- 몬스터 state 패턴 --------------------
     public void StatePattern()

@@ -28,9 +28,8 @@ public class UI_MyInvenBtn : UI_Scene
     }
 
     public void BtnOnClicked(PointerEventData eventData)
-    {
-        // 임시 : 인벤토리 생성        
-        if (!myInvenOpenCheck)
+    {        
+        if (!myInvenOpenCheck && GameObject.FindWithTag("UI_Store") == null)
         {
             UI_Inven InvenItem = Managers.UI.ShowPopupUI<UI_Inven>("UI_InvenItemGrid");
             InvenItem.InvenGridCategory = Defines.UiInvenGridCategory.ItemGrid;

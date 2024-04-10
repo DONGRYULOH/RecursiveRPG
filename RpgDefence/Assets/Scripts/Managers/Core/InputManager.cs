@@ -11,7 +11,7 @@ public class InputManager
 
     bool pressedCk = false;    
 
-    public void OnUpdate()
+    public void MouseActionCheck()
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return;
@@ -48,7 +48,7 @@ public class InputManager
         }
     }
 
-    public void Clear()
+    public void MouseActionClear()
     {
         keyAction = null;
         mouseAction = null;

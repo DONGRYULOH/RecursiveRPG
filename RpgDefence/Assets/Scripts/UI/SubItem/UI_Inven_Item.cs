@@ -19,22 +19,21 @@ public class UI_Inven_Item : UI_Base
         ItemName
     }
 
-    public Item ItmeInfo
-    {
-        get { return itmeInfo; }
-        set { itmeInfo = value; }
-    }
     public Defines.ItemCategory ItemCategory
     {
         get { return itemCategory; }
         set { itemCategory = value; }
     }
-
     public Defines.EquipmentCategory EquipmentCategory
     {
         get { return equipmentCategory; }
         set { equipmentCategory = value; }
     }
+    public Item ItmeInfo
+    {
+        get { return itmeInfo; }
+        set { itmeInfo = value; }
+    }       
 
     public string Name
     {

@@ -26,8 +26,8 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정
         if(Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 60f;
-            nextScore = 10;
+            limitSeconds = 1f;
+            nextScore = 0;
         }
         else if (Managers.Game.CurrentChpater == 2)
         {

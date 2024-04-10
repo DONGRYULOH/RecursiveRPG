@@ -19,10 +19,7 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler ,IDragHandler
     }
 
     public void OnDrag(PointerEventData eventData)
-    {
-        // transform.position = eventData.position;
-        Debug.Log("드래그 중..");
-
+    {        
         if (OnDragHandler != null)
             OnDragHandler.Invoke(eventData); // 등록된 이벤트 핸들러 호출
     }

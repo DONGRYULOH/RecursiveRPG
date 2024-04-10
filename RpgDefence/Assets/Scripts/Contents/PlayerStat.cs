@@ -10,19 +10,13 @@ public class PlayerStat : Stat
     private int invenItemCount;
     public int InvenItemCount { get { return invenItemCount; } set { invenItemCount = value; }}
 
-    [SerializeField]
-    private int gold;
-    public int Gold { get { return gold; } set { gold = value; } }
-
     private Defines.PlayerJob job;
     public Defines.PlayerJob Job { get { return job; } set { job = value; } }
 
     private float attackRange;
     public float AttackRange { get { return attackRange; } set { attackRange = value; } }
-
-    [SerializeField]
-    private int exp;
-    public int Exp
+    
+    public override int Exp
     {
         get { return exp; }
         // 몬스터가 죽었을때 경험치를 주는 것 뿐만 아니라 퀘스트를 완료하거나 어떠한 이벤트를 수행했을때도 경험치를 주기 때문에 경험치가 변경되는 것을 공통으로 만듬
@@ -55,10 +49,7 @@ public class PlayerStat : Stat
                 SetStat(Level);
             }
         }
-    }
-    [SerializeField]
-    private int score;
-    public int Score { get { return score; } set { score = value; } }
+    }    
 
     private int maxMp;
     public int MaxMp { get { return maxMp; } set { maxMp = value; } }
@@ -148,10 +139,21 @@ public class PlayerStat : Stat
             Attack = thiefStat[_level].attack;
             Defense = thiefStat[_level].defense;
             MoveSpeed = thiefStat[_level].moveSpeed;
-        }        
+        }
+
+        // 플레이어가 착용하고 있는 장비가 있으면 update 처리
+        foreach (var equipment in equipmentState)
+        {
+            if(equipment.Key == Defines.EquipmentCategory.Weapon && equipment.Value != null)
+            {                
+                Attack += equipment.Value.Power;
+                Defense += equipment.Value.Defence;
+            }
+        }
+         
     }
 
-    protected override void OnDead(Stat attacker)
+    public override void OnDead(Stat attacker)
     {
         if(gameObject != null)
         {
