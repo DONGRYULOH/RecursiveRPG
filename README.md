@@ -19,7 +19,7 @@ v0.0.1-beta(2024.04.09)
 
 ## 게임 설치
 1. Window OS
-* 다운로드 링크: <https://drive.google.com/file/d/1DRvQ00VO8oJbUjLhc8rL9qTVKBU4aSfy/view?usp=drive_link>
+* 다운로드 링크: <https://drive.google.com/file/d/1wJxee2uE_dOeoRU1SLYkGEshLPR01_ok/view?usp=drive_link>
   
 
 
