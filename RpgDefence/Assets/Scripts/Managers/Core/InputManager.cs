@@ -6,10 +6,19 @@ using UnityEngine.EventSystems;
 
 public class InputManager
 {
-    public Action keyAction = null;
+    public Action<KeyCode> keyAction = null;
     public Action<Defines.MouseEvent> mouseAction = null;
 
     bool pressedCk = false;    
+
+
+    public void KeyActionCheck()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {            
+            keyAction.Invoke(KeyCode.Q);
+        }
+    }
 
     public void MouseActionCheck()
     {
@@ -46,11 +55,5 @@ public class InputManager
                 pressedCk = false;                
             }
         }
-    }
-
-    public void MouseActionClear()
-    {
-        keyAction = null;
-        mouseAction = null;
     }
 } 

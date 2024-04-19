@@ -8,18 +8,23 @@ public class PlayerController : BaseController
     private PlayerStat _stat;
 
     private PlayerStateContext _playerStateContext;
-    private PlayerState dieState, moveState, waitState, skillState;
+    private PlayerState dieState, moveState, waitState, attackState, skillState;
 
     private int _mask = (1 << (int)Defines.Layer.Ground) | (1 << (int)Defines.Layer.Monster1); // Layer 마스킹 처리    
 
     // 몬스터와 플레이어가 공통으로 갖고 있는 상태(이동, 멈춤)도 있지만 서로 다른 상태(플레이어의 버프 상태 .)도 있을 수 있음
     private Defines.State currentPlayerState = Defines.State.Wait;
 
-    private bool _stopSkill = false;
+    private bool _stopAttack = false;
 
     public Defines.State PlayerState { get { return currentPlayerState; } set { currentPlayerState = value; } }
     public PlayerStat Stat { get { return _stat; }}    
-    public bool StopSkill { get { return _stopSkill; } set { _stopSkill = value; } }
+    public bool StopAttack { get { return _stopAttack; } set { _stopAttack = value; } }
+
+    // 조이스틱 이동 정보
+    [SerializeField]
+    private VirtualJoystick joystick;
+    public VirtualJoystick Joystick { get { return joystick; }}
 
     public override void Init()
     {
@@ -36,13 +41,21 @@ public class PlayerController : BaseController
         Managers.Input.mouseAction -= OnMouseEvent;
         Managers.Input.mouseAction += OnMouseEvent;
 
+        // 입력(키보드) 발생시 플레이어에게 발생할 이벤트
+        Managers.Input.keyAction -= OnKeyEvent;
+        Managers.Input.keyAction += OnKeyEvent;
+
         // state 패턴 호출
-        StatePattern();         
+        StatePattern();
+
+        // 조이스틱 정보 가져오기
+        joystick = GameObject.FindWithTag("Joystick").GetComponent<VirtualJoystick>();
     }
 
     private void Update()
     {
-        Managers.Input.MouseActionCheck(); // 입력(마우스 클릭 또는 키보드)감지를 매 프레임마다 체크        
+        Managers.Input.MouseActionCheck();
+        Managers.Input.KeyActionCheck();
 
         switch (PlayerState)
         {
@@ -55,8 +68,18 @@ public class PlayerController : BaseController
             case Defines.State.Wait:
                 Wait();
                 break;
-            case Defines.State.Skill:
-                Skill();
+            case Defines.State.Attack:
+                Attack();
+                break;
+        }
+    }
+
+    void OnKeyEvent(KeyCode keyCode)
+    {
+        switch (keyCode)
+        {
+            case KeyCode.Q:
+                Skill();                
                 break;
         }
     }
@@ -72,7 +95,7 @@ public class PlayerController : BaseController
             case Defines.State.Moving:
                 OnMouseEvent_IdleRun(evt);
                 break;
-            case Defines.State.Skill: 
+            case Defines.State.Attack: 
                 {
                     // 공격 애니메이션이 끝난 경우만 다른 상태로 변환 가능
                     if(gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)                    
@@ -121,7 +144,8 @@ public class PlayerController : BaseController
         moveState = gameObject.AddComponent<PlayerMoveState>();
         waitState = gameObject.AddComponent<PlayerWaitState>();
         dieState = gameObject.AddComponent<PlayerDieState>();
-        skillState = gameObject.AddComponent<PlayerSkillState>();
+        attackState = gameObject.AddComponent<PlayerAttackState>();
+        skillState = gameObject.AddComponent<PlayerSkillState>();        
     }
 
     public void Move()
@@ -137,6 +161,11 @@ public class PlayerController : BaseController
     public void Die()
     {
         _playerStateContext.Transition(dieState);
+    }
+
+    public void Attack()
+    {
+        _playerStateContext.Transition(attackState);
     }
 
     public void Skill()

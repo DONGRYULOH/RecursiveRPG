@@ -33,7 +33,7 @@ public class ResourcesManager
 
         // 풀링 대상인 객체에 한해서만 풀에서 해당 객체를 가져옴        
         if (original.GetComponent<Poolable>() != null)
-            return Managers.Pool.Pop(original, parent).gameObject;
+            return Managers.Pool.Pop(original, parent);
 
         // ex) 플레이어 전용 상태창 UI 같이 한번 인스턴스화 하고 계속 사용되는 경우는 풀링을 할 필요 없으므로 그냥 그 오브젝트를 인스턴스화 해줌
         GameObject go = Object.Instantiate(original, parent);
@@ -47,7 +47,9 @@ public class ResourcesManager
 
         // 만약에 풀링이 필요한 대상이라면 해당 오브젝트를 메모리에서 해제하지 않고 풀(대기실)로 이동시킴
         if (obj.GetComponent<Poolable>() != null)
+        {            
             Managers.Pool.Push(obj.GetComponent<Poolable>());
+        }            
         else        
             Object.Destroy(obj);
     }

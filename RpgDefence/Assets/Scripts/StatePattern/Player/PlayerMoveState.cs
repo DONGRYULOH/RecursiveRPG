@@ -9,39 +9,21 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
 
     void UpdateMoving()
     {
-        Vector3 dir = _playerController.DestPos - transform.position;
-        dir.y = 0; // RayCasting 좌표가 y축이 있다면 위로 이동하므로 y축은 이동하지 못하도록 설정
+        // TODO : 자동공격을 체크 했을 경우 플레이어 사정거리 안에 몬스터가 들어오면 자동으로 공격처리
 
-        // 1.락온이 되어있는 오브젝트를 향해 이동 (플레이어 사정거리 안에 몬스터가 있으면 공격상태로 변경)
-        if (_playerController.LockTarget != null)
-        {
-            float distance = dir.magnitude;
-            // 플레이어의 사정거리안에 몬스터가 들어오면 공격처리
-            if (distance <= _playerController.Stat.AttackRange)
-            {
-                Managers.Game.GetPlayer().GetComponent<PlayerController>().StopSkill = false;
-                _playerController.Skill();
-                return;
-            }
-        }
-        else if (dir.magnitude < 0.1f)
-        {
-            // 2.단순한 이동으로 목적지까지 움직이는 경우
-            _playerController.Wait();
-            return;
-        }
-               
-                             
-        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
+        Vector3 direction = new Vector3(_playerController.Joystick.InputDirection.x, 0, _playerController.Joystick.InputDirection.y);
+
+        // 못가는 지역 체크
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, direction, 1.0f, LayerMask.GetMask("Block")))
         {
             if (Input.GetMouseButton(0) == false)
                 _playerController.Wait();
             return;
         }
 
-        float moveDist = Mathf.Clamp(_playerController.Stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
-        transform.position += dir.normalized * moveDist;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+        // 캐릭터 이동, 회전
+        transform.position += direction * _playerController.Stat.MoveSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 20 * Time.deltaTime);
         MovingAnimationState(GetComponent<Animator>());
         
     }

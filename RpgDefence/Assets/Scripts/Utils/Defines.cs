@@ -19,6 +19,7 @@ public class Defines
         Die,
         Moving,
         Wait,
+        Attack,
         Skill
     }
 

@@ -37,7 +37,7 @@ public class MonsterStat : Stat
         }
     }
 
-    void SetStat(int level)
+    public void SetStat(int level)
     {        
         Dictionary<int, Data.MonsterStat> monsterStat = Managers.Data.MonsterStatDic;
         Hp = monsterStat[level].maxHp;
@@ -64,7 +64,7 @@ public class MonsterStat : Stat
         if (Hp <= 0)
         {
             Hp = 0;
-            Managers.Game.GetPlayer().GetComponent<PlayerController>().StopSkill = true;
+            Managers.Game.GetPlayer().GetComponent<PlayerController>().StopAttack = true;
             OnDead(attacker);
         }
     }

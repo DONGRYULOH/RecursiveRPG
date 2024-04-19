@@ -9,7 +9,7 @@ public class GameScene : BaseScene
     private float limitSeconds;
     private int nextScore;
 
-    SpawningPool monsterSpawningPool;
+    MonsterSpawn monsterSpawning;
     GameObject bossMonster;
 
     protected override void Init()
@@ -18,26 +18,28 @@ public class GameScene : BaseScene
         SceneType = Defines.Scene.Game;
         gameObject.GetOrAddComponent<CursorController>();
         CursorController.chapterOrStoreClick = false;
-        PlayerSpwan();                        
+        Managers.Pool.Init();
+        PlayerSpwan();
     }
 
     private void Start()
     {        
-        // 챕터별로 제한시간, 스코어 점수 설정
-        if(Managers.Game.CurrentChpater == 1)
+        // 챕터별로 제한시간, 스코어 점수 설정        
+        if (Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 1f;
-            nextScore = 0;
+            limitSeconds = 60f;
+            nextScore = 0;           
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
             limitSeconds = 90f;
             nextScore = 20;
+            
         }
         else if(Managers.Game.CurrentChpater == 3)
         {
-            limitSeconds = 120f;            
-        }
+            limitSeconds = 120f;         
+        }        
         StartCoroutine("CountDown");
     }
 
@@ -74,7 +76,7 @@ public class GameScene : BaseScene
             Managers.UI.ClosePopupUI(startAlert);
             GameObject go = Managers.Resource.Instantiate("UI/UI_MyInvenBtn");
             go.GetOrAddComponent<UI_MyInvenBtn>();
-            MakeMonsterPooling();
+            MakeMonsterSpawn();
 
             GameObject nextScore = Managers.Resource.Instantiate($"UI/Scene/NextChapterScore");
             GameObject playerScore = Managers.Resource.Instantiate($"UI/Scene/CurrentPlayerScore");
@@ -147,14 +149,14 @@ public class GameScene : BaseScene
     }
     void ShowGameOverPopup()
     {
-        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        Managers.Resource.Destroy(monsterSpawning.gameObject); // 몬스터 풀링 제거
         Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
         Managers.UI.ShowPopupUI<UI_GameClearPopup>("UI_GameOverPopup");
     }
 
     void ShowGameClearPopup()
     {
-        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        Managers.Resource.Destroy(monsterSpawning.gameObject); // 몬스터 풀링 제거
         Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
         Managers.UI.ShowPopupUI<UI_GameClearPopup>("UI_GameClearPopup");
     }
@@ -173,17 +175,22 @@ public class GameScene : BaseScene
         }
     }
 
-    public void MakeMonsterPooling()
+    public void MakeMonsterSpawn()
     {
-        GameObject go = new GameObject { name = "SpawningPool" };
-        monsterSpawningPool = go.GetOrAddComponent<SpawningPool>();
-        monsterSpawningPool.SetKeepMonsterCount(5);
+        GameObject go = new GameObject { name = "MonsterSpawn" };
+        monsterSpawning = go.GetOrAddComponent<MonsterSpawn>();
+        if (Managers.Game.CurrentChpater == 1)        
+            monsterSpawning.SetKeepMonsterCount(10);
+        else if (Managers.Game.CurrentChpater == 2)
+            monsterSpawning.SetKeepMonsterCount(15);
+        else
+            monsterSpawning.SetKeepMonsterCount(20);
     }
 
     public override void Clear()
     {        
         DontDestroyOnLoad(Managers.Game.GetPlayer());              // 다음 챕터로 이동해도 현재 플레이어의 상태를 계속 유지
-        Managers.Resource.Destroy(monsterSpawningPool.gameObject); // 몬스터 풀링 제거
+        Managers.Resource.Destroy(monsterSpawning.gameObject); // 몬스터 풀링 제거
         StartCoroutine("NextStageAlert");
         Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
         Managers.Game.OpenDoor();         // 다음챕터이동, 상점으로 가는 문 열어두기        

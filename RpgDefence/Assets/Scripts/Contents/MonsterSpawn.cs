@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpawningPool : MonoBehaviour
+public class MonsterSpawn : MonoBehaviour
 {
+    [SerializeField]
     int _monsterCount = 0;
 
     int _reserveCount = 0;
 
     int _keepMonsterCount = 0;
 
-    Vector3 _spawnPos;
-
-    float _spawnRadius = 15.0f;
-
-    float _spawnTime = 5.0f;
+    float _spawnTime = 2.0f;
 
     public void AddMonsterCount(int value)
     {
@@ -33,8 +30,7 @@ public class SpawningPool : MonoBehaviour
         Managers.Game.OnSpawnEvent -= AddMonsterCount;
         Managers.Game.OnSpawnEvent += AddMonsterCount;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         while(_reserveCount + _monsterCount < _keepMonsterCount)

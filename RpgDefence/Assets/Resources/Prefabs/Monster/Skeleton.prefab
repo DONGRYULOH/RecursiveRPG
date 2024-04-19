@@ -1282,6 +1282,7 @@ GameObject:
   - component: {fileID: 8814117885289748408}
   - component: {fileID: 376072211757201824}
   - component: {fileID: 3702962167127090344}
+  - component: {fileID: -7408558396282784714}
   m_Layer: 6
   m_Name: Skeleton
   m_TagString: Untagged
@@ -1342,8 +1343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destPos: {x: 0, y: 0, z: 0}
   _lockTarget: {fileID: 0}
-  _scanRange: 10
-  _attackRange: 2
 --- !u!136 &376072211757201824
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1389,6 +1388,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-7408558396282784714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823894468468233085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79eeaf58a7452d459c6b5e7c218fec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsing: 0
 --- !u!1 &1823894468468233087
 GameObject:
   m_ObjectHideFlags: 0

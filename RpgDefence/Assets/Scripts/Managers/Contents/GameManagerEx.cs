@@ -129,7 +129,7 @@ public class GameManagerEx
 
         switch (type)
         {
-            case Defines.WorldObject.Monster:
+            case Defines.WorldObject.Monster:         
                 _monsters.Add(go);
                 if(OnSpawnEvent != null)                
                     OnSpawnEvent.Invoke(1);                
@@ -163,6 +163,8 @@ public class GameManagerEx
                         _monsters.Remove(go);
                         if (OnSpawnEvent != null)
                             OnSpawnEvent.Invoke(-1);
+                        if(go.GetComponent<Poolable>() != null)
+                            go.GetComponent<Poolable>().InitBeforeInactive();
                     }                                           
                 }
                 break;
