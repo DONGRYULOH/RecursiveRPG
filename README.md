@@ -18,6 +18,6 @@ C#, Unity Engine
 v0.0.1-beta(2024.04.09)
 
 ## 게임 설치
-* 다운로드 링크: <https://drive.google.com/file/d/1wJxee2uE_dOeoRU1SLYkGEshLPR01_ok/view?usp=drive_link>
+* 다운로드 링크: <https://drive.google.com/file/d/15-jI2fouqa6kScsMdEcYt5nq2uZ6DkTe/view?usp=drive_link>
 
 
