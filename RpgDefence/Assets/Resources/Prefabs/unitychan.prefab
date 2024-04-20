@@ -1981,7 +1981,7 @@ GameObject:
   - component: {fileID: 769770227524848370}
   m_Layer: 0
   m_Name: RightHandSocket
-  m_TagString: Untagged
+  m_TagString: RightHandSocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6264,6 +6264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destPos: {x: 0, y: 0, z: 0}
   _lockTarget: {fileID: 0}
+  joystick: {fileID: 0}
 --- !u!1 &8070838348620203574
 GameObject:
   m_ObjectHideFlags: 0

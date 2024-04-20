@@ -9,10 +9,19 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
 
     void UpdateMoving()
     {
-        // TODO : 자동공격을 체크 했을 경우 플레이어 사정거리 안에 몬스터가 들어오면 자동으로 공격처리
-
         Vector3 direction = new Vector3(_playerController.Joystick.InputDirection.x, 0, _playerController.Joystick.InputDirection.y);
 
+        // TODO : 자동공격을 체크 했을 경우 플레이어 사정거리 안에 몬스터가 들어오면 자동으로 공격처리
+        /*if (_playerController.IsAutoAttack)
+        {        
+            RaycastHit hitInfo;
+            if (Physics.Raycast(transform.position, direction, out hitInfo, 1f, LayerMask.GetMask("Monster1")))
+            {
+                _playerController.PlayerState = Defines.State.Attack;
+                return;
+            }
+        }*/
+        
         // 못가는 지역 체크
         if (Physics.Raycast(transform.position + Vector3.up * 0.5f, direction, 1.0f, LayerMask.GetMask("Block")))
         {

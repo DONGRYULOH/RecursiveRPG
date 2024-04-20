@@ -22,19 +22,27 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
     // 애니메이션에 추가한 이벤트 발동
     void OnHitEvent()
     {
-        if (_playerController.LockTarget != null)
+        // 캐릭터가 들고 있는 무기로부터 몬스터에게 접촉이 가해졌는지 체크
+        GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
+        Transform childTransform = go.transform.GetComponentInChildren<Transform>().GetChild(0);
+        
+        if (childTransform != null)
         {
-            // Q) 내가 상대방을 공격했을때 내가 직접 상대방의 hp를 가져와서 줄여줄건지? 아니면 상대방쪽에서 hp를 스스로 깎게끔 처리할것인지? 
-            // 결론 : 피해를 받는 상대방쪽에서 스스로 hp를 깎는게 좋을 수도 있다고 생각함 
-            // 왜냐하면 상대방의 방어력, 공격력 무시 ... 등으로 인해 hp가 깎이는 비율이 줄어들수 있기 때문에 상대방쪽에서 코드를 수정하는게 편함
-            MonsterStat targetStat = _playerController.LockTarget.GetComponent<MonsterStat>();
-            targetStat.OnAttacked(_playerController.Stat);
+            Vector3 direction = new Vector3(_playerController.Joystick.InputDirection.x, 0, _playerController.Joystick.InputDirection.y);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(childTransform.position, direction, out hitInfo, 1f, LayerMask.GetMask("Monster1")))
+            {
+                MonsterStat targetStat = hitInfo.transform.GetComponent<MonsterStat>();
+                targetStat.OnAttacked(_playerController.Stat);
+            }
         }
 
-        if (_playerController.StopAttack)       
-            _playerController.Wait();        
-        else        
-            _playerController.PlayerState = Defines.State.Attack;        
+        if (_playerController.StopAttack)
+        {
+            _playerController.Wait();
+            return;
+        }                
+        _playerController.PlayerState = Defines.State.Attack;
     }
 
     public void AttackAnimationState(Animator anim)
@@ -51,5 +59,13 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
             _playerController = playerController;
 
         RockOnOrDeFaultEvent();
+        // 공격 애니메이션이 다 끝났을때 Wait 상태 변경
+        if (gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        {
+            if (!_playerController.IsAutoAttack)
+            {
+                _playerController.Wait();
+            }
+        }            
     }
 }

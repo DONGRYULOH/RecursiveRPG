@@ -39,13 +39,7 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     }
 
     void ControlJoystickLever(PointerEventData eventData)
-    {
-        Vector2 vector = new Vector2(0.2f, 0.2f);
-        Vector2 noVetor = vector.normalized * 10;
-        Vector2 noVetor2 = noVetor / 10;
-        Debug.Log(noVetor);
-        Debug.Log(noVetor2);
-
+    {        
         Vector2 inputPos = eventData.position - rectTransform.anchoredPosition;        
         Vector2 inputVector = inputPos.magnitude <= leverRange ? inputPos : inputPos.normalized * leverRange;
         lever.anchoredPosition = inputVector;

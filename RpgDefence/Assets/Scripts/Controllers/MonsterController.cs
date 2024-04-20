@@ -51,12 +51,7 @@ public class MonsterController : BaseController
                 Skill();
                 break;
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("충돌한 오브젝트 명: " + collision.collider.name);
-    }
+    }    
 
     // -------------- 몬스터 state 패턴 --------------------
     public void StatePattern()

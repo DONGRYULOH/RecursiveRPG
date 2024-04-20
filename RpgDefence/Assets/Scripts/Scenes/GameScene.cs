@@ -15,9 +15,7 @@ public class GameScene : BaseScene
     protected override void Init()
     {
         base.Init();
-        SceneType = Defines.Scene.Game;
-        gameObject.GetOrAddComponent<CursorController>();
-        CursorController.chapterOrStoreClick = false;
+        SceneType = Defines.Scene.Game;        
         Managers.Pool.Init();
         PlayerSpwan();
     }
@@ -28,17 +26,17 @@ public class GameScene : BaseScene
         if (Managers.Game.CurrentChpater == 1)
         {
             limitSeconds = 60f;
-            nextScore = 0;           
+            nextScore = 1;           
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            limitSeconds = 90f;
-            nextScore = 20;
+            limitSeconds = 60f;
+            nextScore = 2;
             
         }
         else if(Managers.Game.CurrentChpater == 3)
         {
-            limitSeconds = 120f;         
+            limitSeconds = 60f;         
         }        
         StartCoroutine("CountDown");
     }
@@ -180,7 +178,7 @@ public class GameScene : BaseScene
         GameObject go = new GameObject { name = "MonsterSpawn" };
         monsterSpawning = go.GetOrAddComponent<MonsterSpawn>();
         if (Managers.Game.CurrentChpater == 1)        
-            monsterSpawning.SetKeepMonsterCount(10);
+            monsterSpawning.SetKeepMonsterCount(5);
         else if (Managers.Game.CurrentChpater == 2)
             monsterSpawning.SetKeepMonsterCount(15);
         else
