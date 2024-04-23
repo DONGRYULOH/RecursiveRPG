@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 // 공통적으로 사용되는 매니저가 아니라 해당 컨텐츠에서만 사용되는 특수한 매니저
@@ -34,8 +35,7 @@ public class GameManagerEx
     public Dictionary<int, Item> StoreItem { get { return storeItem; } set { storeItem = value; } }
 
     int currentItemNumberIndex;
-    public int CurrentItemNumberIndex { get { return currentItemNumberIndex++; } set { currentItemNumberIndex = value; } }
-
+    public int CurrentItemNumberIndex { get { return currentItemNumberIndex++; } set { currentItemNumberIndex = value; } }    
 
     public void Init()
     {
@@ -60,9 +60,19 @@ public class GameManagerEx
     }
 
     public void OpenDoor()
+    {     
+        GameObject nextChapter = Managers.Resource.Instantiate("NextChapter");
+        UI_EventHandler nextChapterOnClickEvent = nextChapter.GetOrAddComponent<UI_EventHandler>();
+        nextChapterOnClickEvent.OnClickHandler += ShowSelectPopupUI;
+
+        GameObject store = Managers.Resource.Instantiate("Store");
+        UI_EventHandler storeOnClickEvent = store.GetOrAddComponent<UI_EventHandler>();
+        storeOnClickEvent.OnClickHandler += ShowSelectPopupUI;
+    }
+
+    public void ShowSelectPopupUI(PointerEventData eventData)
     {
-        Managers.Resource.Instantiate("NextChapter");
-        Managers.Resource.Instantiate("Store");
+        Managers.UI.ShowPopupUI<UI_Choice>();
     }
 
     // 다음 챕터로 넘어가도 상점에 있는 아이템은 그대로 고정이므로 초기화시 딱 한번만 만들어줌

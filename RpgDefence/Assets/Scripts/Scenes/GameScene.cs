@@ -25,8 +25,8 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정        
         if (Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 60f;
-            nextScore = 1;           
+            limitSeconds = 1f;
+            nextScore = 0;           
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
@@ -198,7 +198,7 @@ public class GameScene : BaseScene
     {
         UI_TextPopup alert = Managers.UI.ShowPopupUI<UI_TextPopup>("UI_TextPopup");
         yield return null;
-        alert.SetText("다음 스테이지 이동 또는 상점 이동하기 위해서 두 개의 문을 이용하세요");
+        alert.SetText("다음 스테이지 이동 또는 상점으로 이동하기 위해서 두 개의 문을 이용하세요");
     }
 
     void MakeBossMonster()

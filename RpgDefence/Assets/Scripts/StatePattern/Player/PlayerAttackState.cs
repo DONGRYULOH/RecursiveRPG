@@ -35,14 +35,7 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
                 MonsterStat targetStat = hitInfo.transform.GetComponent<MonsterStat>();
                 targetStat.OnAttacked(_playerController.Stat);
             }
-        }
-
-        if (_playerController.StopAttack)
-        {
-            _playerController.Wait();
-            return;
-        }                
-        _playerController.PlayerState = Defines.State.Attack;
+        }        
     }
 
     public void AttackAnimationState(Animator anim)
@@ -59,12 +52,13 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
             _playerController = playerController;
 
         RockOnOrDeFaultEvent();
-        // 공격 애니메이션이 다 끝났을때 Wait 상태 변경
+
+        // 공격 애니메이션 이후 몬스터가 죽었거나 자동공격이 false 상태라면 캐릭터를 wait 상태로 변경
         if (gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
-        {
-            if (!_playerController.IsAutoAttack)
+        {                        
+            if (_playerController.StopAttack || !_playerController.IsAutoAttack)
             {
-                _playerController.Wait();
+                _playerController.Wait();                
             }
         }            
     }
