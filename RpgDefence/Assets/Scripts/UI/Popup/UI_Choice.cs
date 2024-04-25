@@ -71,7 +71,6 @@ public class UI_Choice : UI_Popup
 
     public void BtnOnClickedNo(PointerEventData data)
     {        
-        Managers.UI.ClosePopupUI(gameObject.GetComponent<UI_Choice>());
-        CursorController.chapterOrStoreClick = false;
+        Managers.UI.ClosePopupUI(gameObject.GetComponent<UI_Choice>());        
     }
 }

@@ -11,10 +11,7 @@ public class MainScene : BaseScene
     {
         base.Init();        
         SceneType = Defines.Scene.Main;
-        playerJob = Defines.PlayerJob.Unknown;
-
-        Texture2D cursor = Managers.Resource.Load<Texture2D>("Textures/Cursor/Arrow");
-        Cursor.SetCursor(cursor, new Vector2(cursor.width / 5, 0), CursorMode.Auto);
+        playerJob = Defines.PlayerJob.Unknown;        
     }
 
     public override void Clear()

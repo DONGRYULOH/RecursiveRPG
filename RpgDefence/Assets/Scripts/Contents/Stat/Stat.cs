@@ -8,8 +8,10 @@ public class Stat : MonoBehaviour
 {    
     protected int _level;    
     protected int _hp;    
-    protected int _maxHp;    
-    protected int _attack;    
+    protected int _maxHp;  
+    [SerializeField]
+    protected int _attack;
+    [SerializeField]
     protected int _defense;    
     protected float _moveSpeed;
     protected int gold;

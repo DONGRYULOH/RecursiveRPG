@@ -67,11 +67,17 @@ public class GameManagerEx
 
         GameObject store = Managers.Resource.Instantiate("Store");
         UI_EventHandler storeOnClickEvent = store.GetOrAddComponent<UI_EventHandler>();
-        storeOnClickEvent.OnClickHandler += ShowSelectPopupUI;
+        storeOnClickEvent.OnClickHandler += ShowSelectPopupUI;     
     }
 
     public void ShowSelectPopupUI(PointerEventData eventData)
     {
+        GameObject obj = eventData.pointerEnter.gameObject;
+        if(obj.name == "NextChapter")
+            CursorController._cursorType = CursorController.CursorType.NextChapter;
+        else
+            CursorController._cursorType = CursorController.CursorType.Store;
+
         Managers.UI.ShowPopupUI<UI_Choice>();
     }
 

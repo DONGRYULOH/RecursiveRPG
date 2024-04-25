@@ -68,11 +68,15 @@ public class PlayerStat : Stat
     // 플레이어가 착용하려고 하거나 해제하려고 하는 장비종류(무기, 방어구 ..등)
     Defines.EquipmentCategory currentEquipmentCategory;
     public Defines.EquipmentCategory CurrentEquipmentCategory { get { return currentEquipmentCategory; } set { currentEquipmentCategory = value; }}
-   
-    private void Start()
+
+    private void Awake()
     {
         job = MainScene.playerJob;
-        MainScene.playerJob = Defines.PlayerJob.Unknown; // 멀티작업인 경우 unKnown처리를 해주지 않으면 그 다음 선택하는 유저는 무조건 직업이 선택되어있는 상태?(Static 이므로)                                
+        MainScene.playerJob = Defines.PlayerJob.Unknown;
+    }
+
+    private void Start()
+    {        
         BasicStat(); // 모든 플레이어 공통 스탯
         SetStat(_level); // 직업별 스탯
         EquipmentInvenInit(); // start 장비 세팅
@@ -126,8 +130,7 @@ public class PlayerStat : Stat
             MaxMp = warriorStat[_level].maxMp;
             Mp = warriorStat[_level].maxMp;
             Attack = warriorStat[_level].attack;
-            // Defense = warriorStat[_level].defense;
-            Defense = 5000;
+            Defense = warriorStat[_level].defense;            
             MoveSpeed = warriorStat[_level].moveSpeed;
         }
         else if (job == Defines.PlayerJob.Thief)

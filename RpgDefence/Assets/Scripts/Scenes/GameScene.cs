@@ -25,13 +25,13 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정        
         if (Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 1f;
+            limitSeconds = 10f;
             nextScore = 0;           
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            limitSeconds = 60f;
-            nextScore = 2;
+            limitSeconds = 10f;
+            nextScore = 0;
             
         }
         else if(Managers.Game.CurrentChpater == 3)
@@ -163,14 +163,16 @@ public class GameScene : BaseScene
     {        
         if (Managers.Game.GetPlayer() == null)
         {
-            GameObject player = Managers.Game.Spawn(Defines.WorldObject.Player, "unitychan");
-            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);                        
+            GameObject player = Managers.Game.Spawn(Defines.WorldObject.Player, "Player");
+            Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(player);
+            player.GetComponent<PlayerController>().Joystick = GameObject.FindWithTag("Joystick").GetComponent<VirtualJoystick>();
         }
         else
         {
             Managers.Game.GetPlayer().GetComponent<Transform>().position = new Vector3(0, 0, 0);
             Camera.main.gameObject.GetOrAddComponent<CameraController>().SetPlayer(Managers.Game.GetPlayer());
-        }
+            Managers.Game.GetPlayer().GetComponent<PlayerController>().Joystick = GameObject.FindWithTag("Joystick").GetComponent<VirtualJoystick>();
+        }        
     }
 
     public void MakeMonsterSpawn()
@@ -187,8 +189,9 @@ public class GameScene : BaseScene
 
     public override void Clear()
     {        
-        DontDestroyOnLoad(Managers.Game.GetPlayer());              // 다음 챕터로 이동해도 현재 플레이어의 상태를 계속 유지
-        Managers.Resource.Destroy(monsterSpawning.gameObject); // 몬스터 풀링 제거
+        DontDestroyOnLoad(Managers.Game.GetPlayer());          // 다음 챕터로 이동해도 현재 플레이어의 상태를 계속 유지
+        Managers.Pool.Clear();                                 // 몬스터 풀링 오브젝트 제거
+        Managers.Resource.Destroy(monsterSpawning.gameObject); // 몬스터 스폰 오브젝트 제거
         StartCoroutine("NextStageAlert");
         Managers.Game.MonsterAllRemove(); // 필드에 있는 몬스터 제거
         Managers.Game.OpenDoor();         // 다음챕터이동, 상점으로 가는 문 열어두기        

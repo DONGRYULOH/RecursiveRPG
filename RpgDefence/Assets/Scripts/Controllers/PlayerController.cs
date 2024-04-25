@@ -6,27 +6,21 @@ using System;
 public class PlayerController : BaseController
 {
     private PlayerStat _stat;
-
     private PlayerStateContext _playerStateContext;
-    private PlayerState dieState, moveState, waitState, attackState, skillState;
-
-    private int _mask = (1 << (int)Defines.Layer.Ground) | (1 << (int)Defines.Layer.Monster1); // Layer 마스킹 처리    
-
-    // 몬스터와 플레이어가 공통으로 갖고 있는 상태(이동, 멈춤)도 있지만 서로 다른 상태(플레이어의 버프 상태 .)도 있을 수 있음
+    private PlayerState dieState, moveState, waitState, attackState, skillState;          
     private Defines.State currentPlayerState = Defines.State.Wait;
-
     private bool _stopAttack = false;
     private bool isAutoAttack;
 
-    public Defines.State PlayerState { get { return currentPlayerState; } set { currentPlayerState = value; } }
-    public PlayerStat Stat { get { return _stat; }}    
+    public PlayerStat Stat { get { return _stat; } }
+    public Defines.State PlayerState { get { return currentPlayerState; } set { currentPlayerState = value; } }     
     public bool StopAttack { get { return _stopAttack; } set { _stopAttack = value; } }
     public bool IsAutoAttack { get { return isAutoAttack; } set { isAutoAttack = value; } }
 
     // 조이스틱 이동 정보
     [SerializeField]
     private VirtualJoystick joystick;
-    public VirtualJoystick Joystick { get { return joystick; }}
+    public VirtualJoystick Joystick { get { return joystick; } set { joystick = value; } }
 
     public override void Init()
     {
@@ -38,12 +32,12 @@ public class PlayerController : BaseController
 
         // 플레이어 UpBar 생성
         Managers.UI.MakeWorldSpaceUI<UI_HpBar>(transform);
+
+        // 직업에 따른 무기 착용(전사 : 대검, 도적 : 아대)
+        WeaponPutOn();
         
         // state 패턴 호출
         StatePattern();
-
-        // 조이스틱 정보 가져오기
-        joystick = GameObject.FindWithTag("Joystick").GetComponent<VirtualJoystick>();
     }
 
     private void Update()
@@ -64,6 +58,25 @@ public class PlayerController : BaseController
                 break;
         }
     }    
+
+    void WeaponPutOn()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
+        if (Stat.Job == Defines.PlayerJob.Warrior)
+        {
+            GameObject obj = Managers.Resource.Instantiate("Weapon/LongSword");            
+            obj.transform.parent = go.transform;
+            obj.transform.localPosition = new Vector3(0, 0, 0);
+            obj.transform.localRotation = Quaternion.identity;
+        }
+        else if (Stat.Job == Defines.PlayerJob.Thief)
+        {
+            GameObject obj = Managers.Resource.Instantiate("Weapon/Chakram");            
+            obj.transform.parent = go.transform;
+            obj.transform.localPosition = new Vector3(0, 0, 0);
+            obj.transform.localRotation = Quaternion.identity;
+        }
+    }
 
     // -------------- 플레이어 state 패턴 --------------------
     public void StatePattern()

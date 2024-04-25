@@ -5,23 +5,9 @@ using UnityEngine;
 public class PlayerAttackState : MonoBehaviour, PlayerState
 {
     private PlayerController _playerController;
-
-    public void RockOnOrDeFaultEvent()
-    {
-        // 락온인 경우 해당 해당 대상을 바라보게 처리
-        if (_playerController.LockTarget != null)
-        {
-            Vector3 dir = _playerController.LockTarget.transform.position - transform.position;
-            Quaternion quat = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
-        }
-
-        AttackAnimationState(GetComponent<Animator>());
-    }
-
-    // 애니메이션에 추가한 이벤트 발동
-    void OnHitEvent()
-    {
+        
+    void WarriorAttackEvent()
+    {        
         // 캐릭터가 들고 있는 무기로부터 몬스터에게 접촉이 가해졌는지 체크
         GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
         Transform childTransform = go.transform.GetComponentInChildren<Transform>().GetChild(0);
@@ -38,10 +24,22 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
         }        
     }
 
-    public void AttackAnimationState(Animator anim)
+    void ThiefAttackEvent()
     {
-        _playerController.PlayerState = Defines.State.Attack;
-        anim.Play("ATTACK");
+        
+    }    
+
+    void AnimationAttackPlay(Animator anim)
+    {        
+        Defines.PlayerJob job = _playerController.Stat.Job;
+        if (job == Defines.PlayerJob.Warrior)
+        {
+            anim.Play("WarriorATTACK");            
+        }
+        else if (job == Defines.PlayerJob.Thief)
+        {
+            anim.Play("ThiefATTACK");
+        }
     }
 
     public void Handle(PlayerController playerController)
@@ -51,7 +49,7 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
         else
             _playerController = playerController;
 
-        RockOnOrDeFaultEvent();
+        AnimationAttackPlay(GetComponent<Animator>());
 
         // 공격 애니메이션 이후 몬스터가 죽었거나 자동공격이 false 상태라면 캐릭터를 wait 상태로 변경
         if (gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
