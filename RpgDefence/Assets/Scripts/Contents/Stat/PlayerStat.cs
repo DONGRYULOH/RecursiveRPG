@@ -89,6 +89,8 @@ public class PlayerStat : Stat
         {
             Attack -= equipmentItem.Power;
             Defense -= equipmentItem.Defence;
+            MoveSpeed -= equipmentItem.Speed;
+            MaxHp -= equipmentItem.Hp;
         }
     }
 
@@ -98,6 +100,8 @@ public class PlayerStat : Stat
         {
             Attack += equipmentItem.Power;
             Defense += equipmentItem.Defence;
+            MoveSpeed += equipmentItem.Speed;
+            MaxHp += equipmentItem.Hp;
         }
     }
 
@@ -130,7 +134,8 @@ public class PlayerStat : Stat
             MaxMp = warriorStat[_level].maxMp;
             Mp = warriorStat[_level].maxMp;
             Attack = warriorStat[_level].attack;
-            Defense = warriorStat[_level].defense;            
+            // Defense = warriorStat[_level].defense;
+            Defense = 5000;
             MoveSpeed = warriorStat[_level].moveSpeed;
         }
         else if (job == Defines.PlayerJob.Thief)
@@ -178,7 +183,7 @@ public class PlayerStat : Stat
         // 기본무기 세팅
         if (equipmentState.ContainsKey(Defines.EquipmentCategory.Armor))
         {
-            EquipmentItem equipmentItem = new EquipmentItem(102, "BasicSword", 50, 0, Defines.EquipmentCategory.Weapon, 100);
+            EquipmentItem equipmentItem = new EquipmentItem(102, "BasicSword", 50, 0, 0, 0, Defines.EquipmentCategory.Weapon, 100);
             equipmentState[Defines.EquipmentCategory.Weapon] = equipmentItem;
         }
     }

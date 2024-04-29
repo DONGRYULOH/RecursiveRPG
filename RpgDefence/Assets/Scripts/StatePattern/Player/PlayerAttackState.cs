@@ -6,27 +6,27 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
 {
     private PlayerController _playerController;
         
-    void WarriorAttackEvent()
+    void WarriorAttackBeforeEvent()
+    {             
+        GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
+        Transform childTransform = go.transform.GetComponentInChildren<Transform>().GetChild(0);        
+        if (childTransform != null)
+            childTransform.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+    }
+
+    void WarriorAttackAfterEvent()
     {        
-        // 캐릭터가 들고 있는 무기로부터 몬스터에게 접촉이 가해졌는지 체크
         GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
         Transform childTransform = go.transform.GetComponentInChildren<Transform>().GetChild(0);
-        
         if (childTransform != null)
-        {
-            Vector3 direction = new Vector3(_playerController.Joystick.InputDirection.x, 0, _playerController.Joystick.InputDirection.y);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(childTransform.position, direction, out hitInfo, 1f, LayerMask.GetMask("Monster1")))
-            {
-                MonsterStat targetStat = hitInfo.transform.GetComponent<MonsterStat>();
-                targetStat.OnAttacked(_playerController.Stat);
-            }
-        }        
+            childTransform.gameObject.GetComponent<BoxCollider>().isTrigger = false;
     }
 
     void ThiefAttackEvent()
     {
-        
+        GameObject bullet = Managers.Resource.Instantiate("Weapon/Shurikens/ThiefBullet");
+        Vector3 direction = new Vector3(_playerController.Joystick.InputDirection.x, 0, _playerController.Joystick.InputDirection.y);
+        bullet.GetComponent<Bullet>().Fire(direction, _playerController.transform.position);
     }    
 
     void AnimationAttackPlay(Animator anim)
@@ -51,11 +51,11 @@ public class PlayerAttackState : MonoBehaviour, PlayerState
 
         AnimationAttackPlay(GetComponent<Animator>());
 
-        // 공격 애니메이션 이후 몬스터가 죽었거나 자동공격이 false 상태라면 캐릭터를 wait 상태로 변경
+        // 공격 애니메이션 모두 끝난 후 몬스터가 죽었거나 자동공격이 false 상태라면 캐릭터를 wait 상태로 변경
         if (gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {                        
             if (_playerController.StopAttack || !_playerController.IsAutoAttack)
-            {
+            {                
                 _playerController.Wait();                
             }
         }            

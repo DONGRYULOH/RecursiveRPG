@@ -57,6 +57,18 @@ public class MonsterStat : Stat
         this.score = score;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Sword")
+        {            
+            OnAttacked(Managers.Game.GetPlayer().GetComponent<PlayerStat>());
+            GameObject go = GameObject.FindGameObjectWithTag("RightHandSocket");
+            Transform childTransform = go.transform.GetComponentInChildren<Transform>().GetChild(0);
+            if (childTransform != null)
+                childTransform.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+        }        
+    }
+ 
     public override void OnAttacked(Stat attacker)
     {
         int damage = Mathf.Max(0, attacker.Attack - Defense);

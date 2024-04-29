@@ -116,8 +116,10 @@ public class UI_Item_SellOrBuy : UI_Popup
                     Defines.EquipmentCategory equipmentCategory = item.EquipmentCategory;
                     int defence = item.Defence;
                     int price = item.Price;
-                    EquipmentItem consumeItem = new EquipmentItem(itemNumber, name, power, defence, equipmentCategory, price);
-                    playerStat.Item.Add(itemNumber, consumeItem);
+                    int hp = item.Hp;
+                    float speed = item.Speed;
+                    EquipmentItem EquipmentItem = new EquipmentItem(itemNumber, name, power, defence, hp, speed, equipmentCategory, price);
+                    playerStat.Item.Add(itemNumber, EquipmentItem);
                 }
             }
             playerStat.Gold -= Managers.Game.UseChoiceItem.Price;

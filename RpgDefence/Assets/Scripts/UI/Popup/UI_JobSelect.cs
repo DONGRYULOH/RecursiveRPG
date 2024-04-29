@@ -46,8 +46,7 @@ public class UI_JobSelect : UI_Popup
     }
 
     public void BtnOnClickedYes(PointerEventData data)
-    {        
-        // 선택한 직업 표시(** 3가지 직업 이상일 경우 수정! **)
+    {                
         if(selectedJob == Defines.PlayerJob.Warrior)
         {
             GameObject.FindWithTag("Thief").GetComponent<Image>().color = new Color32(219, 219, 219, 200);

@@ -14737,6 +14737,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackConsol
       objectReference: {fileID: 0}
+    - target: {fileID: 4228666848628765101, guid: 3d0a85c78048020458aa484254620508, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

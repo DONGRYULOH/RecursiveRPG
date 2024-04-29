@@ -84,11 +84,16 @@ public class GameManagerEx
     // 다음 챕터로 넘어가도 상점에 있는 아이템은 그대로 고정이므로 초기화시 딱 한번만 만들어줌
     public void MakeStoreItem()
     {
-        // 임시 : 상점에 아이템 넣어주기(TODO : 데이터 파일로 아이템 추가하기)
         // Managers.Game.CurrentItemNumberIndex 1~100 까지 상점아이템으로 전용으로 사용
-        EquipmentItem equipmentItem = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "LongSword", 150, 0, Defines.EquipmentCategory.Weapon, 500);
+        EquipmentItem equipmentItem1 = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "LongSword", 150, 0, 0, 0, Defines.EquipmentCategory.Weapon, 5000);
+        EquipmentItem equipmentItem2 = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "가죽갑옷", 0, 30, 0, 0, Defines.EquipmentCategory.Armor, 2500);
+        EquipmentItem equipmentItem3 = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "기본망토", 0, 0, 50, 0, Defines.EquipmentCategory.Accessory, 2500);
+        EquipmentItem equipmentItem4 = new EquipmentItem(Managers.Game.CurrentItemNumberIndex, "신속의장화", 0, 0, 0, 5.5f, Defines.EquipmentCategory.Shoes, 2500);
+        StoreItem.Add(equipmentItem1.ItemNumber, equipmentItem1);
+        StoreItem.Add(equipmentItem2.ItemNumber, equipmentItem2);
+        StoreItem.Add(equipmentItem3.ItemNumber, equipmentItem3);
+        StoreItem.Add(equipmentItem4.ItemNumber, equipmentItem4);
         ConsumeItem consumeItem = new ConsumeItem(Managers.Game.CurrentItemNumberIndex, "BigHpPortion", 100, 0, 100);
-        StoreItem.Add(equipmentItem.ItemNumber, equipmentItem);
         StoreItem.Add(consumeItem.ItemNumber, consumeItem);
     }
 

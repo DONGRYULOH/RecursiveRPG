@@ -25,18 +25,18 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정        
         if (Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 10f;
+            limitSeconds = 1f;
             nextScore = 0;           
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
-            limitSeconds = 10f;
-            nextScore = 0;
+            limitSeconds = 90f;
+            nextScore = 10;
             
         }
         else if(Managers.Game.CurrentChpater == 3)
         {
-            limitSeconds = 60f;         
+            limitSeconds = 120f;
         }        
         StartCoroutine("CountDown");
     }
@@ -182,9 +182,9 @@ public class GameScene : BaseScene
         if (Managers.Game.CurrentChpater == 1)        
             monsterSpawning.SetKeepMonsterCount(5);
         else if (Managers.Game.CurrentChpater == 2)
-            monsterSpawning.SetKeepMonsterCount(15);
+            monsterSpawning.SetKeepMonsterCount(10);
         else
-            monsterSpawning.SetKeepMonsterCount(20);
+            monsterSpawning.SetKeepMonsterCount(15);
     }
 
     public override void Clear()

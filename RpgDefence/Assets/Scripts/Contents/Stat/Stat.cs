@@ -5,17 +5,24 @@ using UnityEngine;
 // 몬스터든, 캐릭터든 공통적으로 가지고 있는 것들을 먼저 구현
 
 public class Stat : MonoBehaviour
-{    
-    protected int _level;    
-    protected int _hp;    
+{
+    [SerializeField]
+    protected int _level;
+    [SerializeField]
+    protected int _hp;
+    [SerializeField]
     protected int _maxHp;  
     [SerializeField]
     protected int _attack;
     [SerializeField]
-    protected int _defense;    
+    protected int _defense;
+    [SerializeField]
     protected float _moveSpeed;
+    [SerializeField]
     protected int gold;
+    [SerializeField]
     protected int exp;
+    [SerializeField]
     protected int score;
 
     public int Level { get { return _level; } set { _level = value; } }
