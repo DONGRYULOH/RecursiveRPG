@@ -5,10 +5,10 @@
 C#, Unity Engine
 
 ## 버전정보
-v0.0.1-beta(2024.04.09)
+v0.0.1-beta(2024.04.09)  
 v0.0.2-beta(2024.04.30)
 
 ## 게임 설치
-* 다운로드 링크: <https://drive.google.com/file/d/15-jI2fouqa6kScsMdEcYt5nq2uZ6DkTe/view?usp=drive_link>
+* 다운로드 링크: <https://drive.google.com/file/d/1QGNe1jwhJXjDN_Ka170d1EKL064uk8Ig/view?usp=drive_link>
 
 
