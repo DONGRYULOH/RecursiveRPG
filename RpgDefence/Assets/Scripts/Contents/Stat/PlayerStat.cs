@@ -134,8 +134,7 @@ public class PlayerStat : Stat
             MaxMp = warriorStat[_level].maxMp;
             Mp = warriorStat[_level].maxMp;
             Attack = warriorStat[_level].attack;
-            // Defense = warriorStat[_level].defense;
-            Defense = 5000;
+            Defense = warriorStat[_level].defense;            
             MoveSpeed = warriorStat[_level].moveSpeed;
         }
         else if (job == Defines.PlayerJob.Thief)

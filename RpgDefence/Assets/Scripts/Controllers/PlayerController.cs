@@ -9,7 +9,7 @@ public class PlayerController : BaseController
     private PlayerStateContext _playerStateContext;
     private PlayerState dieState, moveState, waitState, attackState, skillState;          
     private Defines.State currentPlayerState = Defines.State.Wait;
-    private bool _stopAttack = false;
+    private bool _stopAttack = true;
     private bool isAutoAttack;
 
     public PlayerStat Stat { get { return _stat; } }

@@ -7,6 +7,6 @@ public class PlayerDieState : MonoBehaviour, PlayerState
     public void Handle(PlayerController controller)
     {
         Managers.Game.DeSpawn(controller.gameObject);
-        Managers.Resource.Instantiate("UI_GameOver");        
+        Managers.Resource.Instantiate("UI/UI_GameOver");               
     }
 }

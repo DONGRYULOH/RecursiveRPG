@@ -15,16 +15,14 @@ public class Managers : MonoBehaviour
     #endregion
 
     // 공통으로 사용하는 각종 매니저
-    #region Core
-    InputManager input = new InputManager();
+    #region Core    
     UiManager ui = new UiManager();
     ResourcesManager resource = new ResourcesManager();
     SceneManagerEx _scene = new SceneManagerEx();
     SoundManager _sound = new SoundManager();
     PoolManager _pool = new PoolManager();
     DataManager _data = new DataManager();
-
-    public static InputManager Input { get { return GetInstance.input; } }    
+  
     public static UiManager UI { get { return GetInstance.ui; } }    
     public static ResourcesManager Resource { get { return GetInstance.resource; } }
     public static SceneManagerEx Scene { get { return GetInstance._scene; } }
@@ -62,7 +60,8 @@ public class Managers : MonoBehaviour
     // 게임 재시작시 모든 데이터 초기화
     public void GameClear()
     {       
-        S_Instance.resource.Destroy(GameObject.Find("@Managers"));
+        S_Instance.resource.Destroy(GameObject.Find("@Managers")); // 매니저 오브젝트 파괴시 공통으로 사용하고 있는(UI, Sound.. 매니저 객체도 같이 메모리에서 날라감)
+        S_Instance.resource.Destroy(GameObject.Find("@Sound"));
         S_Instance.resource.Destroy(GameObject.FindWithTag("Player"));
     }
 }

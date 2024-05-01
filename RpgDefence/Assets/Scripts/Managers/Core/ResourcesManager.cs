@@ -46,10 +46,8 @@ public class ResourcesManager
             return;
 
         // 만약에 풀링이 필요한 대상이라면 해당 오브젝트를 메모리에서 해제하지 않고 풀(대기실)로 이동시킴
-        if (obj.GetComponent<Poolable>() != null)
-        {            
-            Managers.Pool.Push(obj.GetComponent<Poolable>());
-        }            
+        if (obj.GetComponent<Poolable>() != null)        
+            Managers.Pool.Push(obj.GetComponent<Poolable>());        
         else        
             Object.Destroy(obj);
     }

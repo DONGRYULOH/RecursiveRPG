@@ -19,6 +19,7 @@ public class PlayerWaitState : MonoBehaviour, PlayerState
         else
             _playerController = playerController;
 
-        WaitAnimationState(GetComponent<Animator>());
+        if (_playerController.StopAttack)
+            WaitAnimationState(GetComponent<Animator>());
     }
 }

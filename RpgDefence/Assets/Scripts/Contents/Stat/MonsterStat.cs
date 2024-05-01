@@ -75,8 +75,7 @@ public class MonsterStat : Stat
         Hp -= damage;
         if (Hp <= 0)
         {
-            Hp = 0;
-            Managers.Game.GetPlayer().GetComponent<PlayerController>().StopAttack = true;
+            Hp = 0;            
             OnDead(attacker);
         }
     }

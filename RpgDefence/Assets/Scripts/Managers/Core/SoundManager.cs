@@ -56,6 +56,7 @@ public class SoundManager
                 audioSource.Stop();
 
             audioSource.pitch = pitch;
+            audioSource.volume = 0.1f;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
@@ -63,6 +64,7 @@ public class SoundManager
         {            
             AudioSource audioSource = _audioSources[(int)Defines.Sound.Effect];
             audioSource.pitch = pitch;
+            audioSource.volume = 0.3f;
             audioSource.PlayOneShot(audioClip);
         }
     }

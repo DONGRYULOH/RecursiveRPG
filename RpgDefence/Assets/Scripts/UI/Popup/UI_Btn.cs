@@ -8,8 +8,10 @@ using UnityEngine.UI;
 public class UI_Btn : UI_Popup
 {      
     public void BtnOnClickedGameOver()
-    {
-        Managers.Resource.Destroy(Managers.GetInstance.gameObject);
+    {       
+        // 메인화면으로 이동(게임 재시작)
+        Managers.UI.CloseAllPopupUI();
+        Managers.GetInstance.GameClear();
         Managers.Scene.LoadScene(Defines.Scene.Main);
     }
 }

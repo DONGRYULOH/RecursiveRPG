@@ -2033,7 +2033,7 @@ GameObject:
   - component: {fileID: 5571679894406269806}
   - component: {fileID: -2580314509222314262}
   - component: {fileID: -4410334455605135177}
-  - component: {fileID: 4754925150476378035}
+  - component: {fileID: 2632949061310498359}
   m_Layer: 6
   m_Name: Boss
   m_TagString: BossMonster
@@ -2054,8 +2054,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4173041270913465413}
   - {fileID: 2545468161203614836}
+  - {fileID: 4173041270913465413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5571679894406269806
@@ -2093,8 +2093,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destPos: {x: 0, y: 0, z: 0}
   _lockTarget: {fileID: 0}
-  _scanRange: 10
-  _attackRange: 2
 --- !u!195 &-4410334455605135177
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2117,8 +2115,8 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &4754925150476378035
-CapsuleCollider:
+--- !u!65 &2632949061310498359
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2135,11 +2133,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5.3240767
-  m_Height: 10.693596
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.9989882, z: -1.675375}
+  serializedVersion: 3
+  m_Size: {x: 4.2937145, y: 6.51, z: 5.33}
+  m_Center: {x: -0.13815653, y: 2.915863, z: -1.79}
 --- !u!1 &7090930037995950988
 GameObject:
   m_ObjectHideFlags: 0

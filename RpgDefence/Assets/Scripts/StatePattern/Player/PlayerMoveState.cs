@@ -39,7 +39,7 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
             _playerController = playerController;
 
         Animator anim = GetComponent<Animator>();
-        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("WarriorATTACK"))
+        if(_playerController.StopAttack)
         {
             MovingAnimationState(GetComponent<Animator>());
             UpdateMoving();

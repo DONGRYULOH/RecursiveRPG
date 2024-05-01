@@ -25,18 +25,21 @@ public class GameScene : BaseScene
         // 챕터별로 제한시간, 스코어 점수 설정        
         if (Managers.Game.CurrentChpater == 1)
         {
-            limitSeconds = 1f;
-            nextScore = 0;           
+            limitSeconds = 60f;
+            nextScore = 5;
+            Managers.Sound.Play("Bgm/Run", Defines.Sound.Bgm);
         }
         else if (Managers.Game.CurrentChpater == 2)
         {
             limitSeconds = 90f;
             nextScore = 10;
-            
+            Managers.Sound.Play("Bgm/People", Defines.Sound.Bgm);
+
         }
         else if(Managers.Game.CurrentChpater == 3)
         {
             limitSeconds = 120f;
+            Managers.Sound.Play("Bgm/NoLimit", Defines.Sound.Bgm);
         }        
         StartCoroutine("CountDown");
     }
