@@ -26,10 +26,9 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
     }
 
     public void MovingAnimationState(Animator anim)
-    {        
-        _playerController.PlayerState = Defines.State.Moving;
+    {                
         anim.Play("RUN");        
-    }             
+    }
 
     public void Handle(PlayerController playerController)
     {
@@ -37,13 +36,8 @@ public class PlayerMoveState : MonoBehaviour, PlayerState
             _playerController = gameObject.GetOrAddComponent<PlayerController>();
         else
             _playerController = playerController;
-
-        Animator anim = GetComponent<Animator>();
-        if(_playerController.StopAttack)
-        {
-            MovingAnimationState(GetComponent<Animator>());
-            UpdateMoving();
-        }
         
+        MovingAnimationState(GetComponent<Animator>());
+        UpdateMoving();
     }
 }

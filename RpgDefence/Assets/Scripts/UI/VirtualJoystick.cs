@@ -21,19 +21,15 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     }
 
     public void OnBeginDrag(PointerEventData eventData)
-    {        
-        if (Managers.Game.GetPlayer().GetComponent<PlayerController>().StopAttack)
-        {
-            Managers.Game.GetPlayer().GetComponent<PlayerController>().PlayerState = Defines.State.Moving;
-            ControlJoystickLever(eventData);
-        }
+    {                
+        Managers.Game.GetPlayer().GetComponent<PlayerController>().PlayerState = Defines.State.Moving;
+        ControlJoystickLever(eventData);
     }
 
     // 클릭해서 드래그 하는 중에 발생하는 이벤트    
     public void OnDrag(PointerEventData eventData)
-    {
-        if (Managers.Game.GetPlayer().GetComponent<PlayerController>().StopAttack)
-            ControlJoystickLever(eventData);
+    {        
+        ControlJoystickLever(eventData);
     }
 
     public void OnEndDrag(PointerEventData eventData)

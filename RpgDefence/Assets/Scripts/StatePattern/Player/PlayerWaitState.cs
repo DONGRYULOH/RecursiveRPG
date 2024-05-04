@@ -7,8 +7,7 @@ public class PlayerWaitState : MonoBehaviour, PlayerState
     private PlayerController _playerController;
 
     public void WaitAnimationState(Animator anim)
-    {
-        _playerController.PlayerState = Defines.State.Wait;
+    {        
         anim.Play("WAIT");
     }
 
@@ -18,8 +17,7 @@ public class PlayerWaitState : MonoBehaviour, PlayerState
             _playerController = gameObject.GetOrAddComponent<PlayerController>();
         else
             _playerController = playerController;
-
-        if (_playerController.StopAttack)
-            WaitAnimationState(GetComponent<Animator>());
+        
+        WaitAnimationState(GetComponent<Animator>());
     }
 }

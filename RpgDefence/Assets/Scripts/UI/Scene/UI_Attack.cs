@@ -24,7 +24,8 @@ public class UI_Attack : UI_Scene
     }
 
     public void BtnOnClicked(PointerEventData eventData)
-    {        
-        Managers.Game.GetPlayer().GetComponent<PlayerController>().PlayerState = Defines.State.Attack;
+    {
+        if (Managers.Game.GetPlayer().GetComponent<PlayerController>().StopAttack)
+            Managers.Game.GetPlayer().GetComponent<PlayerController>().PlayerState = Defines.State.Attack;
     }
 }
